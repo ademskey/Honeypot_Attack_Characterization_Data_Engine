@@ -5,20 +5,16 @@ import urllib3
 from dotenv import load_dotenv
 import os
 
-# Load 
-load_dotenv()
-
 # Pull login from .env file
+load_dotenv()
 user = os.getenv("HONEYPOT_USER")
 password = os.getenv("HONEYPOT_PASS")
 auth = HTTPBasicAuth(user, password)
 
-# Suppresses insecure request warning
+# Configure search and endpoint (had to use kibana/internal/search/es since it's not outwardly hosted for security)
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
-# Kibana endpoint for Elasticsearch search (had to use internal since it's not outwardly hosted for security)
-# I found this by looking through proxy trafic since i'm new to kibana
-url = "https://honeypotlab.cyberrangepoulsbo.com/kibana/internal/search/es"
+url = "https://honeypotlab.cyberrangepoulsbo.com/kibana/internal/search/es" 
+# I found this by looking through proxy trafic for internal search logic (individual search uses this, aggregate data search uses bsearch)
 
 # Required headers
 headers = {
@@ -32,8 +28,8 @@ query_body = {
     "params": {
         "index": "logstash-*",  # Wildcard to catch all daily indices (Wasn't sure where to pull from)
         "body": {
-            "size": 10000, # Number of results that i'm grabbing
-            "query": {
+            "size": 10000, # Number of results that i'm grabbing (use for fine-tuning control/limiting)
+            "query": { # Right now only querying by time
                 "range": {
                     "@timestamp": {
                         "gte": "2025-06-01T00:00:00Z",
@@ -67,3 +63,5 @@ try:
 except Exception as e:
     print("Failed to parse JSON:", e)
     print(response.text)
+
+print("Exiting...")
