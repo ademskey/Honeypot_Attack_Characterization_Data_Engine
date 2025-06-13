@@ -4,6 +4,9 @@ import json
 import urllib3
 from dotenv import load_dotenv
 import os
+import time
+import select
+import sys
 
 # Pull login from .env file
 load_dotenv()
@@ -32,8 +35,8 @@ query_body = {
             "query": { # Right now only querying by time
                 "range": {
                     "@timestamp": {
-                        "gte": "2025-06-01T00:00:00Z",
-                        "lte": "2025-06-12T23:59:59Z"
+                        "gte": "now-1d",
+                        "lte": "now"
                     }
                 }
             },
@@ -42,26 +45,40 @@ query_body = {
     }
 }
 
-# Send POST request
-response = requests.post(url, headers=headers, auth=auth, json=query_body, verify=False)
+total_hits = 0
+print("Enter the number of days of data to collect")
+days = input()
 
-# Output results
-print("Status:", response.status_code)
-try:
-    data = response.json()
-    hits = data.get("rawResponse", {}).get("hits", {}).get("hits", [])
-    
-    print(f"Total hits: {len(hits)}")
+print("Streaming")
+for i in range(int(days)):
+    # Quit streaming on user input
+    if select.select([sys.stdin], [], [], 0)[0]:
+        print("\nExiting")
+        line = sys.stdin.readline()
+        break
 
-    with open("honeypot_data.jsonl", "w") as outfile:
-        for hit in hits:
-            doc = hit.get("fields", {}) or hit.get("_source", {})  # fallback for format differences
-            outfile.write(json.dumps(doc) + "\n")  # Write each doc as a single JSON line
+    else:
+        # Send POST request
+        response = requests.post(url, headers=headers, auth=auth, json=query_body, verify=False)
 
-    print("Saved to honeypot_data.jsonl")
+        # Output results
+        # print("Status:", response.status_code)
+        try:
+            data = response.json()
+            hits = data.get("rawResponse", {}).get("hits", {}).get("hits", [])
+            total_hits += len(hits)
+            print(f"Request Hits: {len(hits)}")
 
-except Exception as e:
-    print("Failed to parse JSON:", e)
-    print(response.text)
+            with open("honeypot_data.jsonl", "w") as outfile:
+                for hit in hits:
+                    doc = hit.get("fields", {}) or hit.get("_source", {})  # fallback for format differences
+                    outfile.write(json.dumps(doc) + "\n")  # Write each doc as a single JSON line
 
-print("Exiting...")
+            #print("Saved to honeypot_data.jsonl")
+
+        except Exception as e:
+            print("Failed to parse JSON:", e)
+            print(response.text)
+        
+print(f"{days} days of data collected")
+print(f"{total_hits} total hits")
