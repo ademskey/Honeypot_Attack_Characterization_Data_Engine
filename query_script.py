@@ -47,7 +47,8 @@ headers = {
     "kbn-xsrf": "true"
 }
 
-open("honeypot_data.jsonl", "w").close()  # Clear the file before writing new data
+# Clear existing data file
+open("honeypot_data.jsonl", "w").close()
 print("Collecting Data", end=" ")
 
 # Main collection loop
@@ -123,7 +124,7 @@ for i in range(hours_to_fetch):
     except Exception as e:
         print("Failed to parse JSON:", e)
         print(response.text)
-
+        
 print("\nData collection complete.")
 print(f"{hours_to_fetch} minute slices of data collected")
 print(f"{total_hits} total hits")
