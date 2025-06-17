@@ -6,6 +6,24 @@ from dotenv import load_dotenv
 import os
 import select
 import sys
+import datetime
+
+print("Welcome to the Honeypot Data Collector")
+print("This script will collect data from the honeypot and save it to honeypot_data.jsonl")
+print("Running this script will clear the current honeypot_data.jsonl file, and replace it with your new timeframe of data.")
+print("You can stop the script at any time by pressing Enter.")
+print("Enter the number of request to collect (1,000 increments):")
+
+# Variables
+total_hits = 0
+time = input("Enter the number of minutes to fetch (e.g., 1, 2, 3...): ")
+time_to_fetch = int(time)
+curr_time = datetime.datetime.now(datetime.timezone.utc)
+
+# Check input validity
+if not time.isdigit() or int(time) <= 0:
+    print("Invalid input. Please enter a positive integer.")
+    sys.exit(1) 
 
 # Pull login from .env file
 load_dotenv()
@@ -14,9 +32,9 @@ password = os.getenv("HONEYPOT_PASS")
 auth = HTTPBasicAuth(user, password)
 
 # Configure search and endpoint (had to use kibana/internal/search/es since it's not outwardly hosted for security)
+# I found this by looking through proxy trafic for internal search logic (individual search uses this, aggregate data search uses bsearch)
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 url = "https://honeypotlab.cyberrangepoulsbo.com/kibana/internal/search/es" 
-# I found this by looking through proxy trafic for internal search logic (individual search uses this, aggregate data search uses bsearch)
 
 # Required headers
 headers = {
@@ -25,60 +43,62 @@ headers = {
     "kbn-xsrf": "true"
 }
 
-# Search body: match anything in the last week from index "honeypot"
-query_body = {
-    "params": {
-        "index": "logstash-*",
-        "body": {
-            "size": 1000,
-            "query": {
-                "range": {
-                    "@timestamp": {
-                        "gte": "now-1d",
-                        "lte": "now"
-                    }
-                }
-            },
-            "_source": True
-        }
-    }
-}
+open("honeypot_data.jsonl", "w").close()  # Clear the file before writing new data
+# Main collection loop
+for i in range(time_to_fetch):
+    # Compute time window
+    slice_end = curr_time - datetime.timedelta(minutes=i)
+    slice_start = curr_time - datetime.timedelta(minutes=i + 1)
 
-total_hits = 0
-print("Enter the number of request to collect (1,000 increments):")
-days = input()
+    # Format timestamps in ISO 8601
+    gte = slice_start.strftime("%Y-%m-%dT%H:%M:%SZ")
+    lte = slice_end.strftime("%Y-%m-%dT%H:%M:%SZ")
 
-print("Streaming")
-for i in range(int(days)):
-    # Quit streaming on user input
+    print(f"Requesting from {gte} to {lte}")
+
+    # Check for user input to exit
     if select.select([sys.stdin], [], [], 0)[0]:
         print("\nExiting")
         line = sys.stdin.readline()
         break
 
-    else:
-        # Send POST request
-        response = requests.post(url, headers=headers, auth=auth, json=query_body, verify=False)
-        print("Status Code:", response.status_code)
+    # Build dynamic query
+    query_body = {
+        "params": {
+            "index": "logstash-*",
+            "body": {
+                "size": 1,
+                "query": {
+                    "range": {
+                        "@timestamp": {
+                            "gte": gte,
+                            "lte": lte
+                        }
+                    }
+                },
+                "_source": True
+            }
+        }
+    }
 
-        # Output results
-        # print("Status:", response.status_code)
-        try:
-            data = response.json()
-            hits = data.get("rawResponse", {}).get("hits", {}).get("hits", [])
-            total_hits += len(hits)
-            print(f"Request Hits: {len(hits)}")
+    response = requests.post(url, headers=headers, auth=auth, json=query_body, verify=False)
+    print("Status Code:", response.status_code)
 
-            with open("honeypot_data.jsonl", "w") as outfile:
-                for hit in hits:
-                    doc = hit.get("fields", {}) or hit.get("_source", {})  # fallback for format differences
-                    outfile.write(json.dumps(doc) + "\n")  # Write each doc as a single JSON line
+    try:
+        data = response.json()
+        hits = data.get("rawResponse", {}).get("hits", {}).get("hits", [])
+        total_hits += len(hits)
+        print(f"Request Hits: {len(hits)}")
 
-            #print("Saved to honeypot_data.jsonl")
+        with open("honeypot_data.jsonl", "a") as outfile:
+            for hit in hits:
+                doc = hit.get("fields", {}) or hit.get("_source", {})
+                outfile.write(json.dumps(doc) + "\n")
+        print("Saved to honeypot_data.jsonl")
 
-        except Exception as e:
-            print("Failed to parse JSON:", e)
-            print(response.text)
-        
-print(f"{days} days of data collected")
+    except Exception as e:
+        print("Failed to parse JSON:", e)
+        print(response.text)
+
+print(f"{time_to_fetch} minute slices of data collected")
 print(f"{total_hits} total hits")
