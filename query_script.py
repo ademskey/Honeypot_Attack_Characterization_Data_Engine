@@ -4,7 +4,6 @@ import json
 import urllib3
 from dotenv import load_dotenv
 import os
-import time
 import select
 import sys
 
@@ -22,17 +21,17 @@ url = "https://honeypotlab.cyberrangepoulsbo.com/kibana/internal/search/es"
 # Required headers
 headers = {
     "Content-Type": "application/json",
-    "kbn-version": "8.18.1",
+    "kbn-version": "8.18.2",
     "kbn-xsrf": "true"
 }
 
 # Search body: match anything in the last week from index "honeypot"
 query_body = {
     "params": {
-        "index": "logstash-*",  # Wildcard to catch all daily indices (Wasn't sure where to pull from)
+        "index": "logstash-*",
         "body": {
-            "size": 10000, # Number of results that i'm grabbing (use for fine-tuning control/limiting)
-            "query": { # Right now only querying by time
+            "size": 1000,
+            "query": {
                 "range": {
                     "@timestamp": {
                         "gte": "now-1d",
@@ -40,13 +39,13 @@ query_body = {
                     }
                 }
             },
-            "_source": True  # Get all fields to explore structure
+            "_source": True
         }
     }
 }
 
 total_hits = 0
-print("Enter the number of days of data to collect")
+print("Enter the number of request to collect (1,000 increments):")
 days = input()
 
 print("Streaming")
@@ -60,6 +59,7 @@ for i in range(int(days)):
     else:
         # Send POST request
         response = requests.post(url, headers=headers, auth=auth, json=query_body, verify=False)
+        print("Status Code:", response.status_code)
 
         # Output results
         # print("Status:", response.status_code)
