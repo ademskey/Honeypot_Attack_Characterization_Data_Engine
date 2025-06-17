@@ -16,9 +16,14 @@ print("Enter the number of request to collect (1,000 increments):")
 
 # Variables
 total_hits = 0
-time = input("Enter the number of minutes to fetch (e.g., 1, 2, 3...): ")
+time = input("Enter the number of hours to fetch (e.g., 1, 2, 3...): ")
 time_to_fetch = int(time)
+hours_to_fetch = time_to_fetch * 60 
 curr_time = datetime.datetime.now(datetime.timezone.utc)
+debug = False 
+
+print("Enter debug mode? (y/n):", end=" ")
+debug_input = input().strip().lower()
 
 # Check input validity
 if not time.isdigit() or int(time) <= 0:
@@ -44,8 +49,10 @@ headers = {
 }
 
 open("honeypot_data.jsonl", "w").close()  # Clear the file before writing new data
+print("Collecting Data", end=" ")
+
 # Main collection loop
-for i in range(time_to_fetch):
+for i in range(hours_to_fetch):
     # Compute time window
     slice_end = curr_time - datetime.timedelta(minutes=i)
     slice_start = curr_time - datetime.timedelta(minutes=i + 1)
@@ -54,7 +61,16 @@ for i in range(time_to_fetch):
     gte = slice_start.strftime("%Y-%m-%dT%H:%M:%SZ")
     lte = slice_end.strftime("%Y-%m-%dT%H:%M:%SZ")
 
-    print(f"Requesting from {gte} to {lte}")
+    if debug:
+        print(f"Requesting from {gte} to {lte}")
+    else:
+        # Print progress bar
+        bar_width = 40
+        progress = int((i + 1) / hours_to_fetch * bar_width)
+        percent = int((i + 1) / hours_to_fetch * 100)
+        bar = "[" + "#" * progress + "-" * (bar_width - progress) + f"] {percent}%"
+        print("\r" + bar, end="", flush=True)
+
 
     # Check for user input to exit
     if select.select([sys.stdin], [], [], 0)[0]:
@@ -67,7 +83,7 @@ for i in range(time_to_fetch):
         "params": {
             "index": "logstash-*",
             "body": {
-                "size": 1,
+                "size": 10000,
                 "query": {
                     "range": {
                         "@timestamp": {
@@ -82,23 +98,33 @@ for i in range(time_to_fetch):
     }
 
     response = requests.post(url, headers=headers, auth=auth, json=query_body, verify=False)
-    print("Status Code:", response.status_code)
+
+    if debug:
+        print("Status Code:", response.status_code)
+    if response.status_code != 200:
+        print("Error fetching data:", response.status_code, response.text)
+        continue
 
     try:
         data = response.json()
         hits = data.get("rawResponse", {}).get("hits", {}).get("hits", [])
         total_hits += len(hits)
-        print(f"Request Hits: {len(hits)}")
+
+        if debug:
+            print(f"Request Hits: {len(hits)}")
 
         with open("honeypot_data.jsonl", "a") as outfile:
             for hit in hits:
                 doc = hit.get("fields", {}) or hit.get("_source", {})
                 outfile.write(json.dumps(doc) + "\n")
-        print("Saved to honeypot_data.jsonl")
+
+        if debug:        
+            print("Saved to honeypot_data.jsonl")
 
     except Exception as e:
         print("Failed to parse JSON:", e)
         print(response.text)
 
-print(f"{time_to_fetch} minute slices of data collected")
+print("\nData collection complete.")
+print(f"{hours_to_fetch} minute slices of data collected")
 print(f"{total_hits} total hits")
