@@ -1,3 +1,4 @@
+# Imports ###############
 import requests
 from requests.auth import HTTPBasicAuth
 import json
@@ -8,22 +9,20 @@ import select
 import sys
 import datetime
 
+# User Interface #######
 print("Welcome to the Honeypot Data Collector")
 print("This script will collect data from the honeypot and save it to honeypot_data.jsonl")
 print("Running this script will clear the current honeypot_data.jsonl file, and replace it with your new timeframe of data.")
 print("You can stop the script at any time by pressing Enter.")
 print("Enter the number of request to collect (1,000 increments):")
-
-# Variables
-total_hits = 0
 time = input("Enter the number of hours to fetch (e.g., 1, 2, 3...): ")
+debug_input = input("Enter debug mode? (y/n):").strip().lower()
+
+# Variables ############
+total_hits = 0
 time_to_fetch = int(time)
 hours_to_fetch = time_to_fetch * 60 
 curr_time = datetime.datetime.now(datetime.timezone.utc)
-debug = False 
-
-print("Enter debug mode? (y/n):", end=" ")
-debug_input = input().strip().lower()
 
 # Check input validity
 if not time.isdigit() or int(time) <= 0:
@@ -61,7 +60,7 @@ for i in range(hours_to_fetch):
     gte = slice_start.strftime("%Y-%m-%dT%H:%M:%SZ")
     lte = slice_end.strftime("%Y-%m-%dT%H:%M:%SZ")
 
-    if debug:
+    if debug_input == "y":
         print(f"Requesting from {gte} to {lte}")
     else:
         # Print progress bar
@@ -99,7 +98,7 @@ for i in range(hours_to_fetch):
 
     response = requests.post(url, headers=headers, auth=auth, json=query_body, verify=False)
 
-    if debug:
+    if debug_input == "y":
         print("Status Code:", response.status_code)
     if response.status_code != 200:
         print("Error fetching data:", response.status_code, response.text)
@@ -110,7 +109,7 @@ for i in range(hours_to_fetch):
         hits = data.get("rawResponse", {}).get("hits", {}).get("hits", [])
         total_hits += len(hits)
 
-        if debug:
+        if debug_input == "y":
             print(f"Request Hits: {len(hits)}")
 
         with open("honeypot_data.jsonl", "a") as outfile:
@@ -118,7 +117,7 @@ for i in range(hours_to_fetch):
                 doc = hit.get("fields", {}) or hit.get("_source", {})
                 outfile.write(json.dumps(doc) + "\n")
 
-        if debug:        
+        if debug_input == "y":        
             print("Saved to honeypot_data.jsonl")
 
     except Exception as e:
