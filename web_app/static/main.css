@@ -1,15 +1,25 @@
 
 /* html class styling */
 body {  /* main "body" style */
-    background-color: #8cf0e9;
+    background-color: #daedba;
     font-family: Arial, sans-serif;
     padding: 2px;
 }
 
 head {
-    background-color: #04e52e;
+    background-color: #cff4d6;
     color: #ede8f6;
+    padding: 50px;
+}
+
+footer {
+    background-color: #e7a7c3;
+    color: #53096e;
+    text-align: center;
     padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }
 
 canvas {
@@ -19,24 +29,31 @@ canvas {
 
 h1 {
     text-align: center;
-    background-color: #dba4ef;
-    padding: 10px;
+    background-color: #d6a7e7;
+    padding: 20px;
+    gap: 5px;
+    border-radius: 5px;
+    border: 2px solid #53096e;
+    box-shadow: 0 4px 8px rgba(15, 6, 17, 0.2);
+    margin: 20px auto;
 }
 
 .chart-container {
     display: flex;
     justify-content: center;
+    /* align-items: center; */
+    flex-direction: row;
     flex-wrap: wrap;
     gap: 1px;
 }
 
 .box {
-    background-color: #ede8f6;
+    background-color: #eccdf5;
     text-align: center;
     width: 400px;
-    padding: 2px;
-    border: 1px solid #20002c;
+    padding: 5px;
+    border: 2px solid #031911;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 1px;
-    margin: 2px;
+    margin: 4px;
 }
