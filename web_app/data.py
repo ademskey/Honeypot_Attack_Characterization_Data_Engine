@@ -1,2 +1,3 @@
-from query_script.py import collect_honeypot_data
+from query_script import collect_honeypot_data
 
+# Insert data pipeline logic here

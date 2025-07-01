@@ -156,7 +156,7 @@ def collect_honeypot_data(time, debug_input):
             print("Failed to parse JSON:", e)
             print(response.text)
 
-        return total_hits
+    return total_hits
 
 if __name__ == "__main__":
     time, debug_input = user_interface()
