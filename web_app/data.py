@@ -2,17 +2,21 @@ from packages import *
 from query_script import collect_honeypot_data
 
 
-# Insert data pipeline logic here
+# Insert data pipeline logic here. Performs pull of raw data + data cleaning. Return cleaned pandas dataframe.
+# used in update_data_loop() in app.py for continuous refresh.
 def get_df():
-        # Sample DataFrame. replace with caitlyn's pipeline that uses honeypot_data.jsonl
+
+    # collect_honeypot_data() eventually.
+
+    # Sample DataFrame. replace with caitlyn's pipeline that uses honeypot_data.jsonl
     data = {
-        'month': ['Jan', 'Feb', 'Mar', 'Apr', 'May'] * 5,
-        'type': ['Cowrie'] * 5 + ['Honey'] * 5 + ['C'] * 5 + ['D'] * 5 + ['E'] * 5,
-        'sales': [120, 130, 125, 140, 150,
-                80, 95, 100, 110, 120,
-                200, 210, 190, 220, 230,
-                50, 55, 53, 60, 65,
-                160, 170, 165, 180, 190]
+        'dest_port': ['80', '43', '70', '22', '65'] * 5,
+        'type': ['Cowrie'] * 5 + ['Honeypot'] * 5 + ['EndlessSSH'] * 5 + ['Ciscoasa'] * 5 + ['Medpot'] * 5,
+        'time': [1, 2, 3, 4, 5,
+                6, 6, 7, 8, 9,
+                10, 11, 12, 13,
+                14, 15, 16, 17, 18,
+                19, 20, 21, 22, 23, 24]
     }
     df = pd.DataFrame(data)
     return df
