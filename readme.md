@@ -23,3 +23,9 @@ Create a ".env" file for http authorization (needed to pull information from hon
     }
 
     You should then be able to request data via the script.
+
+# Web App for Visualization
+    # Stack:
+    Flask 3.1.0 run by Werkzeung 3.1.2
+    Python 3.10.12
+    
