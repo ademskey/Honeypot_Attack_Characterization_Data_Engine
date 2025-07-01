@@ -1,3 +1,4 @@
+# Imports ###############
 from packages import *
 
 # User Interface #######
@@ -10,7 +11,6 @@ def user_interface():
     time = input("Enter the number of hours to fetch (e.g., 1, 2, 3...): ")
     debug_input = input("Enter debug mode? (y/n):").strip().lower()
     return time, debug_input
-
 
 def get_kibana_version(base_url, auth):
     try:
@@ -92,7 +92,6 @@ def collect_honeypot_data(time, debug_input):
             percent = int((i + 1) / hours_to_fetch * 100)
             bar = "[" + "#" * progress + "-" * (bar_width - progress) + f"] {percent}%"
             print("\r" + bar, end="", flush=True)
-
 
         # Check for user input to exit
         if select.select([sys.stdin], [], [], 0)[0]:

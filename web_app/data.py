@@ -1,5 +1,6 @@
 from packages import *
-#import pandas as pd
+from query_script import collect_honeypot_data
+
 
 # Insert data pipeline logic here
 def get_df():
