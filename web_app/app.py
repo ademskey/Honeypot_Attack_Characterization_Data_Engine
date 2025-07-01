@@ -1,6 +1,3 @@
-from flask import Flask, render_template, jsonify
-import pandas as pd
-
 app = Flask(__name__)
 
 # Sample DataFrame
@@ -14,6 +11,7 @@ data = {
               160, 170, 165, 180, 190]
 }
 df = pd.DataFrame(data)
+# df = get_data()
 
 @app.route('/')
 def index():
