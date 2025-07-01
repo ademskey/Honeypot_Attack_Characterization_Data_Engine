@@ -1,19 +1,15 @@
 
-body {
+/* html class styling */
+body {  /* main "body" style */
+    background-color: #8cf0e9;
     font-family: Arial, sans-serif;
-    padding: 20px;
+    padding: 2px;
 }
 
-.chart-container {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    gap: 30px;
-}
-
-.box {
-    text-align: center;
-    width: 300px;
+head {
+    background-color: #04e52e;
+    color: #ede8f6;
+    padding: 10px;
 }
 
 canvas {
@@ -23,23 +19,24 @@ canvas {
 
 h1 {
     text-align: center;
+    background-color: #dba4ef;
+    padding: 10px;
 }
 
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+.chart-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1px;
 }
 
 .box {
-  padding: 10px;
-  border: 1px solid black;
-  margin-right: 10px;
-}
-
-.grid-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr; /* two columns */
-  gap: 10px;
+    background-color: #ede8f6;
+    text-align: center;
+    width: 400px;
+    padding: 2px;
+    border: 1px solid #20002c;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 1px;
+    margin: 2px;
 }
