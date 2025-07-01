@@ -1,7 +1,6 @@
 async function renderCharts() {
-    const response = await fetch('/data'); // in app.py
+    const response = await fetch('/data'); // in app.py grabs dataframe being updated from loop
     const data_table = await response.json(); // the js uses the table-like json format.
-
 
     // For each chart, create a new dictionary where x-axis is the key, and value to plot is the value.
     const timeByType = {};
@@ -70,7 +69,7 @@ async function renderCharts() {
     });
 
     // ============================
-    // 📊 Chart 3: Optional – Time per type per port (multi-line)
+    // Chart 3: Optional – Time per type per port (multi-line)
     // ============================
     const nested = {};  // type -> port -> time
     data_table.forEach(row => {

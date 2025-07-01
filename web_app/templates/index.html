@@ -4,17 +4,26 @@
 <head>
     <title>Honeypot Data</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+
 </head>
 
 <body>
-    <h2>Visual 1</h2>
-    <canvas id="Chart1" width="800" height="400"></canvas>
-
-    <h2>Visual 2</h2>
-    <canvas id="Chart2" width="800" height="400"></canvas>
-
-    <h2>Visual 3</h2>
-    <canvas id="Chart3" width="800" height="400"></canvas>
+    <h1>Honeypot Data Visuals</h1>
+    <div class="chart-container">
+        <div class="box">
+            <h2>Visual 1</h2>
+            <canvas id="Chart1"></canvas>
+        </div>
+        <div class="box">
+            <h2>Visual 2</h2>
+            <canvas id="Chart2"></canvas>
+        </div>
+        <div class="box">
+            <h2>Visual 3</h2>
+            <canvas id="Chart3"></canvas>
+        </div>
+    </div>
 
     <script src="{{ url_for('static', filename='chart.js') }}"></script>
 </body>
