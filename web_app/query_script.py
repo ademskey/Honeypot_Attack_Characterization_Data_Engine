@@ -21,6 +21,23 @@ def user_interface():
     return time, debug_input
 
 
+def get_kibana_version(base_url, auth):
+    try:
+        response = requests.get(
+            f"{base_url}/api/status",
+            auth=auth,
+            verify=False
+        )
+        response.raise_for_status()
+        version = response.json().get("version", {}).get("number")
+        if version:
+            return version
+        else:
+            raise ValueError("Version not found in response.")
+    except Exception as e:
+        print(f"Error fetching Kibana version: {e}")
+        sys.exit(1)
+
 '''
 This function takes the number of hours to fetch and a debug parameter (y/n) and requests those hours of data from the honeypot.
 It saves the data to honeypot_data.jsonl and returns the total hits. Becuase it is meant to be used once per data collection cycle,
@@ -48,7 +65,11 @@ def collect_honeypot_data(time, debug_input):
     # Configure search and endpoint (had to use kibana/internal/search/es since it's not outwardly hosted for security)
     # I found this by looking through proxy trafic for internal search logic (individual search uses this, aggregate data search uses bsearch)
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+    base_kibana_url = "https://honeypotlab.cyberrangepoulsbo.com/kibana"
     url = "https://honeypotlab.cyberrangepoulsbo.com/kibana/internal/search/es" 
+
+    # Dynamically get version
+    kbn_version = get_kibana_version(base_kibana_url, auth)
 
     # Required headers
     headers = {
@@ -135,7 +156,7 @@ def collect_honeypot_data(time, debug_input):
             print("Failed to parse JSON:", e)
             print(response.text)
 
-        return total_hits
+    return total_hits
 
 if __name__ == "__main__":
     time, debug_input = user_interface()

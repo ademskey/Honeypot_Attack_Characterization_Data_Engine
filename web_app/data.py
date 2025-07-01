@@ -1,7 +1,4 @@
-## put caitlyn's cleaning pipeline here. uses honeypot_data.jsonl
+from query_script import collect_honeypot_data
 
-def get_data:
+# Insert data pipeline logic here
 
-    data = 
-
-    return data
