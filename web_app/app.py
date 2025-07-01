@@ -1,19 +1,21 @@
 from packages import *
+from data import *
 
 app = Flask(__name__)
 
-# Sample DataFrame
-data = {
-    'month': ['Jan', 'Feb', 'Mar', 'Apr', 'May'] * 5,
-    'type': ['A'] * 5 + ['B'] * 5 + ['C'] * 5 + ['D'] * 5 + ['E'] * 5,
-    'sales': [120, 130, 125, 140, 150,
-              80, 95, 100, 110, 120,
-              200, 210, 190, 220, 230,
-              50, 55, 53, 60, 65,
-              160, 170, 165, 180, 190]
-}
-df = pd.DataFrame(data)
-# df = get_data()
+df = get_df()
+update_time = 5 # in seconds
+
+def update_data_loop():
+    global df
+    while True:
+        try:
+            df = get_df()
+            print("DataFrame updated")
+        except Exception as e:
+            print(f"Error updating DataFrame: {e}")
+        time.sleep(update_time)  # 5 minutes
+        
 
 @app.route('/')
 def index():
@@ -30,4 +32,6 @@ def chart_data():
     return jsonify({'labels': labels, 'datasets': datasets})
 
 if __name__ == '__main__':
+    # Start background data update thread
+    threading.Thread(target=update_data_loop, daemon=True).start()
     app.run(debug=True)
