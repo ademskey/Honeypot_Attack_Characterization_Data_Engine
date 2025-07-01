@@ -1,9 +1,9 @@
 # Authors: Adam Caudle, Emily West, Caitlyn Boyd, Jack Crawford
 
 # Stack: (At the time of creation)
-T-Pot Version: 24.04.1\ 
-Kibana Version: 8.18.3\
-Elastic Version: 1.7.0\
+T-Pot Version: 24.04.1 
+Kibana Version: 8.18.3
+Elastic Version: 1.7.0
 Flask: 
 
 # Setting up:
@@ -22,7 +22,7 @@ Create a ".env" file for http authorization (needed to pull information from hon
 
     You should then be able to request data via the script.
 
-# Running the web app:
+# Running the web app (/web_app):
     # Have python3 installed
     # pip install the libraries found in packages.py
     # in Honeypot_Attack_Characterization_Data_Engine/web_app, run [python3 app.py]
