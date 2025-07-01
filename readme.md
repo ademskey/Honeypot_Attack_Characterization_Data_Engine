@@ -1,16 +1,14 @@
 # Authors: Adam Caudle, Emily West, Caitlyn Boyd, Jack Crawford
 
-# Stack:
-T-Pot Version:
-Kibana Version:
-Elastic Version:
+# Stack: (At the time of creation)
+T-Pot Version: 24.04.1\ 
+Kibana Version: 8.18.3\
+Elastic Version: 1.7.0\
+Flask: 
 
 # Setting up:
 Create a ".env" file for http authorization (needed to pull information from honeypot)
 
-# When on google collab and using data-collection script:
-    # Use Socks5 to set up a proxy on personal computer with VPN access
-    ex cmd: ssh -N -D 1080 adamcaudle@localhost
 
     # Then, set expose that proxy to the internet with ngrok
     ex cmd: ngrok tcp 1080
