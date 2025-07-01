@@ -1,0 +1,45 @@
+
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+
+.chart-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.box {
+    text-align: center;
+    width: 300px;
+}
+
+canvas {
+    width: 100% !important;
+    height: auto !important;
+}
+
+h1 {
+    text-align: center;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.box {
+  padding: 10px;
+  border: 1px solid black;
+  margin-right: 10px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* two columns */
+  gap: 10px;
+}
