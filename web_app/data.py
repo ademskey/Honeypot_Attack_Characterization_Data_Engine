@@ -1,1 +1,2 @@
-## put caitlyn's cleaning pipeline here. uses honeypot_data.jsonl
+from query_script.py import collect_honeypot_data
+
