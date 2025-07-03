@@ -1,7 +1,7 @@
 /* html class styling */
 body {
     /* main "body" style */
-    background-color: #333333ff;
+    background-color:  #f6c563;
     font-family: Arial, sans-serif;
     padding: 2px;
     margin-bottom: 100px;
@@ -55,7 +55,7 @@ h1 {
 }
 
 .box {
-    background-color: #b2b2b2;
+    background-color: #e3e1e1;
     text-align: center;
     width: 400px;
     padding: 5px;
