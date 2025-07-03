@@ -4,6 +4,7 @@ body {  /* main "body" style */
     background-color: #daedba;
     font-family: Arial, sans-serif;
     padding: 2px;
+    margin-bottom:  100px; /* to prevent footer overlap */
 }
 
 head {
@@ -20,6 +21,11 @@ footer {
     position: fixed;
     bottom: 0;
     width: 100%;
+    transition: opacity 0.8s ease-in-out;
+}
+
+footer.visible {
+    opacity: 1;
 }
 
 canvas {
