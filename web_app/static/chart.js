@@ -197,24 +197,6 @@ async function renderCharts() {
         return ip.split('.').reduce((acc, octet) => (acc << 8) + parseInt(octet), 0);
     }
 
-    // // For creating simple charts where x and y values are straight values from the cleaned data.
-    // // if needing aggregated values or values not in the table then do this manually.
-    // function createColumnDictionary(data, keyColumn, valueColumn) {
-    //     const dict = {};
-    //     data.forEach(row => {
-    //         const key = row[keyColumn];
-    //         const value = row[valueColumn];
-    //         if (key === undefined || value === undefined) {
-    //             console.warn('Skipping row due to undefined key/value:', row);
-    //             return;
-    //         }
-    //         if (!dict[key]) dict[key] = 0;
-    //         dict[key] += value;
-    //     });
-
-    //     return dict;
-    // }
-
 
     // returns the number of each value in a column. Returns top x entries.
     function createCountDictionary(data, column, topN = null) {
