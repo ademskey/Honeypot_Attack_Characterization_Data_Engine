@@ -21,7 +21,8 @@ def get_df():
                 6, 7, 8, 9, 10,
                 11, 12, 13, 14,
                 15, 16, 17, 18, 19,
-                20, 21, 22, 23, 24, 25]
+                20, 21, 22, 23, 24, 25],
+        'geoip.as_org': ['Org1'] * 5 + ['Org2'] * 5 + ['Org3'] * 5 + ['Org4'] * 5 + ['Org5'] * 5
     }
     df = pd.DataFrame(data)
     # may need to add a formatted timestamp column
