@@ -11,9 +11,51 @@ async function renderCharts() {
     const chart2 = createBarChart("Chart2", top10DestPorts, `Top ${Chart2Limit} Destination Ports`);
 
 
-    Chart3Limit = 3;
-    top10SrcPorts = createCountDictionary(data_table, 'src_port', Chart3Limit);
-    const Chart3Limit = createBarChart("Chart3", top10SrcPorts, `Top ${Chart3Limit} Source Ports`);
+    const Chart3Limit = 3;
+    const top10SrcPorts = createCountDictionary(data_table, 'src_port', Chart3Limit);
+    const chart3 = createBarChart("Chart3", top10SrcPorts, `Top ${Chart3Limit} Source Ports`);
+
+    const portsOverTime = createColumnDictionary(data_table, 'time', 'dest_port');
+    const chart4 = createScatterPlot("Chart4", portsOverTime, "time", "Destination Port", "Destination Ports over Time")
+
+    function createScatterPlot(canvasID, data, xtitle, ytitle, title) {
+        const ctx4 = document.getElementById(canvasID).getContext('2d');
+        new Chart(ctx4, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: title,
+                    data: data,
+                    backgroundColor: 'steelblue'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: title
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: xtitle
+                        },
+                        beginAtZero: true
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: ytitle
+                        },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
 
     function createBarChart(canvasID, data, title) {
         const labels1 = Object.keys(data);
