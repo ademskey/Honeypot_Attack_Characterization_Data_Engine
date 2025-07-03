@@ -6,6 +6,15 @@ async function renderCharts() {
     // Scatter Plots: Must make sure type is correct according to what your x axis is. Use "linear" for continuous
     // stuff like time and "category" for discrete values,  like IP
 
+    // Need to create a formatted timestamp column using Date(). 
+    data_table.forEach(row => {
+        const original = row['@timestamp'];
+        const dateObj = new Date(original);
+        row.utc_string = dateObj.toISOString();  // e.g., '2025-07-01T20:33:54.000Z'
+    });
+    // Now the @timestamp column is of type Date.
+
+
     // Chart 1: Top x Destination Ports -- Bar Chart
     const chart1Limit = 3
     const top10DestPorts = createCountDictionary(data_table, 'dest_port', chart1Limit);
@@ -18,9 +27,10 @@ async function renderCharts() {
 
     // Chart 3: Destination Ports Over Time -- Scatter Plot
     const portsOverTime = makeXYPoints(data_table, '@timestamp', 'dest_port');
-    const chart3 = createScatterPlot("Chart3", portsOverTime, "Time", "Destination Port", "Destination Ports over Time", "linear");
+    const chart3 = createScatterPlotTime("Chart3", portsOverTime, "Time", "Destination Port", "Destination Ports over Time", "time");
+
     // Chart 4: Number of Attacks Per Honeypot (number of rows for each type.) -- Bar Chart
-    chart4Limit = null;
+    const chart4Limit = null;
     const attacksPerType = createCountDictionary(data_table, 'type', chart4Limit);
     const chart4 = createBarChart("Chart4", attacksPerType, "Honeypot", "Attack Count", "Number of Attacks Per Honeypot");
 
@@ -29,26 +39,39 @@ async function renderCharts() {
     const topXOrganizations = createCountDictionary(data_table, 'geoip.as_org', chart5Limit);
     const chart5 = createBarChart("Chart5", topXOrganizations, "Organization (geoip.as_org)", "Count", `Top ${chart5Limit} Organizations`);
 
-    // Chart 6: Activity Over Time -- line graph
-    const chart6LinestoShow = 5;
+    // Chart 6: Source IP vs Destinatation Port -- Scatter Plot
+    const IPsByPort = makeXYPoints(data_table, "src_ip", "dest_port");
+    const chart7 = createScatterPlot("Chart6", IPsByPort, "Source IP", "Destination Port", "Source IP vs Destination Port", "category");
+
+    // Chart 7: Activity Over Time -- line graph
+    //const chart6LinestoShow = 5;
     const timeIncrementSize = 5; // in seconds.
     numRowsPerIncrement = rowCountsByTypeAndTime(data_table, 'type', '@timestamp', timeIncrementSize);
-    const chart6 = createMultiLineChart("Chart6", numRowsPerIncrement, "Activity Over Time", "Time", "Number of Entries");
+    const chart6 = createMultiLineChart("Chart7", numRowsPerIncrement, "Activity Over Time", "Time", "Number of Entries");
 
-    // Chart 7: Source IP vs Destinatation Port -- Scatter Plot
-    const IPsByPort = makeXYPoints(data_table, "src_ip", "dest_port");
-    const chart7 = createScatterPlot("Chart7", IPsByPort, "Source IP", "Destination Port", "Source IP vs Destination Port", "category");
 
 
     function createMultiLineChart(canvasID, dataByType, title, xtitle, ytitle) {
         const allBuckets = new Set();
 
-        // Collect all unique bucket keys across all types
+        // Collect all unique bucket keys (numeric) across all types
         Object.values(dataByType).forEach(bucketCounts => {
             Object.keys(bucketCounts).forEach(bucket => allBuckets.add(Number(bucket)));
         });
 
         const sortedBuckets = Array.from(allBuckets).sort((a, b) => a - b);
+
+        // Convert numeric buckets to formatted UTC time strings
+        const labels = sortedBuckets.map(bucket => {
+            const date = new Date(bucket * 1000 * 5);  // 5 = timeIncrementSize
+            const MM = String(date.getUTCMonth() + 1).padStart(2, '0');
+            const DD = String(date.getUTCDate()).padStart(2, '0');
+            const YYYY = date.getUTCFullYear();
+            const HH = String(date.getUTCHours()).padStart(2, '0');
+            const mm = String(date.getUTCMinutes()).padStart(2, '0');
+            const SS = String(date.getUTCSeconds()).padStart(2, '0');
+            return `${MM}/${DD}/${YYYY} ${HH}:${mm}:${SS}`;
+        });
 
         const datasets = Object.entries(dataByType).map(([type, counts], idx) => {
             return {
@@ -63,7 +86,7 @@ async function renderCharts() {
         new Chart(ctx, {
             type: 'line',
             data: {
-                labels: sortedBuckets,
+                labels: labels,
                 datasets: datasets
             },
             options: {
@@ -79,6 +102,12 @@ async function renderCharts() {
                         title: {
                             display: true,
                             text: xtitle
+                        },
+                        ticks: {
+                            maxRotation: 60,
+                            minRotation: 45,
+                            autoSkip: true,
+                            maxTicksLimit: 20
                         }
                     },
                     y: {
@@ -122,6 +151,60 @@ async function renderCharts() {
                         title: {
                             display: true,
                             text: xtitle
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: ytitle
+                        },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    function createScatterPlotTime(canvasID, data, xtitle, ytitle, title, type) {
+        const ctx4 = document.getElementById(canvasID).getContext('2d');
+        new Chart(ctx4, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    // label: ytitle,
+                    data: data,
+                    backgroundColor: 'steelblue'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: title
+                    },
+                    legend: {
+                        display: false,
+                    }
+                },
+                scales: {
+                    x: {
+                        type: type,
+                        title: {
+                            display: true,
+                            text: xtitle
+                        },
+                        ticks: {
+                            callback: function (value) {
+                                const date = new Date(value);
+                                const MM = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+                                const DD = String(date.getUTCDate()).padStart(2, '0');
+                                const YYYY = date.getUTCFullYear();
+                                const HH = String(date.getUTCHours()).padStart(2, '0');
+                                const mm = String(date.getUTCMinutes()).padStart(2, '0');
+                                const SS = String(date.getUTCSeconds()).padStart(2, '0');
+                                return `${MM}/${DD}/${YYYY} ${HH}:${mm}:${SS}`;
+                            }
                         }
                     },
                     y: {
@@ -229,25 +312,22 @@ async function renderCharts() {
     }
 
     // Counts of the number of each [valueToCount] in each time increment.
-    function rowCountsByTypeAndTime(data, valueToCount, timeColumn, incrementSize) {
-        const grouped = {};
+    function rowCountsByTypeAndTime(data_table, typeKey, timestampKey, incrementSeconds) {
+        const counts = {};
 
-        data.forEach(row => {
-            const type = row[valueToCount];
-            const time = row[timeColumn];
+        data_table.forEach(row => {
+            const type = row[typeKey];
+            const time = new Date(row[timestampKey]).getTime(); // milliseconds since epoch UTC
+            const bucket = Math.floor(time / (incrementSeconds * 1000)); // integer bucket
 
-            if (type === undefined || time === undefined || isNaN(time)) return;
-
-            const bucket = Math.floor(time / incrementSize) * incrementSize;
-
-            if (!grouped[type]) grouped[type] = {};
-            if (!grouped[type][bucket]) grouped[type][bucket] = 0;
-
-            grouped[type][bucket] += 1;
+            if (!counts[type]) counts[type] = {};
+            if (!counts[type][bucket]) counts[type][bucket] = 0;
+            counts[type][bucket]++;
         });
 
-        return grouped;
+        return counts;
     }
+
 
 }
 

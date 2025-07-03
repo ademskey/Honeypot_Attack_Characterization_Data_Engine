@@ -1,7 +1,7 @@
 /* html class styling */
 body {
     /* main "body" style */
-    background-color:  #f6c563;
+    background-color: #f6c563;
     font-family: Arial, sans-serif;
     padding: 2px;
     margin-bottom: 100px;
@@ -68,7 +68,27 @@ h1 {
     /* pointer cursor for hover effect */
 }
 
+.big-box {
+    background-color: #e3e1e1;
+    text-align: center;
+    width: 900px;
+    padding: 5px;
+    border: 2px solid #031911;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 1px;
+    margin: 4px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
 .box:hover {
+    transform: scale(1.05);
+    /* slightly bigger */
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+    /* deeper shadow */
+}
+
+.big-box:hover {
     transform: scale(1.05);
     /* slightly bigger */
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
