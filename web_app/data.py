@@ -16,6 +16,7 @@ def get_df():
                 15, 16, 17, 18, 19,
                 20, 21, 22, 23, 24, 25],
         'src_port': ['12', '12', '1', '2', '2'] * 5,
+        'src_ip': ['1.355.224.22', '153.462.34443', '234.5223.423', '131.34.31.2', '2.243.12.3'] * 5,
         'type': ['Cowrie'] * 5 + ['Honeypot'] * 5 + ['EndlessSSH'] * 5 + ['Ciscoasa'] * 5 + ['Medpot'] * 5,
         '@timestamp': [1, 2, 3, 4, 5,
                 6, 7, 8, 9, 10,
@@ -25,5 +26,6 @@ def get_df():
         'geoip.as_org': ['Org1'] * 5 + ['Org2'] * 5 + ['Org3'] * 5 + ['Org4'] * 5 + ['Org5'] * 5
     }
     df = pd.DataFrame(data)
+    print(df)
     # may need to add a formatted timestamp column
     return df
