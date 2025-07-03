@@ -134,7 +134,7 @@ def collect_honeypot_data(time, debug_input):
             if debug_input == "y":
                 print(f"Request Hits: {len(hits)}")
 
-            with open("honeypot_data.jsonl", "a") as outfile:
+            with open("honeypot_data1.jsonl", "a") as outfile:
                 for hit in hits:
                     doc = hit.get("fields", {}) or hit.get("_source", {})
                     outfile.write(json.dumps(doc) + "\n")
