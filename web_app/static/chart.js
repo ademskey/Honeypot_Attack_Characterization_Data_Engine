@@ -2,28 +2,25 @@ async function renderCharts() {
     const response = await fetch('/data'); // in app.py
     const data_table = await response.json(); // the js uses the table-like json format.
 
-    // Chart 1: Total Time per Honeypot -- Bar Chart
-    const timeByType = createColumnDictionary(data_table, 'type', 'time');
-    const chart1 = createBarChart("Chart1", timeByType, 'Total Time per Honeypot Type');
-
-    // Chart 2: Top x Destination Ports -- Bar Chart
+    // Chart 1: Top x Destination Ports -- Bar Chart
     const chart2Limit = 3;
     const top10DestPorts = createCountDictionary(data_table, 'dest_port', chart2Limit);
-    const chart2 = createBarChart("Chart2", top10DestPorts, `Top ${chart2Limit} Destination Ports`);
+    const chart1 = createBarChart("Chart1", top10DestPorts, `Top ${chart2Limit} Destination Ports`);
 
-    // Chart 3: Top x Source Ports -- Bar Chart
+    // Chart 2: Top x Source Ports -- Bar Chart
     const chart3Limit = 3;
     const top10SrcPorts = createCountDictionary(data_table, 'src_port', chart3Limit);
-    const chart3 = createBarChart("Chart3", top10SrcPorts, `Top ${chart3Limit} Source Ports`);
+    const chart3 = createBarChart("Chart2", top10SrcPorts, `Top ${chart3Limit} Source Ports`);
 
-    // Chart 4: Destination Ports Over Time -- Scatter Plot
+    // Chart 3: Destination Ports Over Time -- Scatter Plot
     const portsOverTime = createColumnDictionary(data_table, 'time', 'dest_port');
-    const chart4 = createScatterPlot("Chart4", portsOverTime, "Time", "Destination Port", "Destination Ports over Time")
+    const chart4 = createScatterPlot("Chart3", portsOverTime, "Time", "Destination Port", "Destination Ports over Time")
 
-    // Chart 5: Number of Attacks Per Honeypot (number of rows for each type.) -- Bar Chart
+    // Chart 4: Number of Attacks Per Honeypot (number of rows for each type.) -- Bar Chart
     const attacksPerType = createCountDictionary(data_table, 'type', null)
-    const chart5 = createBarChart("Chart5", attacksPerType, "Number of Attacks Per Honeypot")
+    const chart5 = createBarChart("Chart4", attacksPerType, "Number of Attacks Per Honeypot")
 
+    // 
 
     function createScatterPlot(canvasID, data, xtitle, ytitle, title) {
         const ctx4 = document.getElementById(canvasID).getContext('2d');
