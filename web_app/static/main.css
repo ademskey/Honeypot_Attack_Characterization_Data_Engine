@@ -1,21 +1,21 @@
 
 /* html class styling */
 body {  /* main "body" style */
-    background-color: #daedba;
+    background-color: #333333ff;
     font-family: Arial, sans-serif;
     padding: 2px;
     margin-bottom:  100px; /* to prevent footer overlap */
 }
 
 head {
-    background-color: #cff4d6;
-    color: #ede8f6;
+    background-color: #fffffe;
+    color: #000000;
     padding: 50px;
 }
 
 footer {
-    background-color: #e7a7c3;
-    color: #53096e;
+    background-color: #6d6c68;
+    color: #aeaeae;
     text-align: center;
     padding: 10px;
     position: fixed;
@@ -35,11 +35,11 @@ canvas {
 
 h1 {
     text-align: center;
-    background-color: #d6a7e7;
+    background-color: #e76a28;
     padding: 20px;
     gap: 5px;
     border-radius: 5px;
-    border: 2px solid #53096e;
+    border: 2px solid #000000;
     box-shadow: 0 4px 8px rgba(15, 6, 17, 0.2);
     margin: 20px auto;
 }
@@ -54,7 +54,7 @@ h1 {
 }
 
 .box {
-    background-color: #eccdf5;
+    background-color: #b2b2b2;
     text-align: center;
     width: 400px;
     padding: 5px;
@@ -62,5 +62,12 @@ h1 {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 1px;
     margin: 4px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer; /* pointer cursor for hover effect */
+}
+
+.box:hover {
+    transform: scale(1.05); /* slightly bigger */
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3); /* deeper shadow */
 }
 
