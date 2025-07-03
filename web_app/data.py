@@ -10,7 +10,7 @@ def get_df():
 
     # Sample DataFrame. replace with caitlyn's pipeline that uses honeypot_data.jsonl
     data = {
-        'dest_port': ['80', '43', '70', '22', '65'] * 5,
+        'dest_port': ['800', '43', '70', '22', '65'] * 5,
         'type': ['Cowrie'] * 5 + ['Honeypot'] * 5 + ['EndlessSSH'] * 5 + ['Ciscoasa'] * 5 + ['Medpot'] * 5,
         'time': [1, 2, 3, 4, 5,
                 6, 6, 7, 8, 9,

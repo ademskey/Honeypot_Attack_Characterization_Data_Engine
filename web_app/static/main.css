@@ -1,10 +1,11 @@
-
 /* html class styling */
-body {  /* main "body" style */
+body {
+    /* main "body" style */
     background-color: #daedba;
     font-family: Arial, sans-serif;
     padding: 2px;
-    margin-bottom:  100px; /* to prevent footer overlap */
+    margin-bottom: 100px;
+    /* to prevent footer overlap */
 }
 
 head {
@@ -63,4 +64,3 @@ h1 {
     border-radius: 1px;
     margin: 4px;
 }
-

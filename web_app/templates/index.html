@@ -4,7 +4,7 @@
 <head>
     <title>Honeypot Data</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Include Chart.js -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}"> <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
 
 </head>
 
@@ -42,19 +42,19 @@
 
     <script src="{{ url_for('static', filename='chart.js') }}"></script>
     <script>
-    window.addEventListener('scroll', function() {
-        const footer = document.querySelector('footer');
-        const scrollBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight;
+        window.addEventListener('scroll', function () {
+            const footer = document.querySelector('footer');
+            const scrollBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight;
 
-        if (scrollBottom && !footer.classList.contains('visible')) {
-            footer.classList.add('visible');
-        }
-    });
-    </script>   
+            if (scrollBottom && !footer.classList.contains('visible')) {
+                footer.classList.add('visible');
+            }
+        });
+    </script>
 </body>
 
 <footer>
     <p>Data provided by the WWU Honeypot.</p>
 </footer>
-</html>
 
+</html>
