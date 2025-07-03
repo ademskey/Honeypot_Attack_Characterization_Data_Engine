@@ -15,7 +15,7 @@ async function renderCharts() {
     const chart2 = createBarChart("Chart2", top10SrcPorts, `Top ${chart2Limit} Source Ports`);
 
     // Chart 3: Destination Ports Over Time -- Scatter Plot
-    const portsOverTime = createColumnDictionary(data_table, 'time', 'dest_port');
+    const portsOverTime = createColumnDictionary(data_table, '@timestamp', 'dest_port');
     const chart3 = createScatterPlot("Chart3", portsOverTime, "Time", "Destination Port", "Destination Ports over Time");
 
     // Chart 4: Number of Attacks Per Honeypot (number of rows for each type.) -- Bar Chart
@@ -26,7 +26,67 @@ async function renderCharts() {
     // Chart 5: Top x Organizations -- Bar Chart
     const chart5Limit = 5;
     const topXOrganizations = createCountDictionary(data_table, 'geoip.as_org', chart5Limit);
-    const chart5 = createBarChart("Chart5", topXOrganizations, `Top ${chart5Limit} Organizations`)
+    const chart5 = createBarChart("Chart5", topXOrganizations, `Top ${chart5Limit} Organizations`);
+
+    // Chart 6: Activity Over Time -- line graph
+    const chart6LinestoShow = 5;
+    const timeIncrementSize = 5; // in seconds.
+    numRowsPerIncrement = rowCountsByTypeAndTime(data_table, 'type', '@timestamp', timeIncrementSize);
+    const chart6 = createMultiLineChart("Chart6", numRowsPerIncrement, "Activity Over Time", "Time", "Number of Entries");
+
+    function createMultiLineChart(canvasID, dataByType, title, xtitle, ytitle) {
+        const allBuckets = new Set();
+
+        // Collect all unique bucket keys across all types
+        Object.values(dataByType).forEach(bucketCounts => {
+            Object.keys(bucketCounts).forEach(bucket => allBuckets.add(Number(bucket)));
+        });
+
+        const sortedBuckets = Array.from(allBuckets).sort((a, b) => a - b);
+
+        const datasets = Object.entries(dataByType).map(([type, counts], idx) => {
+            return {
+                label: type,
+                data: sortedBuckets.map(bucket => counts[bucket] || 0),
+                borderColor: `hsl(${idx * 60}, 70%, 50%)`,
+                fill: false
+            };
+        });
+
+        const ctx = document.getElementById(canvasID).getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: sortedBuckets,
+                datasets: datasets
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: title
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: xtitle
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: ytitle
+                        },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
 
     function createScatterPlot(canvasID, data, xtitle, ytitle, title) {
         const ctx4 = document.getElementById(canvasID).getContext('2d');
@@ -112,6 +172,7 @@ async function renderCharts() {
         return dict;
     }
 
+
     // returns the number of each value in a column. Returns top x entries.
     function createCountDictionary(data, column, topN = null) {
         const dict = {};
@@ -142,7 +203,27 @@ async function renderCharts() {
         return result;
     }
 
-}
+    // Counts of the number of each [valueToCount] in each time increment.
+    function rowCountsByTypeAndTime(data, valueToCount, timeColumn, incrementSize) {
+        const grouped = {};
 
+        data.forEach(row => {
+            const type = row[valueToCount];
+            const time = row[timeColumn];
+
+            if (type === undefined || time === undefined || isNaN(time)) return;
+
+            const bucket = Math.floor(time / incrementSize) * incrementSize;
+
+            if (!grouped[type]) grouped[type] = {};
+            if (!grouped[type][bucket]) grouped[type][bucket] = 0;
+
+            grouped[type][bucket] += 1;
+        });
+
+        return grouped;
+    }
+
+}
 
 renderCharts();
