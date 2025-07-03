@@ -16,7 +16,7 @@ async function renderCharts() {
     const chart3 = createBarChart("Chart3", top10SrcPorts, `Top ${Chart3Limit} Source Ports`);
 
     const portsOverTime = createColumnDictionary(data_table, 'time', 'dest_port');
-    const chart4 = createScatterPlot("Chart4", portsOverTime, "time", "Destination Port", "Destination Ports over Time")
+    const chart4 = createScatterPlot("Chart4", portsOverTime, "Time", "Destination Port", "Destination Ports over Time")
 
     function createScatterPlot(canvasID, data, xtitle, ytitle, title) {
         const ctx4 = document.getElementById(canvasID).getContext('2d');
@@ -24,7 +24,7 @@ async function renderCharts() {
             type: 'scatter',
             data: {
                 datasets: [{
-                    label: title,
+                    label: ytitle,
                     data: data,
                     backgroundColor: 'steelblue'
                 }]
