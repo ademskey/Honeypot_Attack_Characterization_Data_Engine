@@ -9,6 +9,7 @@ def get_df():
     # collect_honeypot_data() eventually.
 
     # fake DataFrame. replace with caitlyn's pipeline that uses honeypot_data.jsonl
+    # return collection of csv's that are in either
     data = {
         'dest_port': [1, 2, 3, 4, 5,
                 6, 7, 8, 9, 10,

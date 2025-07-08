@@ -1,6 +1,9 @@
 async function renderCharts() {
     const response = await fetch('/data'); // in app.py
-    const data_table = await response.json(); // the js uses the table-like json format.
+
+    const historical_data = {}
+    const hour_data = {}
+    historical_data, hour_data = await response.json(); // the js uses the table-like json format.
 
     // Bar graphs have associated variables called "chartxLimit". This is the top x number of bars to show.
     // Scatter Plots: Must make sure type is correct according to what your x axis is. Use "linear" for continuous
