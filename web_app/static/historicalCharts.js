@@ -1,0 +1,6 @@
+async function renderHistoricalCharts()
+{
+
+}
+
+renderHistoricalCharts();

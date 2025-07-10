@@ -13,7 +13,7 @@ def update_data_loop():
     while True:
         try:
            # df = get_and_clean_data()
-            print("DataFrame updated")
+            print("update data loop")
         except Exception as e:
             print(f"Error updating DataFrame: {e}")
         time.sleep(UPDATE_TIME)
@@ -37,12 +37,12 @@ def historical_page():
 def chart_data():
     try:
         historical_dfs = {
-            name: df.to_dict(orient='records')
+            name: df.fillna("").to_dict(orient='records')
             for name, df in get_tables_in_folder('historical_data_totals').items()
         }
 
         hour_dfs = {
-            name: df.to_dict(orient='records')
+            name: df.fillna("").to_dict(orient='records')
             for name, df in get_tables_in_folder('hourly_data').items()
         }
 
@@ -53,6 +53,7 @@ def chart_data():
     except Exception as e:
         print(f"Error preparing chart data: {e}")
         return jsonify({"error": "Failed to load chart data"}), 500
+
 
 
 
@@ -70,6 +71,7 @@ def get_tables_in_folder(folder):
             key = os.path.splitext(file)[0]
             try:
                 tables[key] = pd.read_csv(path)
+                print("getting data csv file success")
             except Exception as e:
                 print(f"Failed to load {file}: {e}")
     return tables
