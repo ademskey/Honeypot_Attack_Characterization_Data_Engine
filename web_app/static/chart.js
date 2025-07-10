@@ -1,9 +1,16 @@
 async function renderCharts() {
-    const response = await fetch('/data'); // in app.py
+    try {
+        const response = await fetch('/data');
+        const data = await response.json();  // Only call .json() once
 
-    const historical_data = {}
-    const hour_data = {}
-    historical_data, hour_data = await response.json(); // the js uses the table-like json format.
+        const historical_data = data.historical_data;
+        const hour_data = data.hourly_data;
+
+        // Proceed to render your charts using historical_data and hour_data
+        // e.g. createLineChart(historical_data["some_table"]);
+    } catch (error) {
+        console.error("Failed to load chart data:", error);
+    }
 
     // Bar graphs have associated variables called "chartxLimit". This is the top x number of bars to show.
     // Scatter Plots: Must make sure type is correct according to what your x axis is. Use "linear" for continuous

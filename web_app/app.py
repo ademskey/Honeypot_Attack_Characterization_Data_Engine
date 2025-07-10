@@ -3,7 +3,7 @@ from data import *
 
 app = Flask(__name__)
 
-df = get_df()
+#df = get_df()
 UPDATE_TIME = 3600 # in seconds
 
 # Runs a background thread to run Adam + Caitlyn's pipeline every [update_time] seconds.
@@ -12,7 +12,7 @@ def update_data_loop():
     global df
     while True:
         try:
-            df = get_df()
+           # df = get_and_clean_data()
             print("DataFrame updated")
         except Exception as e:
             print(f"Error updating DataFrame: {e}")
@@ -26,20 +26,26 @@ def index():
 # Returns dictionary of flat json files so that JS can use it, keeping table structure of the pandas df.
 @app.route('/data')
 def chart_data():
-    historical_dfs = {}
-    hour_dfs = {}
+    try:
+        historical_dfs = {
+            name: df.to_dict(orient='records')
+            for name, df in get_tables_in_folder('historical_data_totals').items()
+        }
 
-    historical_dfs = jsonify({
-        name: df.to_dict(orient='records')
-        for name, df in get_tables_in_folder('historical_data').items()
-    })
+        hour_dfs = {
+            name: df.to_dict(orient='records')
+            for name, df in get_tables_in_folder('hourly_data').items()
+        }
 
-    hour_dfs = jsonify({
-        name: df.to_dict(orient='records')
-        for name, df in get_tables_in_folder('hour_data').items()
-    }) 
+        return jsonify({
+            "historical_data": historical_dfs,
+            "hourly_data": hour_dfs
+        })
+    except Exception as e:
+        print(f"Error preparing chart data: {e}")
+        return jsonify({"error": "Failed to load chart data"}), 500
 
-    return historical_dfs, hour_dfs
+
 
 
 # helper function for chart_data that returns dictionary of datasets in specified folder.
