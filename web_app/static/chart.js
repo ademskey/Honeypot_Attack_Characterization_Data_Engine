@@ -25,39 +25,39 @@ async function renderCharts() {
     // Now the @timestamp column is of type Date.
 
 
-    // Chart 1: Top x Destination Ports -- Bar Chart
-    const chart1Limit = 3
-    const top10DestPorts = createCountDictionary(data_table, 'dest_port', chart1Limit);
-    const chart1 = createBarChart("Chart1", top10DestPorts, "Destination Port", "Count", `Top ${chart1Limit} Destination Ports`);
+    // // Chart 1: Top x Destination Ports -- Bar Chart
+    // const chart1Limit = 3
+    // const top10DestPorts = createCountDictionary(data_table, 'dest_port', chart1Limit);
+    // const chart1 = createBarChart("Chart1", top10DestPorts, "Destination Port", "Count", `Top ${chart1Limit} Destination Ports`);
 
-    // Chart 2: Top x Source Ports -- Bar Chart
-    const chart2Limit = 3;
-    const top10SrcPorts = createCountDictionary(data_table, 'src_port', chart2Limit);
-    const chart2 = createBarChart("Chart2", top10SrcPorts, "Source Port", "Count", `Top ${chart2Limit} Source Ports`);
+    // // Chart 2: Top x Source Ports -- Bar Chart
+    // const chart2Limit = 3;
+    // const top10SrcPorts = createCountDictionary(data_table, 'src_port', chart2Limit);
+    // const chart2 = createBarChart("Chart2", top10SrcPorts, "Source Port", "Count", `Top ${chart2Limit} Source Ports`);
 
-    // Chart 3: Destination Ports Over Time -- Scatter Plot
-    const portsOverTime = makeXYPoints(data_table, '@timestamp', 'dest_port');
-    const chart3 = createScatterPlotTime("Chart3", portsOverTime, "Time", "Destination Port", "Destination Ports over Time", "time");
+    // // Chart 3: Destination Ports Over Time -- Scatter Plot
+    // const portsOverTime = makeXYPoints(data_table, '@timestamp', 'dest_port');
+    // const chart3 = createScatterPlotTime("Chart3", portsOverTime, "Time", "Destination Port", "Destination Ports over Time", "time");
 
-    // Chart 4: Number of Attacks Per Honeypot (number of rows for each type.) -- Bar Chart
-    const chart4Limit = null;
-    const attacksPerType = createCountDictionary(data_table, 'type', chart4Limit);
-    const chart4 = createBarChart("Chart4", attacksPerType, "Honeypot", "Attack Count", "Number of Attacks Per Honeypot");
+    // // Chart 4: Number of Attacks Per Honeypot (number of rows for each type.) -- Bar Chart
+    // const chart4Limit = null;
+    // const attacksPerType = createCountDictionary(data_table, 'type', chart4Limit);
+    // const chart4 = createBarChart("Chart4", attacksPerType, "Honeypot", "Attack Count", "Number of Attacks Per Honeypot");
 
-    // Chart 5: Top x Organizations -- Bar Chart
-    const chart5Limit = 5;
-    const topXOrganizations = createCountDictionary(data_table, 'geoip.as_org', chart5Limit);
-    const chart5 = createBarChart("Chart5", topXOrganizations, "Organization (geoip.as_org)", "Count", `Top ${chart5Limit} Organizations`);
+    // // Chart 5: Top x Organizations -- Bar Chart
+    // const chart5Limit = 5;
+    // const topXOrganizations = createCountDictionary(data_table, 'geoip.as_org', chart5Limit);
+    // const chart5 = createBarChart("Chart5", topXOrganizations, "Organization (geoip.as_org)", "Count", `Top ${chart5Limit} Organizations`);
 
-    // Chart 6: Source IP vs Destinatation Port -- Scatter Plot
-    const IPsByPort = makeXYPoints(data_table, "src_ip", "dest_port");
-    const chart7 = createScatterPlot("Chart6", IPsByPort, "Source IP", "Destination Port", "Source IP vs Destination Port", "category");
+    // // Chart 6: Source IP vs Destinatation Port -- Scatter Plot
+    // const IPsByPort = makeXYPoints(data_table, "src_ip", "dest_port");
+    // const chart7 = createScatterPlot("Chart6", IPsByPort, "Source IP", "Destination Port", "Source IP vs Destination Port", "category");
 
-    // Chart 7: Activity Over Time -- line graph
-    //const chart6LinestoShow = 5;
-    const timeIncrementSize = 5; // in seconds.
-    numRowsPerIncrement = rowCountsByTypeAndTime(data_table, 'type', '@timestamp', timeIncrementSize);
-    const chart6 = createMultiLineChart("Chart7", numRowsPerIncrement, "Activity Over Time", "Time", "Number of Entries");
+    // // Chart 7: Activity Over Time -- line graph
+    // //const chart6LinestoShow = 5;
+    // const timeIncrementSize = 5; // in seconds.
+    // numRowsPerIncrement = rowCountsByTypeAndTime(data_table, 'type', '@timestamp', timeIncrementSize);
+    // const chart6 = createMultiLineChart("Chart7", numRowsPerIncrement, "Activity Over Time", "Time", "Number of Entries");
 
 
 
