@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Honeypot Data</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='honeypot.png') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Include Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/luxon"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+
+</head>
+
+<body>
+    <h1>Honeypot Data Overview<br><span class="subtitle">Historical Data</span></h1>
+
+    <button onclick="location.href='hourly.html'">Click Here for Hourly Data</button>
+
+    <div class="chart-container">
+        <div class="box">
+            <h2>Visual 1</h2>
+            <canvas id="Chart1"></canvas>
+        </div>
+        <div class="box">
+            <h2>Visual 2</h2>
+            <canvas id="Chart2"></canvas>
+        </div>
+        <div class="box">
+            <h2>Visual 3</h2>
+            <canvas id="Chart3"></canvas>
+        </div>
+    </div>
+
+    <div class="chart-container">
+        <div class="box">
+            <h2>Visual 4</h2>
+            <canvas id="Chart4"></canvas>
+        </div>
+        <div class="box">
+            <h2>Visual 5</h2>
+            <canvas id="Chart5"></canvas>
+        </div>
+        <div class="box">
+            <h2>Visual 6</h2>
+            <canvas id="Chart6"></canvas>
+        </div>
+    </div>
+
+    <div class="chart-container">
+        <div class="big-box">
+            <h2>Visual 7</h2>
+            <canvas id="Chart7"></canvas>
+        </div>
+    </div>
+
+
+
+    <script src="{{ url_for('static', filename='chart.js') }}"></script>
+    <script>
+        window.addEventListener('scroll', function () {
+            const footer = document.querySelector('footer');
+            const scrollBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight;
+
+            if (scrollBottom && !footer.classList.contains('visible')) {
+                footer.classList.add('visible');
+            }
+        });
+    </script>
+</body>
+
+<footer>
+    <p>Data provided by the WWU Cyber Range T-Pot Team</p>
+</footer>
+
+</html>

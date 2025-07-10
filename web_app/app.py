@@ -21,7 +21,16 @@ def update_data_loop():
 # Browser Page appearance
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('hourly.html')
+
+@app.route('/hourly.html')
+def hourly_page():
+    return render_template('hourly.html')
+
+@app.route('/historical.html')
+def historical_page():
+    return render_template('historical.html')
+
 
 # Returns dictionary of flat json files so that JS can use it, keeping table structure of the pandas df.
 @app.route('/data')
