@@ -292,7 +292,8 @@ class DataPlumber:
 
 '''
     Runs the main program
-    74.39, 71.75, 
+    avg runtime = 72.3 seconds
+    
 '''
 @timeit
 def main():
