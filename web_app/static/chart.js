@@ -82,12 +82,13 @@ function createScatterPlot(canvasID, data, xtitle, ytitle, title, type) {
         type: 'scatter',
         data: {
             datasets: [{
-                // label: ytitle,
                 data: data,
-                backgroundColor: 'steelblue'
+                backgroundColor: 'steelblue',
+                pointRadius: 4
             }]
         },
         options: {
+            indexAxis: 'x',
             responsive: true,
             plugins: {
                 title: {
@@ -95,7 +96,14 @@ function createScatterPlot(canvasID, data, xtitle, ytitle, title, type) {
                     text: title
                 },
                 legend: {
-                    display: false,
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            return `City: ${context.raw.x}, IP: ${context.raw.y}`;
+                        }
+                    }
                 }
             },
             scales: {
@@ -104,19 +112,28 @@ function createScatterPlot(canvasID, data, xtitle, ytitle, title, type) {
                     title: {
                         display: true,
                         text: xtitle
+                    },
+                    ticks: {
+                        autoSkip: true,
+                        maxRotation: 90,
+                        minRotation: 45
                     }
                 },
                 y: {
+                    type: type,
                     title: {
                         display: true,
                         text: ytitle
                     },
-                    beginAtZero: true
+                    ticks: {
+                        autoSkip: true
+                    }
                 }
             }
         }
     });
 }
+
 
 function createScatterPlotTime(canvasID, data, xtitle, ytitle, title, type) {
     const ctx4 = document.getElementById(canvasID).getContext('2d');
