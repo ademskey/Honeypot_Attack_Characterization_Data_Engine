@@ -21,7 +21,7 @@ async function renderHourlyCharts(hourlyData) {
     const topXOrganizations = createXYPoints(companyHits, "Org", "Hits", "bar", chart2Limit);
     createBarChart("HourlyChart2", topXOrganizations, "Organization (geoip.as_org)", "Count", `Top ${chart2Limit} Organizations`);
 
-    // Hourly Chart 3: City Name and Source IPs -- Scatter Plot
+    // Hourly Chart 3: City Name and Source IPs -- Scatter Plot THis is probably Broken
     const { mapping: cityIndexMap, labels: cityLabels } = categoriestoIndex(fullHourlyData, "geoip.city_name");
     const { mapping: ipIndexMap, labels: ipLabels } = categoriestoIndex(fullHourlyData, "src_ip");
 
