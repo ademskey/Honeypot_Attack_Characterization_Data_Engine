@@ -38,7 +38,7 @@ def chart_data():
     try:
         historical_dfs = {
             name: df.fillna("").to_dict(orient='records')
-            for name, df in get_tables_in_folder('historical_data_totals').items()
+            for name, df in get_tables_in_folder('historical_data').items()
         }
 
         hour_dfs = {
@@ -53,9 +53,6 @@ def chart_data():
     except Exception as e:
         print(f"Error preparing chart data: {e}")
         return jsonify({"error": "Failed to load chart data"}), 500
-
-
-
 
 
 # helper function for chart_data that returns dictionary of datasets in specified folder.

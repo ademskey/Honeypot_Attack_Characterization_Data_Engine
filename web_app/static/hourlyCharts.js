@@ -1,27 +1,23 @@
-
-
 window.addEventListener("DOMContentLoaded", async () => {
     const data = await loadData();
     if (!data) return;
 
-    const hourly = data.hourly_data["full_hourly_data"];
+    const hourly = data.hourly_data;
 
     renderHourlyCharts(hourly);
 });
 
 async function renderHourlyCharts(hourlyData) {
-
-    console.log(hourlyData);
-
-    console.log(Object.keys(hourlyData));  // See what keys are available
+    const fullHourlyData = hourlyData["full_hourly_data"];
+    const companyHits = hourlyData["company_hits"];
 
     // Hourly Chart 1: Top x Destination Ports -- Bar Chart
-    const chart1Limit = 3
-    const top10DestPorts = createCountDictionary(hourlyData, 'dest_port', chart1Limit);
-    createBarChart("Chart1", top10DestPorts, "Destination Port", "Count", `Top ${chart1Limit} Destination Ports`);
+    const chart1Limit = 5
+    const topxDestPorts = createCountDictionary(fullHourlyData, 'dest_port', chart1Limit);
+    createBarChart("HourlyChart1", topxDestPorts, "Destination Port", "Count", `Top ${chart1Limit} Destination Ports`);
 
-    // Hourly Chart 2: Top x Source Ports -- Bar Chart
-    const chart2Limit = 3;
-    const top10SrcPorts = createCountDictionary(hourlyData, 'src_port', chart2Limit);
-    createBarChart("Chart2", top10SrcPorts, "Source Port", "Count", `Top ${chart2Limit} Source Ports`);
+    // Chart 5: Top x Organizations -- Bar Chart
+    const chart5Limit = 5;
+    const topXOrganizations = createCountDictionary(data_table, 'geoip.as_org', chart5Limit);
+    const chart5 = createBarChart("Chart5", topXOrganizations, "Organization (geoip.as_org)", "Count", `Top ${chart5Limit} Organizations`);
 }

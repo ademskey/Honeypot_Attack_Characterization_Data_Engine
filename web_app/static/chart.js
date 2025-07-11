@@ -1,8 +1,8 @@
 /* Helper functions to a couple different types of charts for reusability*/
 
-/*Bar graphs have associated variables called "chartxLimit". This is the top x number of bars to show.
+/* Bar graphs have associated variables called "chartxLimit". This is the top x number of bars to show.
 // Scatter Plots: Must make sure type is correct according to what your x axis is. Use "linear" for continuous
-// stuff like time and "category" for discrete values,  like IP*/
+// stuff like time and "category" for discrete values,  like IP */
 
 function createMultiLineChart(canvasID, dataByType, title, xtitle, ytitle) {
     const allBuckets = new Set();
@@ -201,11 +201,19 @@ function createBarChart(canvasID, data, xtitle, ytitle, title) {
 
             scales: {
                 x: {
+                    ticks: {
+                        autoskip: false,
+                        minRotation: 45,
+                        maxRotation: 45,
+                        font: {
+                            size: 14
+                        },
+                    },
                     title: {
                         display: true,
                         text: xtitle
                     },
-                    beginAtZero: true
+                    //beginAtZero: true
                 },
                 y: {
                     title: {
@@ -219,15 +227,41 @@ function createBarChart(canvasID, data, xtitle, ytitle, title) {
     });
 }
 
-// For Scatter Plot
-function makeXYPoints(data, xKey, yKey) {
-    return data
-        .filter(row => row[xKey] !== undefined && row[yKey] !== undefined)
-        .map(row => ({
+// For Scatter Plot and Bar chart
+function createXYPoints(data, xKey, yKey, chartType, limit = null) {
+    let output;
+
+    // Filter valid rows
+    const filtered = data.filter(row => row[xKey] !== undefined && row[yKey] !== undefined);
+
+    if (chartType === 'scatter') {
+        output = filtered.map(row => ({
             x: row[xKey],
             y: row[yKey]
         }));
+
+        if (limit !== null) {
+            output = output
+                .sort((a, b) => b.y - a.y)
+                .slice(0, limit);
+        }
+    }
+
+    else if (chartType === 'bar') {
+        output = {};
+
+        const sorted = filtered
+            .sort((a, b) => b[yKey] - a[yKey])
+            .slice(0, limit !== null ? limit : filtered.length);
+
+        sorted.forEach(row => {
+            output[row[xKey]] = row[yKey];
+        });
+    }
+
+    return output;
 }
+
 
 function ipToInt(ip) {
     return ip.split('.').reduce((acc, octet) => (acc << 8) + parseInt(octet), 0);
