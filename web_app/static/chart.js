@@ -161,6 +161,7 @@ function createScatterPlotTime(canvasID, data, xtitle, ytitle, title, type) {
                     }
                 },
                 y: {
+                    type: type,
                     title: {
                         display: true,
                         text: ytitle
@@ -262,12 +263,6 @@ function createXYPoints(data, xKey, yKey, chartType, limit = null) {
     return output;
 }
 
-
-function ipToInt(ip) {
-    return ip.split('.').reduce((acc, octet) => (acc << 8) + parseInt(octet), 0);
-}
-
-
 // returns the number of each value in a column in a table. Returns top x entries.
 function createCountDictionary(data, column, topN = null) {
     const dict = {};
@@ -313,4 +308,41 @@ function rowCountsByTypeAndTime(data_table, typeKey, timestampKey, incrementSeco
     });
 
     return counts;
+}
+
+function flattenTable(data_table, key) {
+    console.log("key used for flattening: ", key);
+    console.log(data_table[key]);
+    const flattened = [];
+
+    data_table.forEach(row => {
+        const timestamp = row.timestamp;
+        let portList;
+        try {
+            portList = JSON.parse(row[key]);
+        } catch (e) {
+            console.error("Error parsing port list:", row[key]);
+            return;
+        }
+
+        if (Array.isArray(portList)) {
+            portList.forEach(port => {
+                if (!isNaN(port)) {
+                    flattened.push({
+                        timestamp: timestamp,
+                        port: port
+                    });
+                }
+            });
+        }
+    });
+
+    return flattened;
+}
+
+function categoriestoIndex(data, key) {
+    const unique = [...new Set(data.map(row => row[key] || "Unknown"))];
+    const mapping = {};
+    unique.forEach((val, idx) => mapping[val] = idx);
+    return { mapping, labels: unique };
 }
