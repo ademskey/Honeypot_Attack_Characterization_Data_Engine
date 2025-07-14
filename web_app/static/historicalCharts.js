@@ -22,20 +22,19 @@ async function renderHourlyCharts(historicalData) {
     const hitsPerType = createXYPoints(honeypotHits, "honeypot", "hits", "bar");
     createBarChart("HistChart1", hitsPerType, "Honeypot", "Attack Count", `Top ${chart1Limit} Honeypots`);
 
-    // Historical Chart 2: Top x Organizations by total number of hits-- Bar Chart 
-    const chart2Limit = 5;
-    const topXOrganizations = createXYPoints(companyHits, "Org", "Hits", "bar", chart2Limit);
-    createBarChart("HistChart2", topXOrganizations, "Organization (geoip.as_org)", "Count", `Top ${chart2Limit} Organizations`);
+    // Historical Chart 2: Top x Source IP Hits -- Bar Chart
+    const chart2Limit = 10;
+    const topXDestIPs = createXYPoints(destportHits, "port", "hits", "bar", chart2Limit);
+    createBarChart("HistChart2", topXDestIPs, "Source IP", "Number of Hits", `Top ${chart2Limit} Source IPs`)
 
     // Historical Chart 3: Top x Source IP Hits -- Bar Chart
     const chart3Limit = 10;
-    const srcIPsByPort = createXYPoints(ipHits, "ip", "hits", "bar", chart3Limit);
-    createBarChart("HistChart3", srcIPsByPort, "Source IP", "Number of Hits", `Top ${chart3Limit} Source IPs`)
+    const topXSrcIPs = createXYPoints(ipHits, "ip", "hits", "bar", chart3Limit);
+    createBarChart("HistChart3", topXSrcIPs, "Source IP", "Number of Hits", `Top ${chart3Limit} Source IPs`)
 
+    // Historical Chart 4: Top x Organizations by total number of hits-- Bar Chart 
+    const chart4Limit = 5;
+    const topXOrganizations = createXYPoints(companyHits, "Org", "hits", "bar", chart4Limit);
+    createBarChart("HistChart4", topXOrganizations, "Organization (geoip.as_org)", "Count", `Top ${chart4Limit} Organizations`);
 
-
-    // Historical Chart 8 (Big Box): Time vs Dest Port -- Scatter Plot
-    console.log(timeandPort);
-    //flattenedTimeandPort = flattenTable(timeandPort, "@timestamp");
-    //console.log(flattenedTimeandPort);
 }

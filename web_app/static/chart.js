@@ -3,7 +3,6 @@
 /* Bar graphs have associated variables called "chartxLimit". This is the top x number of bars to show.
 // Scatter Plots: Must make sure type is correct according to what your x axis is. Use "linear" for continuous
 // stuff like time and "category" for discrete values,  like IP */
-
 function createMultiLineChart(canvasID, dataByType, title, xtitle, ytitle) {
     const allBuckets = new Set();
 
@@ -76,19 +75,20 @@ function createMultiLineChart(canvasID, dataByType, title, xtitle, ytitle) {
 }
 
 
-function createScatterPlot(canvasID, data, xtitle, ytitle, title, type) {
+function createScatterPlot(canvasID, data, xtitle, ytitle, title, xtype, ytype) {
     const ctx4 = document.getElementById(canvasID).getContext('2d');
     new Chart(ctx4, {
         type: 'scatter',
         data: {
             datasets: [{
+                label: ytitle,
                 data: data,
                 backgroundColor: 'steelblue',
-                pointRadius: 4
+                pointRadius: 4,
+                pointHoverRadius: 6
             }]
         },
         options: {
-            indexAxis: 'x',
             responsive: true,
             plugins: {
                 title: {
@@ -100,15 +100,13 @@ function createScatterPlot(canvasID, data, xtitle, ytitle, title, type) {
                 },
                 tooltip: {
                     callbacks: {
-                        label: function (context) {
-                            return `City: ${context.raw.x}, IP: ${context.raw.y}`;
-                        }
+                        label: context => `Source: ${context.raw.x}, Port: ${context.raw.y}`
                     }
                 }
             },
             scales: {
                 x: {
-                    type: type,
+                    type: xtype,
                     title: {
                         display: true,
                         text: xtitle
@@ -120,11 +118,12 @@ function createScatterPlot(canvasID, data, xtitle, ytitle, title, type) {
                     }
                 },
                 y: {
-                    type: type,
+                    type: ytype,
                     title: {
                         display: true,
                         text: ytitle
                     },
+                    beginAtZero: false,
                     ticks: {
                         autoSkip: true
                     }

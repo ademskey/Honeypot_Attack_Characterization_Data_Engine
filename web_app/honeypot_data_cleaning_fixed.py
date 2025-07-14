@@ -9,7 +9,7 @@ Honeypot_data_cleaning.ipynb
         - CB 07/14/2025: bug fixes, optimization, drop unnecessary columns before
             json serialization.
     
-    Modified by Emily on 07/14, changed csv paths to add data folder for hourly and historical data subfolders/
+    Modified by Emily on 07/14, changed csv paths to add data folder for hourly and historical data subfolders
 
     **Description:** This program is intended to clean 24 hours of data from T-pot
     that is pulled from elastic pot and converted into a .csv file. Future
