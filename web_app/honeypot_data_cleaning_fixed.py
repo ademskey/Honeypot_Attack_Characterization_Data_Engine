@@ -8,6 +8,8 @@ Honeypot_data_cleaning.ipynb
         - CB 07/11/2025: bug fixes, added logs and timing, converted to a class.
         - CB 07/14/2025: bug fixes, optimization, drop unnecessary columns before
             json serialization.
+    
+    Modified by Emily on 07/14, changed csv paths to add data folder for hourly and historical data subfolders/
 
     **Description:** This program is intended to clean 24 hours of data from T-pot
     that is pulled from elastic pot and converted into a .csv file. Future
@@ -57,13 +59,13 @@ class DataJanitor:
         
         self.honeypot_json = "honeypot_data.jsonl"
         
-        self.total_company_hits_csv = "historical_data/company_hits.csv"
-        self.destport_hits_csv = "historical_data/destport_hits.csv"
-        self.honeypot_hits_csv = "historical_data/honeypot_hits.csv"
-        self.ip_hits_csv = "historical_data/ip_hits.csv"
-        self.time_vs_port_csv = "historical_data/time_vs_port.csv"
-        self.hourly_company_hits_csv = "hourly_data/company_hits.csv"
-        self.full_hourly_data_csv = "hourly_data/full_hourly_data.csv"
+        self.total_company_hits_csv = "data/historical_data/company_hits.csv"
+        self.destport_hits_csv = "data/historical_data/destport_hits.csv"
+        self.honeypot_hits_csv = "data/historical_data/honeypot_hits.csv"
+        self.ip_hits_csv = "data/historical_data/ip_hits.csv"
+        self.time_vs_port_csv = "data/historical_data/time_vs_port.csv"
+        self.hourly_company_hits_csv = "data/hourly_data/company_hits.csv"
+        self.full_hourly_data_csv = "data/hourly_data/full_hourly_data.csv"
         
         self.logs = []
         self.honeypot_info = {"Ciscoasa" : [5000, 8443],
@@ -536,7 +538,7 @@ class DataJanitor:
         if not all(col in df.columns for col in columns_to_keep):
             return
 
-        df[columns_to_keep].to_csv('hourly_data/full_hourly_data.csv', index=False)
+        df[columns_to_keep].to_csv('data/hourly_data/full_hourly_data.csv', index=False)
 
         if 'geoip.as_org' in df.columns:
             hits_df = df.groupby('geoip.as_org').agg(

@@ -22,10 +22,9 @@ async function renderHourlyCharts(hourlyData) {
     createBarChart("HourlyChart2", topXOrganizations, "Organization (geoip.as_org)", "Count", `Top ${chart2Limit} Organizations`);
 
 
-
-    // Hourly Chart 7: Activity Over Time -- line graph
+    // Hourly Chart 3: Activity Over Time -- line graph
     //const chart6LinestoShow = 5;s
     const timeIncrementSize = 5; // in seconds.
     numRowsPerIncrement = rowCountsByTypeAndTime(fullHourlyData, 'type', '@timestamp', timeIncrementSize);
-    createMultiLineChart("HourlyChart7", numRowsPerIncrement, "Activity Over Time", "Time", "Number of Entries");
+    createMultiLineChart("HourlyChart3", numRowsPerIncrement, "Activity Over Time", "Time", "Number of Entries");
 }

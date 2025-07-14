@@ -1,5 +1,5 @@
 from packages import *
-from data import *
+import query_and_process
 
 app = Flask(__name__)
 
@@ -12,8 +12,8 @@ def update_data_loop():
     global df
     while True:
         try:
-           # df = get_and_clean_data()
-            print("update data loop")
+           query_and_process.main()
+           print("update data loop")
         except Exception as e:
             print(f"Error updating DataFrame: {e}")
         time.sleep(UPDATE_TIME)

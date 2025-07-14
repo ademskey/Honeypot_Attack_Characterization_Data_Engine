@@ -161,12 +161,12 @@ class DataPlumber:
 
     '''
     def collect_honeypot_data(self):
-        self.janitor.reset_csvs()
+       # self.janitor.reset_csvs()
         new_log = ""
         total_hits = 0
         
         # hard code to desired number of hours
-        time_to_fetch = 58
+        time_to_fetch = 1
         hours_to_fetch = time_to_fetch * 60 
         curr_time = datetime.datetime.now(datetime.timezone.utc)
 
