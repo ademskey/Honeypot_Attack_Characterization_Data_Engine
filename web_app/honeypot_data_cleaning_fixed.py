@@ -4,8 +4,10 @@ Honeypot_data_cleaning.ipynb
 ## **Honeypot Data Cleaning Pipeline**
     *Programmer: Caitlyn Boyd*
 
-    *Last Modified: 07/11/2025*
+    *Last Modified: 07/14/2025*
         - CB 07/11/2025: bug fixes, added logs and timing, converted to a class.
+        - CB 07/14/2025: bug fixes, optimization, drop unnecessary columns before
+            json serialization.
 
     **Description:** This program is intended to clean 24 hours of data from T-pot
     that is pulled from elastic pot and converted into a .csv file. Future
@@ -45,6 +47,7 @@ def timeit(func):
     Programmer: Caitlyn Boyd
     Last Modified: 07/11/2025
         - CB 07/11/2025: added logs
+        - CB 07/14/2025: added necessary_before_serial to drop more columns and speed up serialization.
 '''
 class DataJanitor:
     # all file paths
@@ -80,6 +83,11 @@ class DataJanitor:
                          "Miniprint" : [9100],
                          "Redishoneypot" : [6379],
                          "Wordpot" : [80]}
+        
+        self.necessary_before_serial = ['@timestamp', 'dest_ip', 'dest_port', 'src_ip',
+                                  'src_port', 'type', 'geoip', 'anomaly', 'flow_id', "eventid","session",
+                                  "message", "ip_rep","params", "raw_sig", "os", "link", "tags"]
+        
         self.necessary_columns = ['@timestamp', 'dest_ip', 'dest_port', 'src_ip',
                                   'src_port', 'type', 'geoip.country_name',
                                   'geoip.city_name', 'geoip.as_org', 'tags', "flow_id", "anomaly.type",
@@ -104,7 +112,8 @@ class DataJanitor:
         nunique = df[non_list_columns].nunique(dropna=False)
         constant_columns = [col for col in nunique.index if nunique[col] <= 1 and col != '@timestamp']
         self.logs.append("Constant columns dropped.")
-        return df.drop(columns=constant_columns)
+        df.drop(columns=constant_columns, inplace=True)
+        return df
 
     '''
         Function: print_progress
@@ -207,9 +216,8 @@ class DataJanitor:
             }).reset_index()
 
         # Join the aggregated anomalies back to the clean data
-        cleaned_df = clean_df.merge(aggregated, on=['flow_id','@timestamp'], how="left")
         self.logs.append("Suricata duplicates aggregated")
-        return cleaned_df
+        return clean_df.merge(aggregated, on=['flow_id','@timestamp'], how="left")
 
     '''
     Function: remove_cowrie_duplicates
@@ -235,8 +243,8 @@ class DataJanitor:
             self.logs.append("Error in remove_cowrie_duplicates: Missing type column, Cowrie duplicates could not be aggregated")
             return df
         
-        duplicates = df[df["type"] == "Cowrie"].copy()
-        clean_df = df[df["type"] != "Cowrie"].copy()
+        duplicates = df[df["type"] == "Cowrie"]
+        clean_df = df[df["type"] != "Cowrie"]
 
         # Step 2: Keep only useful columns
         if 'eventid' not in df.columns:
@@ -333,9 +341,9 @@ class DataJanitor:
         unmatched = unmatched[merged.columns]  # align columns
 
         # Combine matched + unmatched
-        final_df = pd.concat([merged, unmatched], ignore_index=True)
+        merged = pd.concat([merged, unmatched], ignore_index=True)
         self.logs.append("P0f duplicates removed")
-        return final_df
+        return merged
     '''
         Function: drop_sparse_columns
         Description: drops all columns with less than min_coverage (decimal) entries.
@@ -366,8 +374,32 @@ class DataJanitor:
         self.logs.append("Sparse columns dropped")
         return df[columns_to_keep]
     
-    def drop_unused_columns(self, df):
-        return df[self.necessary_columns]
+    '''
+        Method: drop_unused_columns
+        Description: keeps only the columns necessary for operations.
+        
+        Input:
+            - df: pandas dataframe containining T-pot data.
+            - flag: boolean representing whether or not serialization has been done.
+        Output:
+            - filtered pandas dataframe with only necessary columns.
+        
+        Last Modified: 07/14/2025
+            - CB 07/14/2025: added error handling, added flag to drop columns pre-serialization
+    '''
+    def drop_unused_columns(self, df, flag):
+        if flag:
+            for col in self.necessary_before_serial:
+                if col not in df.columns:
+                    self.logs.append(f"Error: drop_unused_columns w/flag, missing {col}, unused columns could not be dropped")
+                    return df
+            return df[self.necessary_before_serial]
+        else:
+            for col in self.necessary_columns:
+                if col not in df.columns:
+                    self.logs.append(f"Error: drop_unused_columns missing {col}, unused columns could not be dropped")
+                    return df
+            return df[self.necessary_columns]
 
     '''
         Function: is_private_ip
@@ -434,12 +466,12 @@ class DataJanitor:
             return df
 
         for honeypot in self.honeypot_info.keys():
-            filtered_df = self.id_honeypot(df, honeypot, self.honeypot_info[honeypot])
+            df = self.id_honeypot(df, honeypot, self.honeypot_info[honeypot])
 
         # assigns all others to honeytrap since it tracks all other ports
         df.loc[~df['type'].isin(self.honeypot_info.keys()), 'type'] = 'Honeytrap'
 
-        return filtered_df
+        return df
 
 
     '''
@@ -453,20 +485,20 @@ class DataJanitor:
         
         Last Modified: 07/11/2025
             - CB 07/11/2025: added logging
+            - CB 07/14/2025: passed df as an input and removed read to json file.
     '''
-    def run_everything(self):
+    def run_everything(self, df):
 
         # Load and normalize JSON data
-        df = pd.read_json(self.honeypot_json, lines=True)
         if df.empty:
             self.logs.append("Error in run_everything: Input data is empty.")
             return df
-
+        
         df = pd.json_normalize(df.to_dict(orient="records"))
 
         original_shape = df.shape
         
-        df = self.drop_unused_columns(df)
+        df = self.drop_unused_columns(df, False)
         
         
         # Sequential cleaning pipeline
@@ -642,18 +674,20 @@ class DataJanitor:
         Method: process_data
         Description: processes and saves all the data.
         
-        Input: NONE
+        Input:
+            - df: a pandas dataframe containing an hour of T-pot data.
         Output:
             - logs: list of all string logs accumulated during processing.
         
         Last Modified: 07/11/2025
             - CB 07/10/2025: added timer
             - CB 07/11/2025: added logs
+            - CB 07/14/2025: Added df as an input to remove reading a json.
     '''
-    def process_data(self):
+    def process_data(self, df):
         print()
         start_time = time.time()
-        df = self.run_everything()
+        df = self.run_everything(df)
         if df.shape[0] != 0:
             self.save_data(df)
         end_time = time.time()

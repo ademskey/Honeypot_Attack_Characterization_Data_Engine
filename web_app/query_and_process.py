@@ -6,6 +6,12 @@
     Programmers: Adam Caudle, Caitlyn Boyd
     Last Modified: 07/08/2025
         - CB 07/08/2025: integrated data pipeline, added support for Windows.
+        - CB 07/10/2025: converted into a class, hid data sensitive info as data members.
+        - CB 07/11/2025: Removed writes to json for optimization, removed nuisance logs,
+            deleted user interface.
+        - CB 07/14/2025: optimized by removing writes to json and just collect data to a
+            dataframe directly. Only update progress bar every 20 seconds.
+            
 '''
 import requests
 from requests.auth import HTTPBasicAuth
@@ -17,6 +23,7 @@ import datetime
 import sys
 import os
 import time
+import pandas as pd
 
 '''
     Start of Modified by CB 07/08/2025
@@ -149,6 +156,8 @@ class DataPlumber:
                 and functions in the data members of the class.
             - CB 07/11/2025: integrated the new DataJanitor class, added logging,
                 and hard coded the number of hours to pull as 1 hour.
+            - CB 07/14/2025: removed writes to a json file and instead pass everything
+                directly through a dataframe to improve efficiency.
 
     '''
     def collect_honeypot_data(self):
@@ -157,7 +166,7 @@ class DataPlumber:
         total_hits = 0
         
         # hard code to desired number of hours
-        time_to_fetch = 1
+        time_to_fetch = 58
         hours_to_fetch = time_to_fetch * 60 
         curr_time = datetime.datetime.now(datetime.timezone.utc)
 
@@ -167,12 +176,15 @@ class DataPlumber:
             "kbn-version": "8.18.3",
             "kbn-xsrf": "true"
         }
+        
+        df = pd.DataFrame()
 
         # Clear existing data file
         open("honeypot_data.jsonl", "w").close()
         print("Collecting Data", end=" ")
         
         data_processing_count = 0
+        data_list = []
         # Main collection loop
         for i in range(hours_to_fetch):
             # Compute time window
@@ -182,19 +194,10 @@ class DataPlumber:
             # Format timestamps in ISO 8601
             gte = slice_start.strftime("%Y-%m-%dT%H:%M:%SZ")
             lte = slice_end.strftime("%Y-%m-%dT%H:%M:%SZ")
-            '''
-            if debug_input == "y":
-                print(f"Requesting from {gte} to {lte}")
-            '''
-            new_log = f"Requesting from {gte} to {lte}"
-            self.logs.append(new_log)
             
-            # Print progress bar
-            bar_width = 40
-            progress = int((i + 1) / hours_to_fetch * bar_width)
-            percent = int((i + 1) / hours_to_fetch * 100)
-            bar = "[" + "#" * progress + "-" * (bar_width - progress) + f"] {percent}%"
-            print("\r" + bar, end="", flush=True)
+            new_log = f"Requesting from {gte} to {lte}"
+            #self.logs.append(new_log)
+            
             
             # check for early exit
             '''
@@ -236,28 +239,32 @@ class DataPlumber:
             response = requests.post(self.elastic_url, headers=headers, auth=self.auth, json=query_body, verify=False)
             
             new_log = "Status Code: " + str(response.status_code)
-            self.logs.append(new_log)
+            #self.logs.append(new_log)
+            
             if response.status_code != 200:
                 new_log = "Error fetching data: " + str(response.status_code) + " " + response.text
-                self.logs.append(new_log)
-                
+                #self.logs.append(new_log)
+            
+            '''
+                CB 07/14/2025: Changed to support writing directly to a dataframe to remove json writes.
+            '''
             try:
                 data = response.json()
                 hits = data.get("rawResponse", {}).get("hits", {}).get("hits", [])
                 total_hits += len(hits)
-                '''
-                if debug_input == "y":
-                    print(f"Request Hits: {len(hits)}")
-                '''
-                with open("honeypot_data.jsonl", "a") as outfile:
-                    for hit in hits:
-                        doc = hit.get("fields", {}) or hit.get("_source", {})
-                        outfile.write(json.dumps(doc) + "\n")
-                '''
-                if debug_input == "y":        
-                    print("Saved to honeypot_data.jsonl")
-                '''
-                self.logs.append("Saved to honeypot_data.jsonl")
+
+                # Collect documents
+                documents = []
+                for hit in hits:
+                    doc = hit.get("fields", {}) or hit.get("_source", {})
+                    documents.append(doc)
+
+                # Convert list of dicts to DataFrame and append
+                if documents:
+                    new_df = pd.DataFrame(documents)
+                    df = pd.concat([df, new_df], ignore_index=True)
+
+                #self.logs.append("Appended to internal DataFrame")
                 
                 
             except Exception as e:
@@ -273,18 +280,28 @@ class DataPlumber:
             '''
             if (i + 1) % 60 == 0:
                 # run data processing
-                janitor_logs = self.janitor.process_data()
-                # Clear existing data file
-                open("honeypot_data.jsonl", "w").close()
-                print("Collecting Data", end=" ")
-            data_processing_count += 1
+                df = self.janitor.drop_unused_columns(df, True)
+                janitor_logs = self.janitor.process_data(df)
+                
+                df = pd.DataFrame()
     
-        with open("logs.txt", "a") as outfile:
-            for entry in self.logs:
-                outfile.write(entry + "\n")
+            '''
+                CB 07/14/2025: moved progress bar and increased update
+                interval for efficiency.
+            '''
+            # print progress bar
+            if i % 20 == 0 or (i + 1) % 20 == 0:
+                bar_width = 40
+                progress = int((i + 1) / hours_to_fetch * bar_width)
+                percent = int((i + 1) / hours_to_fetch * 100)
+                bar = "[" + "#" * progress + "-" * (bar_width - progress) + f"] {percent}%"
+                print("\r" + bar, end="", flush=True)
+        
+        '''
+        with open("logs.txt", "w") as outfile:
             for entry in janitor_logs:
                 outfile.write(entry + "\n")
-                
+        '''
         '''
             End of Modified CB 07/08/2025
         '''
@@ -292,13 +309,14 @@ class DataPlumber:
 
 '''
     Runs the main program
-    avg runtime = 72.3 seconds
+    new avg runtime = 60.49
     
 '''
 @timeit
 def main():
     plumber = DataPlumber()
     plumber.collect_honeypot_data()
+    print()
     return 0
 
 if __name__ == "__main__":
