@@ -112,6 +112,7 @@ button,
 
     display: inline-block;
     margin: 20px auto;
+    margin-bottom: 0%;
     text-align: center;
     padding: 20px;
     gap: 5px;

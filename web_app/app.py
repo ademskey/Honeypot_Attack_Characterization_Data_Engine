@@ -41,6 +41,9 @@ def hourly_page():
 def historical_page():
     return render_template('historical.html')
 
+@app.route('/honeypot.html')
+def honeypot_page():
+    return render_template('honeypot.html')
 
 # Returns dictionary of flat json files so that JS can use it, keeping table structure of the pandas df.
 @app.route('/data')

@@ -12,3 +12,7 @@ window.addEventListener("DOMContentLoaded", () => {
 function toggleDropdown() {
     document.getElementById("honeypotDropdown").classList.toggle("show");
 }
+
+function selectHoneypot(name) {
+    localStorage.setItem("selectedHoneypot", name);
+}
