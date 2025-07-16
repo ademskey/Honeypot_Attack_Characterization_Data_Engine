@@ -102,14 +102,12 @@ h1 {
 
 button,
 .dropbtn {
-    background-color: #e76a28;
+    background-color: #f5661a;
     color: #000000;
     font-family: Arial, sans-serif;
     font-size: x-large;
     font-weight: 600;
-
     justify-items: center;
-
     display: inline-block;
     margin: 20px auto;
     margin-bottom: 0%;
@@ -136,7 +134,7 @@ button:hover,
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: #f1f1f1;
+    background-color: #f8e289;
     min-width: 160px;
     overflow: auto;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
