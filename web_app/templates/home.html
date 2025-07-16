@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Honeypot Data</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='honeypot.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <script src="{{ url_for('static', filename='home.js') }}"></script>
+</head>
+
+<body>
+    <h1>Honeypot Data Overview<br><span class="subtitle">Home</span></h1>
+
+    <div style="text-align:center;">
+        <button style="margin:0 10px;" onclick="location.href='historical.html'">Click Here for Historical Data</button>
+        <button style="margin:0 10px;" onclick="location.href='hourly.html'">Click Here for Hourly Data</button>
+
+        <div class="dropdown" style="margin:0 20px;">
+            <button onclick="toggleDropdown()" class="dropbtn">Choose a Honeypot</button>
+            <div id="honeypotDropdown" class="dropdown-content">
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <script src="{{ url_for('static', filename='chart.js') }}"></script>
+    <script>
+        window.addEventListener('scroll', function () {
+            const footer = document.querySelector('footer');
+            const scrollBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight;
+
+            if (scrollBottom && !footer.classList.contains('visible')) {
+                footer.classList.add('visible');
+            }
+        });
+    </script>
+</body>
+
+<footer>
+    <p>Data provided by the WWU Cyber Range T-Pot Team</p>
+</footer>
+
+</html>

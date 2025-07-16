@@ -92,7 +92,16 @@ h1 {
     cursor: pointer;
 }
 
-button {
+.button-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 20px;
+}
+
+button,
+.dropbtn {
     background-color: #e76a28;
     color: #000000;
     font-family: Arial, sans-serif;
@@ -101,33 +110,49 @@ button {
 
     justify-items: center;
 
-    display: block;
+    display: inline-block;
     margin: 20px auto;
     text-align: center;
     padding: 20px;
     gap: 5px;
     border-radius: 5px;
     border: 2px solid #000000;
-    margin: 20px auto;
 }
 
-.box:hover {
+.box:hover,
+.big-box:hover,
+button:hover,
+.dropbtn:hover {
     transform: scale(1.05);
-    /* slightly bigger */
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
-    /* deeper shadow */
 }
 
-.big-box:hover {
-    transform: scale(1.05);
-    /* slightly bigger */
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
-    /* deeper shadow */
+.dropdown {
+    position: relative;
+    display: inline-block;
 }
 
-button:hover {
-    transform: scale(1.05);
-    /* slightly bigger */
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
-    /* deeper shadow */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown a:hover {
+    background-color: #ddd;
+}
+
+.show {
+    display: block;
 }
