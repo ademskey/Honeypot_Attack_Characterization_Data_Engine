@@ -25,8 +25,12 @@ def update_data_loop():
         time.sleep(UPDATE_TIME)
         
 # Browser Page appearance
-@app.route('/home.html')
+@app.route('/')
 def index():
+    return render_template('home.html')
+
+@app.route('/home.html')
+def home():
     return render_template('home.html')
 
 @app.route('/hourly.html')
