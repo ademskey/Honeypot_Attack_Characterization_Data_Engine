@@ -45,9 +45,9 @@ def historical_page():
 def honeypot_page():
     return render_template('honeypot.html')
 
-@app.route('/data', methods=['POST'])
+@app.route('/data', methods=['POST', 'PUT', 'PATCH', 'DELETE', 'CONNECT'])
 def data_path():
-    return "POST REQUEST TO DATA DETECTED"
+    return "UNAUTHORIZED HTTP ACCESS TO DATA DETECTED"
 
 
 # Returns dictionary of flat json files so that JS can use it, keeping table structure of the pandas df.

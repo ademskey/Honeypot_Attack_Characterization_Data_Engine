@@ -67,8 +67,8 @@ class DataJanitor:
         self.time_vs_port_csv = "data/historical_data/time_vs_port.csv"
         self.hourly_company_hits_csv = "data/hourly_data/company_hits.csv"
         self.full_hourly_data_csv = "data/hourly_data/full_hourly_data.csv"
-        self.time_vs_ip_csv = "historical_data/time_vs_ip.csv"
-        self.time_vs_honeypot_hits = "historical_data/time_vs_honeypot_hits.csv"
+        self.time_vs_ip_csv = "data/historical_data/time_vs_ip.csv"
+        self.time_vs_honeypot_hits = "data/historical_data/time_vs_honeypot_hits.csv"
         
         self.logs = []
         self.honeypot_info = {"Ciscoasa" : [5000, 8443],
