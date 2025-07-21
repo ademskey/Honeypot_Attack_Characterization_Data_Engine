@@ -313,7 +313,7 @@ class DataJanitor:
 
         is_p0f = df["type"] == "P0f"
         p0f_df = df[is_p0f]
-        other_df = df[not is_p0f]
+        other_df = df[~is_p0f]
 
         if p0f_df.empty:
             self.logs.append("Error in remove_P0f_duplicates: There are no P0f entries")
@@ -472,7 +472,7 @@ class DataJanitor:
             df = self.id_honeypot(df, honeypot, self.honeypot_info[honeypot])
 
         # assigns all others to honeytrap since it tracks all other ports
-        df.loc[not df['type'].isin(self.honeypot_info.keys()), 'type'] = 'Honeytrap'
+        df.loc[~df['type'].isin(self.honeypot_info.keys()), 'type'] = 'Honeytrap'
 
         return df
 
