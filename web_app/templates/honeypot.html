@@ -20,7 +20,27 @@
         <button style="margin:0 10px;" onclick="location.href='home.html'">Home</button>
     </div>
 
-    <p id="honeypot-ports">Ports: </p>
+    <p id="honeypot-ports" , style="text-align: center;">Ports: </p>
+
+    <div class="chart-container">
+        <div class="box">
+            <h2>Visual 1</h2>
+            <canvas id="HoneypotChart1"></canvas>
+        </div>
+        <div class="box">
+            <h2>Visual 2</h2>
+            <canvas id="HoneypotChart2"></canvas>
+        </div>
+        <div class="box">
+            <h2>Visual 3</h2>
+            <canvas id="HoneypotChart3"></canvas>
+        </div>
+        <div class="big-box">
+            <h2>Visual 4</h2>
+            <canvas id="HoneypotChart4"></canvas>
+        </div>
+
+    </div>
 
     <script src="{{ url_for('static', filename='chart.js') }}"></script>
     <script>
