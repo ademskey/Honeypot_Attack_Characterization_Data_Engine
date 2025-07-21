@@ -67,6 +67,8 @@ class DataJanitor:
         self.time_vs_port_csv = "data/historical_data/time_vs_port.csv"
         self.hourly_company_hits_csv = "data/hourly_data/company_hits.csv"
         self.full_hourly_data_csv = "data/hourly_data/full_hourly_data.csv"
+        self.time_vs_ip_csv = "historical_data/time_vs_ip.csv"
+        self.time_vs_honeypot_hits = "historical_data/time_vs_honeypot_hits.csv"
         
         self.logs = []
         self.honeypot_info = {"Ciscoasa" : [5000, 8443],
@@ -617,28 +619,28 @@ class DataJanitor:
                 changed column timestamp to @timestamp for consistency.
     '''
     def save_time_vs_port_data(self, df):
-        time_vs_port_df = pd.read_csv(self.time_vs_port_csv)
-        
-        if time_vs_port_df.empty:
-            time_vs_port_df = pd.DataFrame(columns=['@timestamp', 'ports', 'ips'])
-        if "@timestamp" not in df.columns:
-            self.logs.append("Error in save_time_vs_port_data: Missing @timestamp column, time vs port data could not be compiled")
-            return
-        if "dest_port" not in df.columns:
-            self.logs.append("Error in save_time_vs_port_data: Missing dest_port column, time vs port data could not be compiled")
-            return
-        if "src_ip" not in df.columns:
-            self.logs.append("Error in save_time_vs_port_data: Missing src_ip column, time vs port data could not be compiled")
-            return
-        
-        earliest = df["@timestamp"].min()
-        port_list = df['dest_port'].unique().tolist()
-        ip_list = df['src_ip'].unique().tolist()
-        entry = {"@timestamp": earliest, "ports": port_list, "ips": ip_list}
+    
+            if "@timestamp" not in df.columns:
+                #self.logs.append("Error in save_time_vs_port_data: Missing @timestamp column, time vs port data could not be compiled")
+                return
+            if "dest_port" not in df.columns:
+                #self.logs.append("Error in save_time_vs_port_data: Missing dest_port column, time vs port data could not be compiled")
+                return
+            if "src_ip" not in df.columns:
+                #self.logs.append("Error in save_time_vs_port_data: Missing src_ip column, time vs port data could not be compiled")
+                return
+            
+            earliest = df["@timestamp"].min()
+            port_list = df['dest_port'].unique().tolist()
+            ip_list = df['src_ip'].unique().tolist()
+            ip_list_a = ip_list[:len(ip_list) // 2]
+            ip_list_b = ip_list[len(ip_list) // 2:]
+            entry_a = {"@timestamp": earliest, "ports": port_list}
+            entry_b = {"@timestamp" : earliest, "ips_a": ip_list_a, "ips_b": ip_list_b}
+    
+            pd.DataFrame([entry_a]).to_csv(self.time_vs_port_csv, mode='a', header=False, index=False)
+            pd.DataFrame([entry_b]).to_csv(self.time_vs_ip_csv, mode='a', header=False, index=False)
 
-        # ✅ Wrap entry in a list to create one-row DataFrame
-        time_vs_port_df = pd.concat([time_vs_port_df, pd.DataFrame([entry])], ignore_index=True)
-        time_vs_port_df.to_csv(self.time_vs_port_csv, index=False)
   
     '''
       Function: compile_honeypot_hits
