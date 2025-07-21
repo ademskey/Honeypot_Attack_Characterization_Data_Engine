@@ -47,7 +47,7 @@ def honeypot_page():
 
 @app.route('/data', methods=['POST', 'PUT', 'PATCH', 'DELETE', 'CONNECT'])
 def data_path():
-    return "UNAUTHORIZED HTTP ACCESS TO DATA DETECTED"
+    return "UNAUTHORIZED HTTP ACCESS TO HONEYPOT DATA DETECTED"
 
 
 # Returns dictionary of flat json files so that JS can use it, keeping table structure of the pandas df.

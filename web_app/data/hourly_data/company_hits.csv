@@ -1,127 +1,119 @@
 Org,Hits,Total_ips
 4Media Ltd.,5,2
 AGOTOZ PTE. LTD.,1,1
-AMAZON-02,217,9
-AMAZON-AES,33,2
-ARGO PROVEDOR DE INTERNET LTDA,1,1
+AMAZON-02,243,10
+AMAZON-AES,32,2
 AS-26496-GO-DADDY-COM-LLC,6,1
-AS-COLOCROSSING,3,2
+AS-COLOCROSSING,4,3
 AS-GLOBALTELEHOST,4,2
-AS-VULTR,11,2
+AS-VULTR,7,2
 ASN for TIANJIN Provincial Net of CT,3,1
-AVAST Software s.r.o.,67,7
+AVAST Software s.r.o.,65,7
 Administracion Nacional de Telecomunicaciones,2,1
-Akamai Connected Cloud,12,5
+Akamai Connected Cloud,11,5
 Alexhost Srl,1,1
-"Alibaba US Technology Co., Ltd.",8,1
+"Alibaba US Technology Co., Ltd.",24,3
 Alsycon B.V.,1,1
 Amarutu Technology Ltd,6,1
-Black HOST Ltd,13,1
 Bouygues Telecom SA,41,1
 CCI-PA-AS-1,2,1
 CDSC-AS1,3,1
-CENSYS-ARIN-01,72,31
-CENSYS-ARIN-02,38,15
-CHEAPY-HOST,78,25
+CENSYS-ARIN-01,84,35
+CENSYS-ARIN-02,37,16
+CHEAPY-HOST,49,22
 CHINA UNICOM China169 Backbone,14,5
-CHINANET Guangdong province network,34,7
-COGENT-174,6,1
-CT-HangZhou-IDC,36,2
+CHINANET Guangdong province network,38,8
+CT-HangZhou-IDC,52,2
 China Mobile communications corporation,13,1
 China Networks Inter-Exchange,2,1
-China Telecom Group,27,2
-Chinanet,19,7
+China Telecom Group,39,2
+Chinanet,20,8
 ColocaTel Inc.,2,1
 Contabo GmbH,4,1
-DIGITALOCEAN-ASN,5785,17
-Data Communication Business Group,11,2
-Datacamp Limited,83,27
-Driftnet Ltd,7,6
+DIGITALOCEAN-ASN,6293,21
+Data Communication Business Group,10,2
+Datacamp Limited,80,28
+Driftnet Ltd,8,7
 Euskaltel S.A.,2,1
-FOP Dmytro Nedilskyi,15,3
+FOP Dmytro Nedilskyi,11,3
 FPT Telecom Company,1,1
-GOOGLE,20,1
-GOOGLE-CLOUD-PLATFORM,170,59
-GSL Networks Pty LTD,1109,8
-Galeon LLC,22,2
-Global Connectivity Solutions Llp,52,3
-Global Layer B.V.,21,1
-Global-Data System IT Corporation,5,1
+GOOGLE,19,1
+GOOGLE-CLOUD-PLATFORM,162,52
+GSL Networks Pty LTD,1085,8
+Galeon LLC,24,2
+Global Connectivity Solutions Llp,55,3
+Global Layer B.V.,20,1
 H2nexus Ltd,1,1
 HGC Global Communications Limited,1,1
-HUAWEI CLOUDS,13,1
+HUAWEI CLOUDS,14,1
 "Hangzhou Alibaba Advertising Co.,Ltd.",2,1
 Hetzner Online GmbH,1,1
 Hostinger International Limited,10,2
-"Hsin Yeong An Cable TV Co., Ltd.",1,1
-IP Volume inc,1096,9
+IP Volume inc,1098,8
 IS-AS-1,1,1
-Internet Utilities Europe and Asia Limited,149,1
+Internet Magnate (Pty) Ltd,1,1
+Internet Utilities Europe and Asia Limited,145,1
 Korea Telecom,6,5
 Kprohost LLC,2,2
 Krez 999 Eood,1,1
-LATITUDE-SH,213,3
-Latitude.sh LTDA,174,1
-LendNodes LTD,4,1
-Limited Network LTD,29,1
-MEVSPACE sp. z o.o.,33,4
-MICROSOFT-CORP-MSN-AS-BLOCK,54,17
+LATITUDE-SH,224,3
+Latitude.sh LTDA,173,1
+Limited Network LTD,24,1
+MEVSPACE sp. z o.o.,31,4
+MICROSOFT-CORP-MSN-AS-BLOCK,45,14
 Markahost Telekomunikasyon Ve Ticaret Limited Sirketi,1,1
 Miti 2000 EOOD,2,1
 Mobinet LLC. AS Mobinet Internet Service Provider,16,1
 NForce Entertainment B.V.,6,1
-NTT Communications Corporation,1,1
+NTT Communications Corporation,2,1
 NUCLEARFALLOUT-NYC,6,1
-NYBULA,134,38
-National Internet Backbone,3,1
+NYBULA,78,34
+National Internet Backbone,5,1
 NetOne Rus JSC,1,1
-ONYPHE SAS,41,22
-OPTIMA LLC,5,2
-OVH SAS,208,10
-Orange Romania S.A.,2,1
-PENTECH BILISIM TEKNOLOJILERI SANAYI VE TICARET LIMITED SIRKETi,26,1
-PT Cloud Hosting Indonesia,45,1
-PT Graha Multimedia Nusantara,150,1
-PT Inti Data Telematika,81,1
+ONYPHE SAS,37,22
+OPTIMA LLC,4,1
+OVH SAS,165,10
+Orange Romania S.A.,3,1
+PENTECH BILISIM TEKNOLOJILERI SANAYI VE TICARET LIMITED SIRKETi,31,1
+PT Cloud Hosting Indonesia,61,1
+PT Graha Multimedia Nusantara,148,1
+PT Inti Data Telematika,78,1
+PT Telekomunikasi Indonesia,6,1
 PUBLIC-DOMAIN-REGISTRY,3,2
 Petersburg Internet Network ltd.,4,1
-Pfcloud UG,116,4
-Private Layer INC,42,2
-Proton66 OOO,281,5
+Pfcloud UG,88,5
+Private Layer INC,49,3
+Proton66 OOO,304,5
 Proximus NV,1,1
 Radinet Info Solutions Private Limited,2,1
 Railnet LLC,5,2
-Reliance Jio Infocomm Limited,1,1
-Ruchi Communication,67,1
-SPEARHEAD LIFESTYLE INDIA PRIVATE LIMITED,1,1
-SS-Net,53,16
+Reliance Jio Infocomm Limited,3,1
+Ruchi Communication,96,1
+SPEARHEAD LIFESTYLE INDIA PRIVATE LIMITED,3,1
+SS-Net,52,14
 SURF B.V.,6,1
 Saudi Telecom Company JSC,1,1
-"Securitytrails, LLC",1,1
 Sergei Saliukov,7,1
 Shandong Mobile Communication Company Limited,2,1
 Shenzhen Tencent Computer Systems Company Limited,3,1
 Shereverov Marat Ahmedovich,1,1
-"Sistemas Informaticos, S.A.",29,5
-Skynet Network Ltd,4,1
+"Sistemas Informaticos, S.A.",28,5
 Stiftung Erneuerbare Freiheit,6,1
-T-Systems International GmbH,82,1
+T-Systems International GmbH,86,1
 Tamatiya EOOD,3,1
-Techoff Srv Limited,19,1
 Telia Company AB,1,1
 Telnet Communication Limited Network and Transit Service Provider. Having Nationwide MPLS Ne,2,1
-Tribeka Web Advisors S.A.,22,1
-Tube-Hosting,30,2
-UAB Host Baltic,9,4
-UCLOUD INFORMATION TECHNOLOGY HK LIMITED,121,17
-Universidad Nacional Autonoma de Mexico,63,1
-Unmanaged Ltd,13,5
-VIET DIGITAL TECHNOLOGY LIABILITY COMPANY,6,2
-VPSMMO TECHNOLOGY COMPANY LIMITED,5,1
-VT-255-50219,10,2
+Tube-Hosting,25,2
+UAB Host Baltic,12,5
+UCLOUD INFORMATION TECHNOLOGY HK LIMITED,146,17
+Universidad Nacional Autonoma de Mexico,74,1
+Unmanaged Ltd,18,5
+VIET DIGITAL TECHNOLOGY LIABILITY COMPANY,1,1
+VPSMMO TECHNOLOGY COMPANY LIMITED,2,1
+VT-255-50219,6,1
 Verein zur Foerderung eines Deutschen Forschungsnetzes e.V.,3,1
 Viet Storage Technology Joint Stock Company,1,1
-Vpsvault.host Ltd,33,5
-Yandex.Cloud LLC,59,1
+Vpsvault.host Ltd,33,4
+Yandex.Cloud LLC,66,1
 i3D.net B.V,4,1
 iTools JSC,2,1
