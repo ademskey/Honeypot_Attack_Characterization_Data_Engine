@@ -2,6 +2,7 @@
 async function loadData() {
     let historical_data = {};
     let hourly_data = {};
+    let honeypot_summaries = {}
 
     try {
         const response = await fetch('/data');
@@ -9,6 +10,7 @@ async function loadData() {
 
         historical_data = data.historical_data;
         hourly_data = data.hourly_data;
+        honeypot_summaries = data.honeypot_summaries
     } catch (error) {
         console.error("Failed to load chart data:", error);
         return null;
@@ -33,5 +35,14 @@ async function loadData() {
         });
     }
 
-    return { historical_data, hourly_data };
+    for (const table of Object.values(honeypot_summaries)) {
+        table.forEach(row => {
+            if ('@timestamp' in row && row['@timestamp']) {
+                const dateObj = new Date(row['@timestamp']);
+                row.utc_string = dateObj.toISOString();
+            }
+        });
+    }
+
+    return { historical_data, hourly_data, honeypot_summaries };
 }

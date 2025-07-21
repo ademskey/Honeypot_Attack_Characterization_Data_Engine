@@ -45,6 +45,11 @@ def historical_page():
 def honeypot_page():
     return render_template('honeypot.html')
 
+@app.route('/data', methods=['POST'])
+def data_path():
+    return "POST REQUEST TO DATA DETECTED"
+
+
 # Returns dictionary of flat json files so that JS can use it, keeping table structure of the pandas df.
 @app.route('/data')
 def chart_data():
@@ -59,9 +64,15 @@ def chart_data():
             for name, df in get_tables_in_folder('hourly_data').items()
         }
 
+        summary_dfs = {
+            name: df.fillna("").to_dict(orient='records')
+            for name, df in get_tables_in_folder('honeypot_summaries').items()
+        }
+
         return jsonify({
             "historical_data": historical_dfs,
-            "hourly_data": hour_dfs
+            "hourly_data": hour_dfs,
+            "honeypot_summaries": summary_dfs
         })
     except Exception as e:
         print(f"Error preparing chart data: {e}")

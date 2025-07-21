@@ -17,7 +17,7 @@
     <h1>Honeypot Data Overview<br><span class="subtitle">Hourly Data</span></h1>
 
     <div style="display: flex; justify-content: center; gap: 1px; margin-top: 20px;">
-        <button onclick="location.href='historical.html'">Click Here for Historical Data</button>
+        <button onclick="location.href='historical.html'">Historical Data</button>
         <button onclick="location.href='home.html'">Home</button>
     </div>
 
@@ -31,17 +31,15 @@
             <canvas id="HourlyChart2"></canvas>
         </div>
         <div class="box">
-            <h2>Visual 4</h2>
-            <canvas id="HourlyChart4"></canvas>
-        </div>
-        <div class="big-box">
             <h2>Visual 3</h2>
             <canvas id="HourlyChart3"></canvas>
         </div>
+        <div class="big-box">
+            <h2>Visual 4</h2>
+            <canvas id="HourlyChart4"></canvas>
+        </div>
 
     </div>
-
-
 
     <script src="{{ url_for('static', filename='chart.js') }}"></script>
     <script>

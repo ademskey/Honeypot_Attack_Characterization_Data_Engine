@@ -34,17 +34,20 @@ async function renderHourlyCharts(hourlyData) {
         });
 
 
-    console.log(geoTable);
+    //console.log(geoTable);
     const chart2Limit = 5;
     const topXCities = createCountDictionary(geoTable, "country_city", chart2Limit);
     createBarChart("HourlyChart2", topXCities, "Source Country, City", "Num Hits", "Number of Hits from Source City");
 
-    // Hourly Chart 3: Activity Over Time -- line graph
-    const timeIncrementSize = 5; // in seconds.
-    numRowsPerIncrement = rowCountsByTypeAndTime(fullHourlyData, 'type', '@timestamp', timeIncrementSize);
-    createMultiLineChart("HourlyChart3", numRowsPerIncrement, "Activity Over Time", "Time", "Number of Entries");
+    // Hourly Chart 3: Top x Organizations by total number of hits-- Bar Chart 
+    const chart3Limit = 10;
+    const topXOrganizations = createXYPoints(companyHits, "Org", "Hits", "bar", chart3Limit)
+    createBarChart("HourlyChart3", topXOrganizations, "Organization (geoip.as_org)", "Count", `Top ${chart3Limit} Organizations`);
 
-    // Hourly Chart 4: Src IP vs Dest Port
-    const srcIPvsDestPort = createXYPoints(fullHourlyData, "type", "dest_port", "scatter");
-    createScatterPlot("HourlyChart4", srcIPvsDestPort, "Honeypot", "Destination Port", "Honeypot vs Destination Port", "category", "linear");
+
+    // Hourly Chart 4: Activity Over Time -- line graph
+    const timeIncrementSize = 5; // in seconds.
+    const chart4Limit = 5;
+    numRowsPerIncrement = rowCountsByTypeAndTime(fullHourlyData, 'type', '@timestamp', timeIncrementSize, chart4Limit);
+    createMultiLineChart("HourlyChart4", numRowsPerIncrement, `Top ${chart4Limit} Honeypots Activity Over Time`, "Time", "Number of Entries");
 }

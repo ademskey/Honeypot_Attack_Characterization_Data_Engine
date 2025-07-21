@@ -640,7 +640,7 @@ class DataJanitor:
         time_vs_port_df = pd.concat([time_vs_port_df, pd.DataFrame([entry])], ignore_index=True)
         time_vs_port_df.to_csv(self.time_vs_port_csv, index=False)
   
-'''
+    '''
       Function: compile_honeypot_hits
       Description: Compiles the number of hits per honeypot and writes the data to a .csv file.
 
@@ -649,14 +649,14 @@ class DataJanitor:
       Output:
          - None
       Last Modified: 07/21/2025
-   '''
-   def compile_honeypot_hits(self, df):
+    '''
+    def compile_honeypot_hits(self, df):
         honeypot_counts = {}
         honeypot_counts['@timestamp'] = df["@timestamp"].min()
 
         for honeypot in self.honeypot_info.keys():
             honeypot_counts[honeypot] =(df["type"] == honeypot).sum()
-        
+
         # Append to CSV without writing the header again
         pd.DataFrame([honeypot_counts]).to_csv(self.time_vs_honeypot_hits, mode='a', header=False, index=False)
 

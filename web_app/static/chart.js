@@ -3,6 +3,59 @@
 /* Bar graphs have associated variables called "chartxLimit". This is the top x number of bars to show.
 // Scatter Plots: Must make sure type is correct according to what your x axis is. Use "linear" for continuous
 // stuff like time and "category" for discrete values,  like IP */
+
+function getPortsByType(mode = null, selectHoneypot = null) {
+    // Raw honeypot -> ports mapping
+    const rawData = [
+        ["Ciscoasa", [5000, 8443]],
+        ["Dicompot", [11112]],
+        ["Honeyaml", [8080]],
+        ["Medpot", [2575]],
+        ["SentryPeer", [5060]],
+        ["Abdhoney", [5555]],
+        ["Conpot", [161, 2404, 10001, 623, 1025, 50100]],
+        ["Cowrie", [22, 23]],
+        ["Dionaea", [20, 21, 42, 69, 81, 135, 445, 1433, 1723, 1883, 3306, 27017]],
+        ["Elasticpot", [9200]],
+        ["H0neytr4p", [443]],
+        ["Heralding", [110, 143, 465, 993, 995, 1080, 5432, 5900]],
+        ["Ipphoney", [631]],
+        ["Mailoney", [25, 587]],
+        ["Miniprint", [9100]],
+        ["Redishoneypot", [6379]],
+        ["Wordpot", [80]]
+    ];
+
+    let filteredData = rawData;
+    if (selectHoneypot !== null) {
+        const found = rawData.find(([name]) => name === selectHoneypot);
+        return found ? found[1] : [];  // just return [22, 23] etc.
+    }
+
+    if (mode === "scatter") {
+        // Scatter format: [{ x: honeypot, y: port }]
+        return rawData.flatMap(([honeypot, ports]) =>
+            ports.map(port => ({
+                x: honeypot,
+                y: port
+            }))
+        );
+    }
+    else if (mode === "bar") {
+        // Bar format: { honeypotName: numPorts }
+        const barData = {};
+        rawData.forEach(([honeypot, ports]) => {
+            barData[honeypot] = ports.length; // number of ports per honeypot
+        });
+        return barData;
+    }
+    else {
+        console.error("Invalid mode for getPortsByType:", mode);
+        return mode === "bar" ? {} : [];
+    }
+}
+
+
 function createMultiLineChart(canvasID, dataByType, title, xtitle, ytitle) {
     const allBuckets = new Set();
 
@@ -75,14 +128,23 @@ function createMultiLineChart(canvasID, dataByType, title, xtitle, ytitle) {
 }
 
 
-function createScatterPlot(canvasID, data, xtitle, ytitle, title, xtype, ytype) {
+function createScatterPlot(
+    canvasID,
+    data,
+    xtitle = "[missing]",
+    ytitle = "[missing]",
+    title = "[missing]",
+    xtype = "category",  // default x-axis type
+    ytype = "linear"     // default y-axis type
+) {
     const ctx4 = document.getElementById(canvasID).getContext('2d');
+
     new Chart(ctx4, {
         type: 'scatter',
         data: {
             datasets: [{
                 label: ytitle,
-                data: data,
+                data: data, // expects [{x:..., y:...}, ...]
                 backgroundColor: 'steelblue',
                 pointRadius: 4,
                 pointHoverRadius: 6
@@ -100,7 +162,7 @@ function createScatterPlot(canvasID, data, xtitle, ytitle, title, xtype, ytype) 
                 },
                 tooltip: {
                     callbacks: {
-                        label: context => `Source: ${context.raw.x}, Port: ${context.raw.y}`
+                        label: context => { return `${xtitle}: ${context.raw.x}, ${ytitle}: ${context.raw.y}`; }
                     }
                 }
             },
@@ -132,6 +194,7 @@ function createScatterPlot(canvasID, data, xtitle, ytitle, title, xtype, ytype) 
         }
     });
 }
+
 
 
 function createScatterPlotTime(canvasID, data, xtitle, ytitle, title, type) {
@@ -211,6 +274,11 @@ function createBarChart(canvasID, data, xtitle, ytitle, title) {
                     display: true,
                     text: title
                 },
+                tooltip: {
+                    // callbacks: {
+                    //     label: context => { return `${xtitle}: ${context.raw.x}, ${ytitle}: ${context.raw.y}`; }
+                    // }
+                },
                 legend: {
                     display: false,
                 }
@@ -244,8 +312,18 @@ function createBarChart(canvasID, data, xtitle, ytitle, title) {
     });
 }
 
-// For Scatter Plot and Bar chart
+// For Scatter Plot and Bar chart -- data must be an array.
 function createXYPoints(data, xKey, yKey, chartType, limit = null) {
+    //Ensure data is an array
+    if (!Array.isArray(data)) {
+        if (typeof data === 'object' && data !== null) {
+            data = Object.values(data);
+        } else {
+            console.error("createXYPoints: data is not an array or object:", data);
+            return chartType === 'bar' ? {} : [];
+        }
+    }
+
     let output;
 
     // Filter valid rows
@@ -279,6 +357,7 @@ function createXYPoints(data, xKey, yKey, chartType, limit = null) {
     return output;
 }
 
+
 // returns the number of each value in a column in a table. Returns top x entries.
 function createCountDictionary(data, column, topN = null) {
     const dict = {};
@@ -310,9 +389,11 @@ function createCountDictionary(data, column, topN = null) {
 }
 
 // Counts of the number of each [valueToCount] in each time increment.
-function rowCountsByTypeAndTime(data_table, typeKey, timestampKey, incrementSeconds) {
+function rowCountsByTypeAndTime(data_table, typeKey, timestampKey, incrementSeconds, limit) {
     const counts = {};
+    const totalCountsByType = {};
 
+    // Step 1: Count per type and time bucket
     data_table.forEach(row => {
         const type = row[typeKey];
         const time = new Date(row[timestampKey]).getTime(); // milliseconds since epoch UTC
@@ -321,44 +402,60 @@ function rowCountsByTypeAndTime(data_table, typeKey, timestampKey, incrementSeco
         if (!counts[type]) counts[type] = {};
         if (!counts[type][bucket]) counts[type][bucket] = 0;
         counts[type][bucket]++;
+
+        // Track total occurrences of each type
+        totalCountsByType[type] = (totalCountsByType[type] || 0) + 1;
     });
 
-    return counts;
-}
+    // Step 2: Sort types by their total count (descending)
+    const topTypes = Object.entries(totalCountsByType)
+        .sort((a, b) => b[1] - a[1]) // sort by total counts descending
+        .slice(0, limit)             // take only top <limit>
+        .map(entry => entry[0]);     // get just the type names
 
-function flattenTable(data_table, key) {
-    console.log("key used for flattening: ", key);
-    console.log(data_table[key]);
-    const flattened = [];
-
-    data_table.forEach(row => {
-        const timestamp = row.timestamp;
-        let portList;
-        try {
-            portList = JSON.parse(row[key]);
-        } catch (e) {
-            console.error("Error parsing port list:", row[key]);
-            return;
-        }
-
-        if (Array.isArray(portList)) {
-            portList.forEach(port => {
-                if (!isNaN(port)) {
-                    flattened.push({
-                        timestamp: timestamp,
-                        port: port
-                    });
-                }
-            });
-        }
+    // Step 3: Filter counts to only include top types
+    const filteredCounts = {};
+    topTypes.forEach(type => {
+        filteredCounts[type] = counts[type];
     });
 
-    return flattened;
+    return filteredCounts;
 }
 
-function categoriestoIndex(data, key) {
-    const unique = [...new Set(data.map(row => row[key] || "Unknown"))];
-    const mapping = {};
-    unique.forEach((val, idx) => mapping[val] = idx);
-    return { mapping, labels: unique };
-}
+
+// function flattenTable(data_table, key) {
+//     console.log("key used for flattening: ", key);
+//     console.log(data_table[key]);
+//     const flattened = [];
+
+//     data_table.forEach(row => {
+//         const timestamp = row.timestamp;
+//         let portList;
+//         try {
+//             portList = JSON.parse(row[key]);
+//         } catch (e) {
+//             console.error("Error parsing port list:", row[key]);
+//             return;
+//         }
+
+//         if (Array.isArray(portList)) {
+//             portList.forEach(port => {
+//                 if (!isNaN(port)) {
+//                     flattened.push({
+//                         timestamp: timestamp,
+//                         port: port
+//                     });
+//                 }
+//             });
+//         }
+//     });
+
+//     return flattened;
+// }
+
+// function categoriestoIndex(data, key) {
+//     const unique = [...new Set(data.map(row => row[key] || "Unknown"))];
+//     const mapping = {};
+//     unique.forEach((val, idx) => mapping[val] = idx);
+//     return { mapping, labels: unique };
+// }

@@ -56,6 +56,13 @@ h1 {
     margin: 20px auto;
 }
 
+p {
+    font-family: Arial, sans-serif;
+    font-size: large;
+    font-weight: 600;
+}
+
+
 .chart-container {
     display: flex;
     justify-content: center;

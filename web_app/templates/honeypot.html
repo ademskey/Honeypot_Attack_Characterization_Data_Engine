@@ -8,6 +8,7 @@
     <script src="{{ url_for('static', filename='loadData.js') }}"></script>
     <script src="{{ url_for('static', filename='chart.js') }}"></script>
     <script src="{{ url_for('static', filename='honeypotCharts.js') }}"></script>
+    <script src="{{ url_for('static', filename='config.js') }}"></script>
 </head>
 
 <body>
@@ -17,3 +18,25 @@
 
     <div style="text-align:center;">
         <button style="margin:0 10px;" onclick="location.href='home.html'">Home</button>
+    </div>
+
+    <p id="honeypot-ports">Ports: </p>
+
+    <script src="{{ url_for('static', filename='chart.js') }}"></script>
+    <script>
+        window.addEventListener('scroll', function () {
+            const footer = document.querySelector('footer');
+            const scrollBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight;
+
+            if (scrollBottom && !footer.classList.contains('visible')) {
+                footer.classList.add('visible');
+            }
+        });
+    </script>
+</body>
+
+<footer>
+    <p>Data provided by the WWU Cyber Range T-Pot Team</p>
+</footer>
+
+</html>

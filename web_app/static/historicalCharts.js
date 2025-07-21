@@ -2,12 +2,12 @@ window.addEventListener("DOMContentLoaded", async () => {
     const data = await loadData();
     if (!data) return;
 
-    const hourly = data.historical_data;
+    const historical = data.historical_data;
 
-    renderHourlyCharts(hourly);
+    renderHistoricalCharts(historical);
 });
 
-async function renderHourlyCharts(historicalData) {
+async function renderHistoricalCharts(historicalData) {
 
     // One JS dictionary for each CSV:
     const fullHourlyData = historicalData["full_hourly_data"];
@@ -22,19 +22,17 @@ async function renderHourlyCharts(historicalData) {
     const hitsPerType = createXYPoints(honeypotHits, "honeypot", "hits", "bar");
     createBarChart("HistChart1", hitsPerType, "Honeypot", "Attack Count", `Top ${chart1Limit} Honeypots`);
 
-    // Historical Chart 2: Top x Source IP Hits -- Bar Chart
-    const chart2Limit = 10;
-    const topXDestIPs = createXYPoints(destportHits, "port", "hits", "bar", chart2Limit);
-    createBarChart("HistChart2", topXDestIPs, "Source IP", "Number of Hits", `Top ${chart2Limit} Source IPs`)
+    // Historical Chart 2: Top x Organizations by total number of hits-- Bar Chart 
+    const chart4Limit = 5;
+    const topXOrganizations = createXYPoints(companyHits, "Org", "hits", "bar", chart4Limit);
+    createBarChart("HistChart2", topXOrganizations, "Organization (geoip.as_org)", "Count", `Top ${chart4Limit} Organizations`);
 
     // Historical Chart 3: Top x Source IP Hits -- Bar Chart
     const chart3Limit = 10;
     const topXSrcIPs = createXYPoints(ipHits, "ip", "hits", "bar", chart3Limit);
-    createBarChart("HistChart3", topXSrcIPs, "Source IP", "Number of Hits", `Top ${chart3Limit} Source IPs`)
+    createBarChart("HistChart3", topXSrcIPs, "Source IP", "Number of Hits", `Top ${chart3Limit} Source IPs`);
 
-    // Historical Chart 4: Top x Organizations by total number of hits-- Bar Chart 
-    const chart4Limit = 5;
-    const topXOrganizations = createXYPoints(companyHits, "Org", "hits", "bar", chart4Limit);
-    createBarChart("HistChart4", topXOrganizations, "Organization (geoip.as_org)", "Count", `Top ${chart4Limit} Organizations`);
+    // Hourly Chart 4: type vs Dest Port
+    createScatterPlot("HistChart4", getPortsByType("scatter"), "Honeypot", "Destination Port", "Honeypot vs Destination Port", "category", "linear");
 
 }
