@@ -4,13 +4,13 @@ Honeypot_data_cleaning.ipynb
 ## **Honeypot Data Cleaning Pipeline**
     *Programmer: Caitlyn Boyd*
 
-    *Last Modified: 07/14/2025*
+    *Last Modified: 07/15/2025*
         - CB 07/11/2025: bug fixes, added logs and timing, converted to a class.
         - CB 07/14/2025: bug fixes, optimization, drop unnecessary columns before
             json serialization.
-         - EW 07/14/2025: Changed CSV paths to add data folder for hourly and historical data subfolders.
-         - CB 07/21/2025: Added honeypot summaries and changed all instances of ~ to
-            the not keyword due to depreciation of support for it.
+        - CB 07/15/2025: added multi-threading to speed up data processing.
+        - CB 07/20/2025: fixed path for saving honeypot csvs
+        - CB 07/21/2025: replaced ~ with not where it depreciated, added more error handling.
 
     **Description:** This program is intended to clean 24 hours of data from T-pot
     that is pulled from elastic pot and converted into a .csv file. Future
@@ -24,6 +24,8 @@ import numpy as np
 import warnings
 from pandas.errors import PerformanceWarning
 import time
+import swifter
+
 
 '''
     Function: timeit
@@ -51,14 +53,14 @@ def timeit(func):
     Last Modified: 07/11/2025
         - CB 07/11/2025: added logs
         - CB 07/14/2025: added necessary_before_serial to drop more columns and speed up serialization.
+        - CB 07/21/2025: added paths to time_vs_honeypot_hits and time_vs_ip csvs
 '''
 class DataJanitor:
     # all file paths
     def __init__(self):
         warnings.simplefilter("ignore", PerformanceWarning)
         warnings.simplefilter(action='ignore', category=FutureWarning)
-        
-        self.honeypot_json = "honeypot_data.jsonl"
+        self.logs = {}
         
         self.total_company_hits_csv = "data/historical_data/company_hits.csv"
         self.destport_hits_csv = "data/historical_data/destport_hits.csv"
@@ -70,7 +72,6 @@ class DataJanitor:
         self.time_vs_ip_csv = "data/historical_data/time_vs_ip.csv"
         self.time_vs_honeypot_hits = "data/historical_data/time_vs_honeypot_hits.csv"
         
-        self.logs = []
         self.honeypot_info = {"Ciscoasa" : [5000, 8443],
                          "Dicompot" : [11112],
                          "Honeyaml" : [8080],
@@ -88,6 +89,7 @@ class DataJanitor:
                          "Miniprint" : [9100],
                          "Redishoneypot" : [6379],
                          "Wordpot" : [80]}
+        
         
         self.necessary_before_serial = ['@timestamp', 'dest_ip', 'dest_port', 'src_ip',
                                   'src_port', 'type', 'geoip', 'anomaly', 'flow_id', "eventid","session",
@@ -113,11 +115,11 @@ class DataJanitor:
 
     '''
     def drop_constant_columns(self, df):
-        non_list_columns = df.columns[not df.applymap(type).eq(list).any()]
+        non_list_columns = df.columns[not df.swifter.applymap(type).eq(list).any()]
         nunique = df[non_list_columns].nunique(dropna=False)
         constant_columns = [col for col in nunique.index if nunique[col] <= 1 and col != '@timestamp']
-        self.logs.append("Constant columns dropped.")
         df.drop(columns=constant_columns, inplace=True)
+        self.logs['drop_constant_columns'] = 'Success'
         return df
 
     '''
@@ -139,8 +141,9 @@ class DataJanitor:
 
     '''
     def print_progress(self, last_l, last_w, cur_l, cur_w):
-        self.logs.append("Original Dataframe size: " + str(last_l) + " rows and " + str(last_w) + " columns.")
-        self.logs.append("Final Dataframe size: " + str(cur_l) + " rows and " + str(cur_w) + " columns.")
+        self.logs['print_progress_a'] = "Original Dataframe size: " + str(last_l) + " rows and " + str(last_w) + " columns."
+        self.logs['print_progress_b'] = "Final Dataframe size: " + str(cur_l) + " rows and " + str(cur_w) + " columns."
+        return
 
     '''
         Function: drop_local_traffic
@@ -158,6 +161,10 @@ class DataJanitor:
             - CB 07/11/2025: Now drops 172.200.200.5 source ip that represents
                 honeypot responses to attackers. Also dropped 172.18.254.0 since
                 it is the IP of the VPN used to access the data. Also added logging.
+            - CB 07/21/2025: Drops traffic with destination port 64297 since it is the
+                port used only for local updates and data extraction.
+            - CB 07/21/2025: Drops all rows with filled out "tag" columns because those
+                are just extra Suricata alerts for geoip failures and failure to parse.
 
     '''
     def drop_local_traffic(self, df):
@@ -172,7 +179,7 @@ class DataJanitor:
         if "tags" in df.columns:
             conditions &= df["tags"].isnull()
         
-        self.logs.append("Local traffic dropped")
+        self.logs['drop_local_traffic'] = "Success"
         return df[conditions]
 
     '''
@@ -196,7 +203,7 @@ class DataJanitor:
 
         # If the column doesn't exist, return the DataFrame as-is
         if not {'anomaly.event', 'flow_id', 'anomaly.type', 'anomaly.layer', '@timestamp'}.issubset(df.columns):
-            df.columns.append("Error in remove_suricata_duplicates: missing a column, suricata duplicates could not be aggregated")
+            self.logs['remove_suricata_duplicates'] = "Error, missing a column, could not aggregate duplicates"
             return df
 
         # Split into duplicates and clean rows
@@ -221,7 +228,7 @@ class DataJanitor:
             }).reset_index()
 
         # Join the aggregated anomalies back to the clean data
-        self.logs.append("Suricata duplicates aggregated")
+        self.logs['remove_suricata_duplicates'] = "Success"
         return clean_df.merge(aggregated, on=['flow_id','@timestamp'], how="left")
 
     '''
@@ -244,27 +251,16 @@ class DataJanitor:
     '''
     def remove_cowrie_duplicates(self, df):
         # Step 1: Filter Cowrie duplicates
-        if 'type' not in df.columns:
-            self.logs.append("Error in remove_cowrie_duplicates: Missing type column, Cowrie duplicates could not be aggregated")
-            return df
+        needed = ['eventid', 'session', 'message', 'ip_rep', 'type']
+        for col in needed:
+            if col not in df.columns:
+                self.logs['remove_cowrie_duplicates'] = f"Missing {col}, duplicates could not be aggregated"
+                return df
         
         duplicates = df[df["type"] == "Cowrie"]
         clean_df = df[df["type"] != "Cowrie"]
 
         # Step 2: Keep only useful columns
-        if 'eventid' not in df.columns:
-            self.logs.append("Error in remove_cowrie_duplicates: Missing eventid column, Cowrie duplicates could not be aggregated")
-            return df
-        if 'session' not in df.columns:
-            self.logs.append("Error in remove_cowrie_duplicates: Missing session column, Cowrie duplicates could not be aggregated")
-            return df
-        if 'message' not in df.columns:
-            self.logs.append("Error in remove_cowrie_duplicates: Missing message column, Cowrie duplicates could not be aggregated")
-            return df
-        if 'ip_rep' not in df.columns:
-            self.logs.append("Error in remove_cowrie_duplicates: Missing ip_rep column, Cowrie duplicates could not be aggregated")
-            return df
-        
         duplicates = duplicates[[
             "eventid",
             "session",
@@ -286,7 +282,7 @@ class DataJanitor:
 
         # Step 4: Join the aggregated info back into the cleaned DataFrame
         cleaned_df = clean_df.merge(aggregated, on="session", how="left")
-        self.logs.append("Cowrie duplicates aggregated")
+        self.logs['remove_cowrie_duplicates'] = "Success"
         return cleaned_df
 
     '''
@@ -308,17 +304,17 @@ class DataJanitor:
         required_cols = ["type", "src_ip", "dest_ip", "@timestamp", "dest_port", "src_port",
                          "params", "raw_sig", "os", "link"]
         
-        missing = [col for col in required_cols if col not in df.columns]
-        if missing:
-            self.logs.append("Error in remove_P0f_duplicates: Missing columns for P0f aggregation")
-            return df
+        for col in required_cols:
+            if col not in df.columns:
+                self.logs['remove_P0f_duplicates'] = f"Missing {col}, duplicates could not be aggregated."
+                return df
 
         is_p0f = df["type"] == "P0f"
         p0f_df = df[is_p0f]
         other_df = df[~is_p0f]
 
         if p0f_df.empty:
-            self.logs.append("Error in remove_P0f_duplicates: There are no P0f entries")
+            self.logs['remove_P0f_duplicates'] = "There were no P0f duplicates."
             return df
 
         key_cols = ["src_ip", "dest_ip", "@timestamp", "dest_port", "src_port"]
@@ -347,8 +343,10 @@ class DataJanitor:
 
         # Combine matched + unmatched
         merged = pd.concat([merged, unmatched], ignore_index=True)
-        self.logs.append("P0f duplicates removed")
+        self.logs['remove_P0f_duplicates'] = "Success."
         return merged
+    
+
     '''
         Function: drop_sparse_columns
         Description: drops all columns with less than min_coverage (decimal) entries.
@@ -365,7 +363,7 @@ class DataJanitor:
             - CB 07/11/2025: added logging
     '''
     def drop_sparse_columns(self, df, min_coverage):
-        always_keep = ['geoip.as_org', '@timestamp']
+        always_keep = ['geoip.as_org', 'src_ip', 'dest_port', '@timestamp', 'geoip.city_name', 'geoip.country_name']
         
         row_count = len(df)
         
@@ -375,8 +373,7 @@ class DataJanitor:
             if df[col].notnull().sum() >= row_count * min_coverage or col in always_keep
         ]
         
-        
-        self.logs.append("Sparse columns dropped")
+        self.logs['drop_sparse_columns'] = "Success."
         return df[columns_to_keep]
     
     '''
@@ -396,14 +393,16 @@ class DataJanitor:
         if flag:
             for col in self.necessary_before_serial:
                 if col not in df.columns:
-                    self.logs.append(f"Error: drop_unused_columns w/flag, missing {col}, unused columns could not be dropped")
+                    self.logs['drop_unused_columns_flagged'] = f"Error, missing {col}, unused columns could not be dropped"
                     return df
+                
             return df[self.necessary_before_serial]
         else:
             for col in self.necessary_columns:
                 if col not in df.columns:
-                    self.logs.append(f"Error: drop_unused_columns missing {col}, unused columns could not be dropped")
+                    self.logs['drop_unused_columns_no_flag'] = f"Error, missing {col}, unused columns could not be dropped"
                     return df
+                
             return df[self.necessary_columns]
 
     '''
@@ -448,7 +447,9 @@ class DataJanitor:
         # Modify the "type" where the mask is True
         df.loc[mask, "type"] = honeypot_name
         df.loc[mask2, "type"] = honeypot_name
-        
+
+        # update log
+        self.logs[f'id_honeypot_{honeypot_name}'] = "Successful"
         return df
 
     '''
@@ -467,7 +468,7 @@ class DataJanitor:
     def label_hidden_honeypots(self, df):
         
         if 'type' not in df.columns:
-            self.logs.append("Error in label_hidden_honeypots: Missing type column, hidden honeypots could not be identified")
+            self.logs['label_hidden_honeypots'] = "Error, Missing type column, hidden honeypots could not be identified"
             return df
 
         for honeypot in self.honeypot_info.keys():
@@ -475,6 +476,10 @@ class DataJanitor:
 
         # assigns all others to honeytrap since it tracks all other ports
         df.loc[~df['type'].isin(self.honeypot_info.keys()), 'type'] = 'Honeytrap'
+
+        # Update logs
+        self.logs['id_honeypot_Honeytrap'] = "Success"
+        self.logs['label_hidden_honeypots'] = "Success"
 
         return df
 
@@ -496,7 +501,7 @@ class DataJanitor:
 
         # Load and normalize JSON data
         if df.empty:
-            self.logs.append("Error in run_everything: Input data is empty.")
+            self.logs['run_everything'] = "Error, Input data is empty."
             return df
         
         df = pd.json_normalize(df.to_dict(orient="records"))
@@ -538,10 +543,12 @@ class DataJanitor:
     '''
     def compile_hourly_data(self, df):
         columns_to_keep = ['@timestamp', 'dest_ip', 'dest_port', 'src_ip', 'src_port', 'type', 'geoip.country_name', 'geoip.city_name']
-        if not all(col in df.columns for col in columns_to_keep):
+        for col in columns_to_keep:
+            if col not in df.columns:
+                self.logs['compile_hourly_data'] = f'Error, missing {col}, hourly data could not compile'
             return
 
-        df[columns_to_keep].to_csv('data/hourly_data/full_hourly_data.csv', index=False)
+        df[columns_to_keep].to_csv('hourly_data/full_hourly_data.csv', index=False)
 
         if 'geoip.as_org' in df.columns:
             hits_df = df.groupby('geoip.as_org').agg(
@@ -549,7 +556,8 @@ class DataJanitor:
                 Total_ips=('src_ip', 'nunique')
             ).reset_index().rename(columns={'geoip.as_org': 'Org'})
             hits_df.to_csv(self.hourly_company_hits_csv, index=False)
-
+        
+        self.logs['compile_hourly_data'] = "Success"
     '''
         Function: compile_hits_data
         Description: compiles all the necessary data for the hits visualizations and
@@ -570,7 +578,7 @@ class DataJanitor:
         # Helper function to merge existing and new hits
         def merge_and_save(existing_path, groupby_col, label_col, df, out_col='hits'):
             if groupby_col not in df.columns:
-                self.logs.append(f"Missing {groupby_col} column, skipping {label_col} hits.")
+                self.logs['compile_hits_data'] = f"Missing {groupby_col} column, skipping {label_col} hits."
                 return
 
             # Load existing data
@@ -603,6 +611,21 @@ class DataJanitor:
 
         # Company hits
         merge_and_save(self.total_company_hits_csv, 'geoip.as_org', 'Org', df)
+    
+    def compile_honeypot_hits(self, df):
+        honeypot_counts = {}
+        honeypot_counts['@timestamp'] = df["@timestamp"].min()
+
+        for honeypot in self.honeypot_info.keys():
+            honeypot_counts[honeypot] =(df["type"] == honeypot).sum()
+
+        honeypot_counts['Honeytrap'] = (df["type"] == 'Honeytrap').sum()
+        
+        # Append to CSV without writing the header again
+        pd.DataFrame([honeypot_counts]).to_csv(self.time_vs_honeypot_hits, mode='a', header=False, index=False)
+        self.logs['compile_honeypot_hits'] = 'Success'
+
+
 
     '''
         Function: save_time_vs_port_data
@@ -619,51 +642,25 @@ class DataJanitor:
                 changed column timestamp to @timestamp for consistency.
     '''
     def save_time_vs_port_data(self, df):
-    
-            if "@timestamp" not in df.columns:
-                #self.logs.append("Error in save_time_vs_port_data: Missing @timestamp column, time vs port data could not be compiled")
+
+        needed = ['@timestamp', 'dest_port', 'src_ip']
+        for col in needed:
+            if col not in df.columns:
+                self.logs['save_time_vs_port_data'] = f"Missing {col}, time_vs_port could not be compiled."
                 return
-            if "dest_port" not in df.columns:
-                #self.logs.append("Error in save_time_vs_port_data: Missing dest_port column, time vs port data could not be compiled")
-                return
-            if "src_ip" not in df.columns:
-                #self.logs.append("Error in save_time_vs_port_data: Missing src_ip column, time vs port data could not be compiled")
-                return
-            
-            earliest = df["@timestamp"].min()
-            port_list = df['dest_port'].unique().tolist()
-            ip_list = df['src_ip'].unique().tolist()
-            ip_list_a = ip_list[:len(ip_list) // 2]
-            ip_list_b = ip_list[len(ip_list) // 2:]
-            entry_a = {"@timestamp": earliest, "ports": port_list}
-            entry_b = {"@timestamp" : earliest, "ips_a": ip_list_a, "ips_b": ip_list_b}
-    
-            pd.DataFrame([entry_a]).to_csv(self.time_vs_port_csv, mode='a', header=False, index=False)
-            pd.DataFrame([entry_b]).to_csv(self.time_vs_ip_csv, mode='a', header=False, index=False)
+        
+        earliest = df["@timestamp"].min()
+        port_list = df['dest_port'].unique().tolist()
+        ip_list = df['src_ip'].unique().tolist()
+        ip_list_a = ip_list[:len(ip_list) // 2]
+        ip_list_b = ip_list[len(ip_list) // 2:]
+        entry_a = {"@timestamp": earliest, "ports": port_list}
+        entry_b = {"@timestamp" : earliest, "ips_a": ip_list_a, "ips_b": ip_list_b}
 
-  
-    '''
-      Function: compile_honeypot_hits
-      Description: Compiles the number of hits per honeypot and writes the data to a .csv file.
+        pd.DataFrame([entry_a]).to_csv(self.time_vs_port_csv, mode='a', header=False, index=False)
+        pd.DataFrame([entry_b]).to_csv(self.time_vs_ip_csv, mode='a', header=False, index=False)
+        self.logs['save_time_vs_port_data'] = "success"
 
-      Input:
-         - df: dataframe containing T-pot data.
-      Output:
-         - None
-      Last Modified: 07/21/2025
-    '''
-    def compile_honeypot_hits(self, df):
-        honeypot_counts = {}
-        honeypot_counts['@timestamp'] = df["@timestamp"].min()
-
-        for honeypot in self.honeypot_info.keys():
-            honeypot_counts[honeypot] =(df["type"] == honeypot).sum()
-
-        # Append to CSV without writing the header again
-        pd.DataFrame([honeypot_counts]).to_csv(self.time_vs_honeypot_hits, mode='a', header=False, index=False)
-
-
-   
     '''
         Function: reset_csvs
         Description: empties all the .csv files but preserves the columns.
@@ -686,27 +683,65 @@ class DataJanitor:
                               'Conpot', 'Cowrie', 'Dionaea', 'Elasticpot', 'H0neytr4p', 'Heralding', 
                               'Ipphoney', 'Mailoney', 'Miniprint', 'Redishoneypot', 'Wordpot', 'Honeytrap']).to_csv(self.time_vs_honeypot_hits, index=False)
         for honeypot in self.honeypot_info.keys():
-            pd.DataFrame(columns=["@timestamp", "ip", "port", "country", "city", "org"]).to_csv(f"honeypot_summaries/{honeypot}_summary.csv", index=False)
+            pd.DataFrame(columns=["@timestamp", "ip", "port", "country", "city", "org"]).to_csv(f"data/honeypot_summaries/{honeypot}_summary.csv", index=False)
+        
+        self.logs['reset_csvs'] = "Success."
 
     # dest_port, src_ip, geoip.country_name, geoip.city_name, org
     def honeypot_summaries(self, df):
-        summary_info = ['@timestamp', 'geoip.country_name', 'geoip.city_name', 'geoip.as_org']
+        summary_info = ['@timestamp', 'src_ip', 'dest_port', 'geoip.country_name', 'geoip.city_name', 'geoip.as_org']
         temp_df = pd.DataFrame()
         temp_entry = {}
         temp_filtered_df = pd.DataFrame()
-        for honeypot in self.honeypot_info.keys():
+
+        for col in summary_info:
+            if col not in df.columns:
+                self.logs['honeypot_summaries'] = f"Missing {col}, summary could not be retrieved for", df['@timestamp'].min()
+                return
+        # adds honeytrap to  list of honey pots since it doesn't have a set port list
+        temp_list = self.honeypot_info
+        temp_list["Honeytrap"] = []
+        
+
+        for honeypot in temp_list.keys():
             temp_df = df[df['type'] == honeypot]
             temp_entry['@timestamp'] = temp_df['@timestamp'].min()
-            
-            temp_entry['org'] = temp_df["geoip.as_org"].dropna().value_counts().index[0]
-            temp_entry['country'] = temp_df['geoip.country_name'].dropna().value_counts().index[0]
-            temp_entry['city'] = temp_df['geoip.city_name'].dropna().value_counts().index[0]
-            temp_entry['ip'] = temp_df['src_ip'].dropna().value_counts().index[0]
-            temp_entry['port'] = temp_df['dest_port'].dropna().value_counts.index[0]
 
+            # most seen source IP address
+            if temp_df['src_ip'].dropna().shape[0] != 0:
+                temp_entry['ip'] = temp_df['src_ip'].dropna().value_counts().index[0]
+            else:
+                temp_entry['ip'] = 'None'
+
+            # most seen destination port
+            if temp_df['dest_port'].dropna().shape[0] != 0:
+                temp_entry['port'] = temp_df['dest_port'].dropna().value_counts().index[0]
+            else:
+                temp_entry['port'] = 'None'
+
+            # most seen country name
+            if temp_df['geoip.country_name'].dropna().shape[0] != 0:
+                temp_entry['country'] = temp_df['geoip.country_name'].dropna().value_counts().index[0]
+            else:
+                temp_entry['country'] = 'None'
+
+            # most seen city name
+            if temp_df['geoip.city_name'].dropna().shape[0] != 0:
+                temp_entry['city'] = temp_df['geoip.city_name'].dropna().value_counts().index[0]
+            else:
+                temp_entry['city'] = 'None'
+
+            # most seen organization
+            if temp_df['geoip.as_org'].dropna().shape[0] != 0:
+                temp_entry['org'] = temp_df["geoip.as_org"].dropna().value_counts().index[0]
+            else:
+                temp_entry['org'] = 'None'
+
+    
+            pd.DataFrame([temp_entry]).to_csv(f"data/honeypot_summaries/{honeypot}_summary.csv", mode='a', header=False, index=False)
+            self.logs[f'honeypot_summary_{honeypot}'] = "Success."
             
-            pd.DataFrame([temp_entry]).to_csv(f"honeypot_summaries/{honeypot}_summary.csv", mode='a', header=False, index=False)
-                  
+       
             
     '''
         Method: save_data
@@ -726,6 +761,15 @@ class DataJanitor:
         self.save_time_vs_port_data(df)
         self.compile_honeypot_hits(df)
         self.honeypot_summaries(df)
+        self.logs['save_data'] = 'Success.'
+    
+    '''
+        Function: write_logs
+        Description: Writes to data_cleaning_logs.txt file
+    '''
+    def write_logs(self):
+        with open("data_cleaning_logs.txt", "a") as f:
+            f.writelines(f"{k}:{v}\n" for k, v in self.logs.items())
     
     '''
         Method: process_data
@@ -742,13 +786,13 @@ class DataJanitor:
             - CB 07/14/2025: Added df as an input to remove reading a json.
     '''
     def process_data(self, df):
-        print()
         start_time = time.time()
         df = self.run_everything(df)
-        if df.shape[0] != 0:
-            self.save_data(df)
+        
         end_time = time.time()
         elapsed_time = end_time - start_time
+        self.logs['process_data'] = f"Processing time = {elapsed_time: .2f} seconds"
+        self.write_logs()
         print(f"Processing time: {elapsed_time:.2f} seconds\n")
-        return self.logs
+        return df
     
