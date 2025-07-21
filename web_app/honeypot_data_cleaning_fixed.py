@@ -8,8 +8,9 @@ Honeypot_data_cleaning.ipynb
         - CB 07/11/2025: bug fixes, added logs and timing, converted to a class.
         - CB 07/14/2025: bug fixes, optimization, drop unnecessary columns before
             json serialization.
-    
-    Modified by Emily on 07/14, changed csv paths to add data folder for hourly and historical data subfolders
+         - EW 07/14/2025: Changed CSV paths to add data folder for hourly and historical data subfolders.
+         - CB 07/21/2025: Added honeypot summaries and changed all instances of ~ to
+            the not keyword due to depreciation of support for it.
 
     **Description:** This program is intended to clean 24 hours of data from T-pot
     that is pulled from elastic pot and converted into a .csv file. Future
@@ -110,7 +111,7 @@ class DataJanitor:
 
     '''
     def drop_constant_columns(self, df):
-        non_list_columns = df.columns[~df.applymap(type).eq(list).any()]
+        non_list_columns = df.columns[not df.applymap(type).eq(list).any()]
         nunique = df[non_list_columns].nunique(dropna=False)
         constant_columns = [col for col in nunique.index if nunique[col] <= 1 and col != '@timestamp']
         self.logs.append("Constant columns dropped.")
@@ -312,7 +313,7 @@ class DataJanitor:
 
         is_p0f = df["type"] == "P0f"
         p0f_df = df[is_p0f]
-        other_df = df[~is_p0f]
+        other_df = df[not is_p0f]
 
         if p0f_df.empty:
             self.logs.append("Error in remove_P0f_duplicates: There are no P0f entries")
@@ -441,7 +442,7 @@ class DataJanitor:
 
         mask2 =  ((df["src_port"].isin(target_ports)) &
             ((df["src_ip"] == "172.200.200.5") | (df["src_ip"] == "127.0.0.1")) &
-            ~((self.is_private_ip(df["dest_port"]))))
+            (not (self.is_private_ip(df["dest_port"]))))
         # Modify the "type" where the mask is True
         df.loc[mask, "type"] = honeypot_name
         df.loc[mask2, "type"] = honeypot_name
@@ -471,7 +472,7 @@ class DataJanitor:
             df = self.id_honeypot(df, honeypot, self.honeypot_info[honeypot])
 
         # assigns all others to honeytrap since it tracks all other ports
-        df.loc[~df['type'].isin(self.honeypot_info.keys()), 'type'] = 'Honeytrap'
+        df.loc[not df['type'].isin(self.honeypot_info.keys()), 'type'] = 'Honeytrap'
 
         return df
 
@@ -648,14 +649,41 @@ class DataJanitor:
         
         Last Modfied: 07/11/2025
             - CB 07/11/2025: hid file paths as data members, added ips to time_vs_port
+            - CB 07/20/2025: added honeypot summaries
     '''
     def reset_csvs(self):
         pd.DataFrame(columns=['port', 'hits']).to_csv(self.destport_hits_csv, index=False)
         pd.DataFrame(columns=['honeypot', 'hits']).to_csv(self.honeypot_hits_csv, index=False)
         pd.DataFrame(columns=['ip', 'hits']).to_csv(self.ip_hits_csv, index=False)
         pd.DataFrame(columns=['Org', 'hits']).to_csv(self.total_company_hits_csv, index=False)
-        pd.DataFrame(columns=['@timestamp', 'ports', 'ips']).to_csv(self.time_vs_port_csv, index=False)
+        pd.DataFrame(columns=['@timestamp', 'ports']).to_csv(self.time_vs_port_csv, index=False)
+        pd.DataFrame(columns=['@timestamp', 'ip_list_a', 'ip_list_b']).to_csv(self.time_vs_ip_csv, index=False)
+        pd.DataFrame(columns=['@timestamp', 'Ciscoasa', 'Dicompot', 'Honeyaml', 'Medpot', 'SentryPeer', 'Abdhoney', 
+                              'Conpot', 'Cowrie', 'Dionaea', 'Elasticpot', 'H0neytr4p', 'Heralding', 
+                              'Ipphoney', 'Mailoney', 'Miniprint', 'Redishoneypot', 'Wordpot', 'Honeytrap']).to_csv(self.time_vs_honeypot_hits, index=False)
+        for honeypot in self.honeypot_info.keys():
+            pd.DataFrame(columns=["@timestamp", "ip", "port", "country", "city", "org"]).to_csv(f"honeypot_summaries/{honeypot}_summary.csv", index=False)
 
+    # dest_port, src_ip, geoip.country_name, geoip.city_name, org
+    def honeypot_summaries(self, df):
+        summary_info = ['@timestamp', 'geoip.country_name', 'geoip.city_name', 'geoip.as_org']
+        temp_df = pd.DataFrame()
+        temp_entry = {}
+        temp_filtered_df = pd.DataFrame()
+        for honeypot in self.honeypot_info.keys():
+            temp_df = df[df['type'] == honeypot]
+            temp_entry['@timestamp'] = temp_df['@timestamp'].min()
+            
+            temp_entry['org'] = temp_df["geoip.as_org"].dropna().value_counts().index[0]
+            temp_entry['country'] = temp_df['geoip.country_name'].dropna().value_counts().index[0]
+            temp_entry['city'] = temp_df['geoip.city_name'].dropna().value_counts().index[0]
+            temp_entry['ip'] = temp_df['src_ip'].dropna().value_counts().index[0]
+            temp_entry['port'] = temp_df['dest_port'].dropna().value_counts.index[0]
+
+            
+            pd.DataFrame([temp_entry]).to_csv(f"honeypot_summaries/{honeypot}_summary.csv", mode='a', header=False, index=False)
+                  
+            
     '''
         Method: save_data
         Description: compiles and saves all useful data.
@@ -666,11 +694,14 @@ class DataJanitor:
         
         Last Modified: 07/10/2025
             - CB 07/10/2025: converted to a method
+            - CB 07/20/2025: added honeypot summaries
     '''
     def save_data(self, df):
         self.compile_hourly_data(df)
         self.compile_hits_data(df)
         self.save_time_vs_port_data(df)
+        self.compile_honeypot_hits(df)
+        self.honeypot_summaries(df)
     
     '''
         Method: process_data
