@@ -545,7 +545,7 @@ class DataJanitor:
         for col in columns_to_keep:
             if col not in df.columns:
                 self.logs['compile_hourly_data'] = f'Error, missing {col}, hourly data could not compile'
-            return
+                return
 
         df[columns_to_keep].to_csv('data/hourly_data/full_hourly_data.csv', index=False)
 
