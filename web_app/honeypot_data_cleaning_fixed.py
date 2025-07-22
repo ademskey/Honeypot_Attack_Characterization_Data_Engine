@@ -703,6 +703,7 @@ class DataJanitor:
         
         none_count = 0
         for honeypot in temp_list.keys():
+            none_count = 0
             temp_df = df[df['type'] == honeypot]
             temp_entry['@timestamp'] = temp_df['@timestamp'].min()
 

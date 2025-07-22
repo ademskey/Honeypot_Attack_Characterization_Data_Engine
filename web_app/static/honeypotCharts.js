@@ -14,9 +14,23 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Retrieve data from csvs and get selected honeypot tables only
     const data = await loadData();
-    if (!data) return;
+    console.log(data);
+    if (!data) {
+        console.log("!data");
+        return;
+    }
     const honeypotSummary = data.honeypot_summaries[`${selectedHoneypot}_summary`];
     if (honeypotSummary) {
-        renderHourlyCharts(honeypotSummary, selectedHoneypot);
+        renderHoneypotCharts(honeypotSummary, selectedHoneypot);
     }
 });
+
+async function renderHoneypotCharts(honeypotData, honeypotName) {
+
+    // Honeypot Chart 1: Activity over Time
+    const timeIncrementSize = 5; // in seconds.
+    console.log(timeIncrementSize);
+    numRowsPerIncrement = rowCountsByTypeAndTime(honeypotData, 'port', '@timestamp', timeIncrementSize);
+    console.log(numRowsPerIncrement);
+    createMultiLineChart("HoneypotChart1", numRowsPerIncrement, `${honeypotName} Activity Over Time`, "Time", "Number of Entries");
+}

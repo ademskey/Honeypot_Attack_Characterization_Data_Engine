@@ -66,7 +66,7 @@ def chart_data():
 
         summary_dfs = {
             name: df.fillna("").to_dict(orient='records')
-            for name, df in get_tables_in_folder('honeypot_summaries').items()
+            for name, df in get_tables_in_folder('historical_data/honeypot_summaries').items()
         }
 
         return jsonify({
