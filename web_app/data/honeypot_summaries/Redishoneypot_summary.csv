@@ -1,0 +1,42 @@
+@timestamp,ip,port,country,city,org
+,None,None,None,None,None
+,None,None,None,None,None
+2025-06-23T02:06:45.000Z,47.122.155.76,6379.0,China,Fuzhou,"Hangzhou Alibaba Advertising Co.,Ltd."
+2025-06-23T01:34:21.000Z,45.135.95.25,6379.0,Russia,None,Data-center IMAQLIQ Ltd.
+2025-06-23T00:28:23.000Z,198.235.24.127,6379.0,United States,None,GOOGLE-CLOUD-PLATFORM
+,None,None,None,None,None
+,None,None,None,None,None
+2025-06-24T01:10:43.000Z,71.6.134.233,6379.0,United States,None,CARINET
+,None,None,None,None,None
+2025-06-23T23:19:54.000Z,45.131.155.254,6379.0,Germany,Shanghai,Detai Prosperous Technologies Limited
+2025-06-24T00:01:36.817Z,148.113.206.49,6379.0,Canada,North Bergen,OVH SAS
+2025-06-23T20:43:08.000Z,45.82.76.178,6379.0,Germany,None,Detai Prosperous Technologies Limited
+2025-06-23T17:07:09.000Z,173.212.223.233,6379.0,France,Lauterbourg,Contabo GmbH
+2025-06-23T19:25:05.000Z,43.100.15.150,6379.0,Hong Kong,Hong Kong,"Alibaba US Technology Co., Ltd."
+,None,None,None,None,None
+2025-06-23T16:49:06.000Z,20.163.2.150,6379.0,United States,Phoenix,HURRICANE
+2025-06-23T18:05:17.000Z,211.145.47.70,6379.0,China,None,China Unicom Beijing Province Network
+2025-06-23T15:27:18.000Z,128.1.210.10,6379.0,United States,Ho Chi Minh City,ZEN-ECN
+2025-06-23T11:01:06.823Z,81.29.134.51,6379.0,Russia,None,Data-center IMAQLIQ Ltd.
+,None,None,None,None,None
+2025-06-23T10:51:04.000Z,81.29.134.51,6379.0,Russia,None,Data-center IMAQLIQ Ltd.
+2025-06-23T14:22:24.000Z,173.212.223.233,6379.0,France,Lauterbourg,Contabo GmbH
+2025-06-23T09:51:08.000Z,167.94.145.106,6379.0,United States,None,CENSYS-ARIN-02
+2025-06-23T13:15:05.000Z,185.180.141.42,6379.0,Portugal,None,ZEN-ECN
+2025-06-23T08:03:59.000Z,121.204.162.239,6379.0,China,None,Fuzhou
+2025-06-23T07:04:21.000Z,3.143.33.63,6379.0,United States,None,AMAZON-02
+2025-06-23T06:09:18.000Z,3.136.208.236,6379.0,United States,Amsterdam,AMAZON-02
+2025-06-23T04:14:10.000Z,128.1.210.10,6379.0,Vietnam,Ho Chi Minh City,ZEN-ECN
+,None,None,None,None,None
+,None,None,None,None,None
+,None,None,None,None,None
+,None,None,None,None,None
+,None,None,None,None,None
+2025-06-25T00:17:36.000Z,205.210.31.196,6379.0,United States,None,GOOGLE-CLOUD-PLATFORM
+2025-06-25T02:49:51.000Z,66.240.236.109,6379.0,United States,None,CARINET
+2025-06-24T21:02:07.000Z,20.163.5.58,6379.0,United States,Phoenix,MICROSOFT-CORP-MSN-AS-BLOCK
+2025-06-24T20:20:28.000Z,91.231.89.4,6379.0,France,Gravelines,ONYPHE SAS
+,None,None,None,None,None
+2025-06-24T18:10:51.000Z,172.202.118.67,6379.0,United States,Des Moines,MICROSOFT-CORP-MSN-AS-BLOCK
+2025-06-24T16:24:04.000Z,45.131.155.254,6379.0,Germany,North Bergen,Detai Prosperous Technologies Limited
+2025-06-24T17:00:37.877Z,157.230.234.124,6379.0,United States,North Bergen,DIGITALOCEAN-ASN

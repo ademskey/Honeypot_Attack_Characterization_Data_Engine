@@ -1,120 +1,247 @@
 Org,Hits,Total_ips
-4Media Ltd.,1,1
-AGOTOZ PTE. LTD.,2,1
-AMAZON-02,178,8
-AMAZON-AES,32,2
+702COM,4,1
+ACCELECOM-GA,4,1
+ACS-INTERNET,2,1
+ADAMS-CATV,2,1
+ADN Telecom Ltd.,74,1
+AENEAS,2,1
+AGOTOZ PTE. LTD.,43,1
+AIR-ADVANTAGE-ASN,8,1
+ALLO-COMM,4,2
+ALTIMA-TELECOM,4,1
+ALTIMA-TORONTO,2,1
+ALTITUDE-ISP,2,1
+AMAZON-02,9,5
 AS-26496-GO-DADDY-COM-LLC,6,1
-AS-COLOCROSSING,4,3
-AS-GLOBALTELEHOST,3,2
-AS-VULTR,2,1
-ASN for TIANJIN Provincial Net of CT,3,1
-AVAST Software s.r.o.,66,7
-Administracion Nacional de Telecomunicaciones,2,1
-Akamai Connected Cloud,10,4
-"Alibaba US Technology Co., Ltd.",57,7
-Alsycon B.V.,1,1
-Amarutu Technology Ltd,3,1
-Ava Host Srl,1,1
-Bouygues Telecom SA,40,1
-CCI-PA-AS-1,2,1
-CDSC-AS1,3,1
-CENSYS-ARIN-01,85,34
-CENSYS-ARIN-02,26,13
-CHEAPY-HOST,7,3
-CHINA UNICOM China169 Backbone,14,5
-CHINANET Guangdong province network,34,8
-COGENT-174,13,2
-COMCAST-7922,1,1
-CT-HangZhou-IDC,90,2
-China Mobile communications corporation,13,1
-China Telecom Group,82,4
-Chinanet,27,11
-Cloudsigma Ag,2,1
-ColdHosting SL,4,1
-ColocaTel Inc.,10,4
-Contabo GmbH,9,3
-DIGITALOCEAN-ASN,7289,21
-Data Communication Business Group,2,1
-Datacamp Limited,82,28
-Driftnet Ltd,10,8
-Euskaltel S.A.,2,1
-FOP Dmytro Nedilskyi,17,4
-FPT Telecom Company,1,1
-"Far EastTone Telecommunication Co., Ltd.",2,1
-GOOGLE,25,1
-GOOGLE-CLOUD-PLATFORM,204,61
-GSL Networks Pty LTD,1098,8
-Galeon LLC,12,2
-Global Connectivity Solutions Llp,39,3
-Global Layer B.V.,20,1
-HGC Global Communications Limited,1,1
-HUAWEI CLOUDS,12,1
+AS-493NETWORKING,1,1
+AS-CMN,9,3
+AS-COLOCROSSING,2,2
+AS-EFTL,1,1
+AS-GLOBALTELEHOST,4,2
+AS-NSL-261,2,1
+AS-PTD,38,11
+AS-SONICTELECOM,4,1
+AS-WAVE-1,6,3
+AS-WHOLESAIL,4,2
+AS21565,2,1
+ASN-CXA-ALL-CCI-22773-RDC,200,70
+ASN-STARRY,2,1
+ATLANTICBB-JOHNSTOWN,4,2
+ATT-INTERNET4,543,141
+Akamai Connected Cloud,52,29
+Alexhost Srl,8,1
+"Alibaba US Technology Co., Ltd.",18,3
+Alsycon B.V.,11,4
+Alviva Holding Limited,1,1
+BACOM,287,75
+BARR-XPLR-ASN,34,3
+BH-TELECOM-CORP,45,2
+BHN-33363,193,47
+BLU,2,1
+BLUESTREAMFIBER,3,2
+BRAVO-TELECOM,2,1
+BRESNAN-33588,5,1
+BRIGHTRIDGE,16,1
+BRMEMC,8,1
+BRSPD-PUBLIC,26,9
+BTC-ONLINE,8,1
+BUCKEYECABLEVISION,6,2
+CABLE-NET-1,170,33
+CABLEONE,12,4
+CANET-ASN-4,20,3
+"CANTV Servicios, Venezuela",17,1
+CARINET,6,2
+CARRY-TELECOM,2,1
+CASNET,2,1
+CBPU,2,1
+CC-3272,2,1
+CDELIGHTBAND,6,2
+CELLCO-PART,155,39
+CENIC-2152,8,1
+CENSYS-ARIN-01,130,31
+CENSYS-ARIN-02,20,9
+CENSYS-ARIN-03,9,4
+CENTURYLINK-US-LEGACY-QWEST,38,15
+CHARTER-20115,386,82
+CHEAPY-HOST,15,4
+CHINA UNICOM China169 Backbone,4,1
+CIKTELECOM-CABLE,6,3
+CIPHERKEY,8,3
+COGECOWAVE,55,10
+COGENT-174,15,4
+COLUMBUS-TEL-KS,7,1
+COMCAST-7922,1270,323
+COMWAVE-BGP-01,4,2
+CONECTEC NET LTDA,2,1
+CONEXON-CONNECT,6,2
+CONNECT2FIRST-LLC,2,1
+CROWNCASTLE-AS46887,4,1
+CROWSNEST-BROADBAND-LLC,4,1
+CRRS,6,2
+CT-HangZhou-IDC,15,1
+China Education and Research Network Center,2,1
+China Telecom,10,1
+Chinanet,2,1
+Clouvider Limited,151,43
+ColocaTel Inc.,12,2
+Contabo GmbH,1,1
+DALTON-UTILITIES-OPTILINK,2,1
+DEDIOUTLET-NETWORKS,26,1
+DIGITALOCEAN-ASN,4416,20
+DISTRIBUTEL-AS11814,30,4
+DOBSON-ASN-02,2,1
+DRN-AS,2,1
+Data-center IMAQLIQ Ltd.,2,1
+Datacamp Limited,31,8
+Driftnet Ltd,4,4
+EATEL,2,1
+EBOX,2,1
+EMPIRE-40545,2,1
+EPBTELECOM,2,1
+ETEX-COMMUNICATIONS,2,1
+FEWPB,4,1
+FOP Dmytro Nedilskyi,6,2
+FRONTIER-FRTR,135,35
+FUSE-NET,26,2
+GCI,2,1
+GIGSTREEM,2,1
+GOOGLE-2,4,1
+GOOGLE-CLOUD-PLATFORM,34,6
+GOOGLE-FIBER,72,16
+GRANDECOM-AS1,2,1
+GREENLIGHT-NETWORKS,7,2
+GSL Networks Pty LTD,4,1
+Global Connectivity Solutions Llp,459,118
+Global Layer B.V.,2,1
+HOMESC,11,4
+HOTWIRE-COMMUNICATIONS,2,1
+HURRICANE,112,25
 "Hangzhou Alibaba Advertising Co.,Ltd.",2,1
-Hetzner Online GmbH,1,1
-Hostinger International Limited,5,1
-IP Volume inc,1139,7
-IS-AS-1,1,1
-Internet Magnate (Pty) Ltd,2,1
-Internet Utilities Europe and Asia Limited,152,1
+INOC,13,1
+IP Vendetta Inc.,2,1
+IP Volume inc,501,15
+Internet Utilities Europe and Asia Limited,205,57
+JACKSONENERGY-EPL,2,1
 KAMATERA,1,1
-Korea Telecom,2,2
+Kaopu Cloud HK Limited,3,1
+Korea Telecom,82,6
 Kprohost LLC,1,1
-LATITUDE-SH,267,3
-Latitude.sh LTDA,172,1
-Limited Network LTD,39,1
-MCMSYS,20,1
-MEVSPACE sp. z o.o.,39,4
-MICROSOFT-CORP-MSN-AS-BLOCK,51,16
-Markahost Telekomunikasyon Ve Ticaret Limited Sirketi,1,1
-Miti 2000 EOOD,2,1
-Mobinet LLC. AS Mobinet Internet Service Provider,16,1
-NForce Entertainment B.V.,6,1
-NTT Communications Corporation,1,1
-NUCLEARFALLOUT-NYC,6,1
-NYBULA,3,1
-National Internet Backbone,5,1
-NetOne Rus JSC,1,1
-Novotelecom Ltd,1,1
-ONYPHE SAS,45,25
-OPTIMA LLC,4,2
-OVH SAS,52,8
-Orange Romania S.A.,2,1
-PENTECH BILISIM TEKNOLOJILERI SANAYI VE TICARET LIMITED SIRKETi,29,1
-PT Cloud Hosting Indonesia,106,1
-PT Graha Multimedia Nusantara,1,1
-PT Inti Data Telematika,79,1
-PT Telekomunikasi Indonesia,21,1
-PT. Media Tekno Nusantara,2,1
+LATITUDE-SH,68,17
+LEVEL3,6,2
+LG DACOM Corporation,2,1
+LG HelloVision Corp.,3,1
+LIBERTY NETWORKS DE COLOMBIA S.A.S,87,1
+Latitude.sh LTDA,7,4
+Limited Network LTD,4,1
+M247 Europe SRL,5,3
+MANAGEDNETWORK,2,1
+MAXXSOUTH-BROADBAND,8,1
+MEDIACOM-ENTERPRISE-BUSINESS,4,2
+MEVSPACE sp. z o.o.,28,7
+MICROSOFT-CORP-MSN-AS-BLOCK,60,19
+MIDCO-NET,2,1
+MPOWER-POWERED-BY-MEC,2,1
+MTS PJSC,23,1
+MTS-ASN,22,8
+MULTIB-40788,2,1
+NETPROTECT-62651,2,1
+NOVUS-3,8,2
+NS,8,3
+NTS-ONLINE,6,2
+NYBULA,6,2
+National Internet Backbone,3,2
+Netorn LLC,2,1
+Neue Medien Muennich GmbH,68,1
+ONYPHE SAS,58,28
+ORBITEL,6,2
+ORINOCO VENTURES GROUP SAS,2,2
+ORLANDOTELCO,2,1
+OTEnet S\.A\.,1,1
+OVH SAS,139,10
+Occentus Network SL,3,1
+Orange,2,1
+Orion Network Limited,16,5
+Oy Crea Nova Hosting Solution Ltd,1,1
+PAVLOVMEDIA,3,1
+PEOPLESCOMMUNICATIONS,8,2
+PONYNET,4,1
+POWERSHIFT-PLAINFIELD-VT,8,1
+PRIMUS-AS6407,6,3
+PT Ikhlas Cipta Teknologi,8,4
+PVDataNet AB,2,1
+PacketHub S.A.,4,2
 Petersburg Internet Network ltd.,4,1
-Pfcloud UG,116,6
-Private Layer INC,72,3
-Proton66 OOO,298,4
-Radinet Info Solutions Private Limited,2,1
+Pfcloud UG,180,10
+Private Layer INC,19,3
+Proton66 OOO,16,2
+RACE,16,1
+RAPID-FIBER-INTERNET-LLC,3,1
+RCN-AS,46,9
+RISE-BROADBAND,6,2
+ROCK-HILL-TELEPHONE,2,1
+ROGERS-COMMUNICATIONS,171,51
+ROUTERHOSTING,12,2
+RTC-NET,4,1
+RURALNET,4,2
+RailTel Corporation of India Ltd,5,1
+Railnet LLC,3,1
 Reliance Jio Infocomm Limited,3,1
-Ruchi Communication,96,1
-SPEARHEAD LIFESTYLE INDIA PRIVATE LIMITED,3,1
-SS-Net,52,13
-SURF B.V.,6,1
-Saudi Telecom Company JSC,1,1
-"Securitytrails, LLC",1,1
-Shereverov Marat Ahmedovich,2,2
-"Sistemas Informaticos, S.A.",29,5
-Stiftung Erneuerbare Freiheit,6,1
-T-Systems International GmbH,84,1
-Telia Company AB,1,1
-Telnet Communication Limited Network and Transit Service Provider. Having Nationwide MPLS Ne,2,1
-"Tencent Building, Kejizhongyi Avenue",4,1
-Tube-Hosting,25,2
-UAB Host Baltic,16,5
-UCLOUD INFORMATION TECHNOLOGY HK LIMITED,183,15
-Universidad Nacional Autonoma de Mexico,87,1
-Unmanaged Ltd,21,3
-VIATEC SRL,1,1
-VIET DIGITAL TECHNOLOGY LIABILITY COMPANY,1,1
-VT-255-50219,7,1
-Verein zur Foerderung eines Deutschen Forschungsnetzes e.V.,3,1
-Viet Storage Technology Joint Stock Company,1,1
-Vpsvault.host Ltd,29,4
-YISU CLOUD LTD,28,1
-Yandex.Cloud LLC,72,1
-iTools JSC,2,1
+Rostelecom,11,2
+SASKTEL,25,2
+SEIDATA,4,1
+SHAW,140,32
+SHENTEL,23,5
+SILVERIP-ASN,2,1
+SNET-FCC,26,5
+SOCKET,2,1
+SPACEX-STARLINK,131,19
+SS-Net,46,6
+STARWIRELESS-15153,18,1
+STRTEC,3,1
+SUANET TELECOMUNICACOES LTDA - ME,6888,1022
+SUCCEED-NET,2,1
+SUDDENLINK-COMMUNICATIONS,42,10
+SURRY-TELEPHONE-MEMB-CORP,2,1
+SYNCWAVE-499,2,1
+"Sistemas Informaticos, S.A.",4,1
+T-MOBILE-AS21928,384,98
+T-Systems International GmbH,109,1
+TANGRAM-CANADA-INC,2,1
+TDS-AS,24,4
+TEKSAVVY,18,7
+TELEPAK-NETWORKS-INC,2,1
+TELMAX-INC,2,1
+TELUS Communications,50,17
+TEXARKANACOLLEGE,2,1
+TRANS-VIDEO,2,1
+TRUVISTA,4,2
+TWC-10796-MIDWEST,224,44
+TWC-11351-NORTHEAST,61,16
+TWC-11426-CAROLINAS,117,23
+TWC-11427-TEXAS,175,36
+TWC-11955-ATLANTA,2,1
+TWC-12271-NYC,83,16
+TWC-20001-PACWEST,231,56
+TWIN-LAKES,20,2
+"Tencent Building, Kejizhongyi Avenue",57,3
+UAB Host Baltic,4,1
+UCLOUD INFORMATION TECHNOLOGY HK LIMITED,51,14
+UNITAS,16,1
+UNITED-TELEPHONE,6,1
+UUNET,625,131
+Universitas Islam Negeri Sultan Maulana Hasanudin Banten,14,1
+Unmanaged Ltd,48,6
+VALLEY-COMMUNICATIONS,20,1
+VALLEYFIBER,4,1
+VIDEOTRON,59,8
+VYVE-BROADBAND,17,1
+Verein zur Foerderung eines Deutschen Forschungsnetzes e.V.,1,1
+Vodafone Romania S.A.,23,1
+Vpsvault.host Ltd,6,3
+WCG-AS,4,2
+WCI-NET,9,2
+WIN,2,1
+WINDSTREAM,46,7
+WIRE3,2,1
+WOW-INTERNET,20,7
+XIBER-LLC,2,1
