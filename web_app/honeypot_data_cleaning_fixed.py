@@ -24,7 +24,6 @@ import numpy as np
 import warnings
 from pandas.errors import PerformanceWarning
 import time
-import swifter
 
 
 '''
@@ -115,7 +114,7 @@ class DataJanitor:
 
     '''
     def drop_constant_columns(self, df):
-        non_list_columns = df.columns[not df.swifter.applymap(type).eq(list).any()]
+        non_list_columns = df.columns[not df.applymap(type).eq(list).any()]
         nunique = df[non_list_columns].nunique(dropna=False)
         constant_columns = [col for col in nunique.index if nunique[col] <= 1 and col != '@timestamp']
         df.drop(columns=constant_columns, inplace=True)
