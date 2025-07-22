@@ -196,62 +196,6 @@ function createScatterPlot(
 }
 
 
-
-function createScatterPlotTime(canvasID, data, xtitle, ytitle, title, type) {
-    const ctx4 = document.getElementById(canvasID).getContext('2d');
-    new Chart(ctx4, {
-        type: 'scatter',
-        data: {
-            datasets: [{
-                // label: ytitle,
-                data: data,
-                backgroundColor: 'steelblue'
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                title: {
-                    display: true,
-                    text: title
-                },
-                legend: {
-                    display: false,
-                }
-            },
-            scales: {
-                x: {
-                    type: type,
-                    title: {
-                        display: true,
-                        text: xtitle
-                    },
-                    ticks: {
-                        callback: function (value) {
-                            const date = new Date(value);
-                            const MM = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are 0-indexed
-                            const DD = String(date.getUTCDate()).padStart(2, '0');
-                            const YYYY = date.getUTCFullYear();
-                            const HH = String(date.getUTCHours()).padStart(2, '0');
-                            const mm = String(date.getUTCMinutes()).padStart(2, '0');
-                            const SS = String(date.getUTCSeconds()).padStart(2, '0');
-                            return `${MM}/${DD}/${YYYY} ${HH}:${mm}:${SS}`;
-                        }
-                    }
-                },
-                y: {
-                    type: type,
-                    title: {
-                        display: true,
-                        text: ytitle
-                    },
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-}
-
 function createBarChart(canvasID, data, xtitle, ytitle, title) {
     const labels1 = Object.keys(data);
     const values1 = Object.values(data);
@@ -421,41 +365,3 @@ function rowCountsByTypeAndTime(data_table, typeKey, timestampKey, incrementSeco
 
     return filteredCounts;
 }
-
-
-// function flattenTable(data_table, key) {
-//     console.log("key used for flattening: ", key);
-//     console.log(data_table[key]);
-//     const flattened = [];
-
-//     data_table.forEach(row => {
-//         const timestamp = row.timestamp;
-//         let portList;
-//         try {
-//             portList = JSON.parse(row[key]);
-//         } catch (e) {
-//             console.error("Error parsing port list:", row[key]);
-//             return;
-//         }
-
-//         if (Array.isArray(portList)) {
-//             portList.forEach(port => {
-//                 if (!isNaN(port)) {
-//                     flattened.push({
-//                         timestamp: timestamp,
-//                         port: port
-//                     });
-//                 }
-//             });
-//         }
-//     });
-
-//     return flattened;
-// }
-
-// function categoriestoIndex(data, key) {
-//     const unique = [...new Set(data.map(row => row[key] || "Unknown"))];
-//     const mapping = {};
-//     unique.forEach((val, idx) => mapping[val] = idx);
-//     return { mapping, labels: unique };
-// }
