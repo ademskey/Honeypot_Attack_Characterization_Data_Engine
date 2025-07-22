@@ -7,6 +7,9 @@ async function loadData() {
     try {
         const response = await fetch('/data');
         const data = await response.json();
+        // if (data.querySelector('tbody').rows.length == 0) {
+        //     console.log("JS is waiting to receive data from python");
+        // }
 
         historical_data = data.historical_data;
         hourly_data = data.hourly_data;

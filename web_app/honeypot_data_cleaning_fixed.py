@@ -547,7 +547,7 @@ class DataJanitor:
                 self.logs['compile_hourly_data'] = f'Error, missing {col}, hourly data could not compile'
             return
 
-        df[columns_to_keep].to_csv('hourly_data/full_hourly_data.csv', index=False)
+        df[columns_to_keep].to_csv('data/hourly_data/full_hourly_data.csv', index=False)
 
         if 'geoip.as_org' in df.columns:
             hits_df = df.groupby('geoip.as_org').agg(
@@ -682,7 +682,7 @@ class DataJanitor:
                               'Conpot', 'Cowrie', 'Dionaea', 'Elasticpot', 'H0neytr4p', 'Heralding', 
                               'Ipphoney', 'Mailoney', 'Miniprint', 'Redishoneypot', 'Wordpot', 'Honeytrap']).to_csv(self.time_vs_honeypot_hits, index=False)
         for honeypot in self.honeypot_info.keys():
-            pd.DataFrame(columns=["@timestamp", "ip", "port", "country", "city", "org"]).to_csv(f"data/honeypot_summaries/{honeypot}_summary.csv", index=False)
+            pd.DataFrame(columns=["@timestamp", "ip", "port", "country", "city", "org"]).to_csv(f"data/historical_data/honeypot_summaries/{honeypot}_summary.csv", index=False)
         
         self.logs['reset_csvs'] = "Success."
 
@@ -775,7 +775,7 @@ class DataJanitor:
         Description: Writes to data_cleaning_logs.txt file
     '''
     def write_logs(self):
-        with open("data_cleaning_logs.txt", "a") as f:
+        with open("data_cleaning_logs.txt", "w") as f:
             f.writelines(f"{k}:{v}\n" for k, v in self.logs.items())
     
     '''
@@ -799,7 +799,9 @@ class DataJanitor:
         end_time = time.time()
         elapsed_time = end_time - start_time
         self.logs['process_data'] = f"Processing time = {elapsed_time: .2f} seconds"
+        self.save_data(df)
         self.write_logs()
+
         print(f"Processing time: {elapsed_time:.2f} seconds\n")
         return df
     

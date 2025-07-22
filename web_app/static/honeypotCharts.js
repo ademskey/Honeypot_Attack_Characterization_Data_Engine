@@ -27,6 +27,6 @@ async function renderHoneypotCharts(honeypotData, honeypotName) {
 
     // Honeypot Chart 1: Activity over Time
     const timeIncrementSize = 5; // in seconds.
-    numRowsPerIncrement = rowCountsByTypeAndTime(honeypotData, 'port', '@timestamp', timeIncrementSize);
-    createMultiLineChart("HoneypotChart1", numRowsPerIncrement, `${honeypotName} Activity Over Time`, "Time", "Number of Entries");
+    numRowsPerIncrement = countRowsPerTimeIncrement(honeypotData, '@timestamp', timeIncrementSize);
+    createLineChart("HoneypotChart4", numRowsPerIncrement, `${honeypotName} Activity Over Time`, "Time", "Number of Entries", "time", "linear");
 }

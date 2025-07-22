@@ -55,8 +55,7 @@ function getPortsByType(mode = null, selectHoneypot = null) {
     }
 }
 
-
-function createMultiLineChart(canvasID, dataByType, title, xtitle, ytitle) {
+function createMultiLineChart(canvasID, dataByType, title, xtitle, ytitle, xtype, timeIncrementSize = 10) {
     const allBuckets = new Set();
 
     // Collect all unique bucket keys (numeric) across all types
@@ -65,19 +64,25 @@ function createMultiLineChart(canvasID, dataByType, title, xtitle, ytitle) {
     });
 
     const sortedBuckets = Array.from(allBuckets).sort((a, b) => a - b);
+    let labels = [];
 
-    // Convert numeric buckets to formatted UTC time strings
-    const labels = sortedBuckets.map(bucket => {
-        const date = new Date(bucket * 1000 * 5);  // 5 = timeIncrementSize
-        const MM = String(date.getUTCMonth() + 1).padStart(2, '0');
-        const DD = String(date.getUTCDate()).padStart(2, '0');
-        const YYYY = date.getUTCFullYear();
-        const HH = String(date.getUTCHours()).padStart(2, '0');
-        const mm = String(date.getUTCMinutes()).padStart(2, '0');
-        const SS = String(date.getUTCSeconds()).padStart(2, '0');
-        return `${MM}/${DD}/${YYYY} ${HH}:${mm}:${SS}`;
-    });
+    if (xtype == "time") {
+        // Convert numeric buckets to formatted UTC time strings
+        labels = sortedBuckets.map(bucket => {
+            const date = new Date(bucket * 1000 * timeIncrementSize);  // 5 = timeIncrementSize
+            const MM = String(date.getUTCMonth() + 1).padStart(2, '0');
+            const DD = String(date.getUTCDate()).padStart(2, '0');
+            const YYYY = date.getUTCFullYear();
+            const HH = String(date.getUTCHours()).padStart(2, '0');
+            const mm = String(date.getUTCMinutes()).padStart(2, '0');
+            const SS = String(date.getUTCSeconds()).padStart(2, '0');
+            return `${MM}/${DD}/${YYYY} ${HH}:${mm}:${SS}`;
+        });
+    }
 
+    else {
+        labels = sortedBuckets;
+    }
     const datasets = Object.entries(dataByType).map(([type, counts], idx) => {
         return {
             label: type,
@@ -127,6 +132,11 @@ function createMultiLineChart(canvasID, dataByType, title, xtitle, ytitle) {
     });
 }
 
+
+function createLineChart(canvasID, numRowsPerIncrement, title, xtitle, ytitle, xtype="time", ytype="linear")
+{
+
+}
 
 function createScatterPlot(
     canvasID,
@@ -332,7 +342,8 @@ function createCountDictionary(data, column, topN = null) {
     return result;
 }
 
-// Counts of the number of each [valueToCount] in each time increment.
+// Counts of the number of each [valueToCount] in each time increment. 
+// Used in multi-line graph for activity over time.
 function rowCountsByTypeAndTime(data_table, typeKey, timestampKey, incrementSeconds, limit) {
     const counts = {};
     const totalCountsByType = {};
@@ -364,4 +375,27 @@ function rowCountsByTypeAndTime(data_table, typeKey, timestampKey, incrementSeco
     });
 
     return filteredCounts;
+}
+
+// Counts the number of rows every <incrementSize> seconds.
+// Input: JS table
+// The timeStampColumn should be in Date() format.
+function countRowsPerTimeIncrement(data, timestampKey, incrementSize) {
+    const bucketCounts = {};
+
+    data.forEach(row => {
+        const dateObj = row[timestampKey];
+        if (!(dateObj instanceof Date)) return; // skip if not a Date
+
+        // Convert to epoch seconds
+        const tsSeconds = Math.floor(dateObj.getTime() / 1000);
+
+        // Find which bucket this timestamp belongs to
+        const bucketIndex = Math.floor(tsSeconds / incrementSize);
+
+        // Increment count
+        bucketCounts[bucketIndex] = (bucketCounts[bucketIndex] || 0) + 1;
+    });
+
+    return bucketCounts;
 }
