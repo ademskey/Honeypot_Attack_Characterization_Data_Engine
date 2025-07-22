@@ -743,7 +743,7 @@ class DataJanitor:
 
 
             if none_count <= 4:
-                pd.DataFrame([temp_entry]).to_csv(f"data/honeypot_summaries/{honeypot}_summary.csv", mode='a', header=False, index=False)
+                pd.DataFrame([temp_entry]).to_csv(f"data/historical_data/honeypot_summaries/{honeypot}_summary.csv", mode='a', header=False, index=False)
                 self.logs[f'honeypot_summary_{honeypot}'] = "Success."
             temp_entry = {}
             
