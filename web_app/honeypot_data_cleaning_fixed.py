@@ -701,7 +701,7 @@ class DataJanitor:
         temp_list = self.honeypot_info
         temp_list["Honeytrap"] = []
         
-
+        none_count = 0
         for honeypot in temp_list.keys():
             temp_df = df[df['type'] == honeypot]
             temp_entry['@timestamp'] = temp_df['@timestamp'].min()
@@ -711,34 +711,41 @@ class DataJanitor:
                 temp_entry['ip'] = temp_df['src_ip'].dropna().value_counts().index[0]
             else:
                 temp_entry['ip'] = 'None'
+                none_count += 1
 
             # most seen destination port
             if temp_df['dest_port'].dropna().shape[0] != 0:
                 temp_entry['port'] = temp_df['dest_port'].dropna().value_counts().index[0]
             else:
                 temp_entry['port'] = 'None'
+                none_count += 1
 
             # most seen country name
             if temp_df['geoip.country_name'].dropna().shape[0] != 0:
                 temp_entry['country'] = temp_df['geoip.country_name'].dropna().value_counts().index[0]
             else:
                 temp_entry['country'] = 'None'
+                none_count += 1
 
             # most seen city name
             if temp_df['geoip.city_name'].dropna().shape[0] != 0:
                 temp_entry['city'] = temp_df['geoip.city_name'].dropna().value_counts().index[0]
             else:
                 temp_entry['city'] = 'None'
+                none_count += 1
 
             # most seen organization
             if temp_df['geoip.as_org'].dropna().shape[0] != 0:
                 temp_entry['org'] = temp_df["geoip.as_org"].dropna().value_counts().index[0]
             else:
                 temp_entry['org'] = 'None'
+                none_count += 1
 
-    
-            pd.DataFrame([temp_entry]).to_csv(f"data/honeypot_summaries/{honeypot}_summary.csv", mode='a', header=False, index=False)
-            self.logs[f'honeypot_summary_{honeypot}'] = "Success."
+
+            if none_count <= 4:
+                pd.DataFrame([temp_entry]).to_csv(f"data/honeypot_summaries/{honeypot}_summary.csv", mode='a', header=False, index=False)
+                self.logs[f'honeypot_summary_{honeypot}'] = "Success."
+            temp_entry = {}
             
        
             
