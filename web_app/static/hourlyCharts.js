@@ -44,11 +44,10 @@ async function renderHourlyCharts(hourlyData) {
     const topXOrganizations = createXYPoints(companyHits, "Org", "Hits", "bar", chart3Limit)
     createBarChart("HourlyChart3", topXOrganizations, "Organization (geoip.as_org)", "Count", `Top ${chart3Limit} Organizations`);
 
-
     // Hourly Chart 4: Activity Over Time -- line graph
     const timeIncrementSize = 5; // in seconds.
     const chart4Limit = 5;
-    numRowsPerIncrement = rowCountsByTypeAndTime(fullHourlyData, "@timestamp", timeIncrementSize, chart4Limit);
+    numRowsPerIncrement = rowCountsByTypeAndTime(fullHourlyData, "type", "@timestamp", timeIncrementSize, chart4Limit);
     console.log(numRowsPerIncrement);
-    createMultiLineChart("HourlyChart4", numRowsPerIncrement, `Top ${chart4Limit} Honeypots Activity Over Time`, "Time", "Number of Entries", "time", timeIncrementSize);
+    createMultiLineChart("HourlyChart4", numRowsPerIncrement, `Top ${chart4Limit} Honeypots Activity Over Time`, "Time", "Number of Hits", "time", timeIncrementSize);
 }

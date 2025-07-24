@@ -1,1 +1,2 @@
-2025-07-22T23:34:48.000Z,206.168.34.74,5060.0,United States,None,CENSYS-ARIN-01
+@timestamp,ip,port,country,city,org
+2025-07-24T17:10:37.000Z,18.117.57.162,5060.0,United States,Columbus,AMAZON-02

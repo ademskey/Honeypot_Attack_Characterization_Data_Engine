@@ -25,6 +25,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 async function renderHoneypotCharts(honeypotData, honeypotName) {
 
+    console.log(honeypotData);
+
     // Honeypot Chart 1: Activity over Time
     const timeIncrementSize = 5; // in seconds.
     numRowsPerIncrement = countRowsPerTimeIncrement(honeypotData, '@timestamp', timeIncrementSize);
