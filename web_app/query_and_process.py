@@ -315,10 +315,11 @@ class DataPlumber:
 @timeit
 def main():
     plumber = DataPlumber()
+    #jan = hdc.DataJanitor()
+    #jan.reset_csvs()
     plumber.collect_honeypot_data()
     print()
     return 0
 
 if __name__ == "__main__":
     main()
-        

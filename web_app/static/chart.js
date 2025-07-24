@@ -197,12 +197,16 @@ function createLineChart(canvasID, numRowsPerIncrement, title, xtitle, ytitle, x
                     }
                 },
                 y: {
-                    type: ytype,
-                    title: {
-                        display: true,
-                        text: ytitle
-                    },
-                    beginAtZero: true
+                    type: ytype, // ensures a numeric axis
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1,            // force increments of 1
+                        callback: function (value) {
+                            if (Number.isInteger(value)) {
+                                return value;       // show only integers
+                            }
+                        }
+                    }
                 }
             }
         }

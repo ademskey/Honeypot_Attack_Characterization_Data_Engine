@@ -1,396 +1,133 @@
 Org,hits
-295CA-TOR-ASN,55.0
-4Media Ltd.,69.0
-702COM,73.0
-ACS-INTERNET,14.0
-AENEAS,14.0
-AGOTOZ PTE. LTD.,238.0
-ALLIANCECOM-NET,15.0
-ALTIMA-TELECOM,145.0
-ALTIMA-TORONTO,70.0
-ALYRICA,29.0
-AMAZON-02,6386.0
-AMAZON-AES,236.0
-ANTIETAM,23.0
-AS-26496-GO-DADDY-COM-LLC,330.0
-AS-CMN,562.0
-AS-COLOCROSSING,2006.0
-AS-EFTL,21.0
-AS-GLOBALTELEHOST,189.0
-AS-PNN-NET,20.0
-AS-PTD,533.0
-AS-SONICTELECOM,69.0
-AS-VULTR,82.0
-AS-WAVE-1,70.0
-AS-WHOLESAIL,30.0
-AS21565,154.0
-ASE TELECOMUNICACOES LTDA ME,16.0
-ASN for TIANJIN Provincial Net of CT,14.0
-ASN-CXA-ALL-CCI-22773-RDC,4064.0
-ASN-STARRY,40.0
-ASN01-SOGE,61.0
-ATLANTICBB-JOHNSTOWN,185.0
-ATT-INTERNET4,8481.0
-ATT-MOBILITY-LLC-AS20057,15.0
-AUREON-5056,21.0
-AVAST Software s.r.o.,1218.0
-AXENTIO SL,141.0
-AZZA TELECOM SERVICOS EM TELECOMUNICACOES LTDA,73.0
-Acesse Comunicacao Ltda,92502.0
+4Media Ltd.,10.0
+AGOTOZ PTE. LTD.,308.0
+AMAZON-02,1877.0
+AMAZON-AES,61.0
+AS-26496-GO-DADDY-COM-LLC,157.0
+AS-COLOCROSSING,73.0
+AS-GLOBALTELEHOST,79.0
+AS-VULTR,44.0
+AS62904,63.0
+ATT-INTERNET4,34.0
+AVAST Software s.r.o.,484.0
+Acesse Comunicacao Ltda,12578.0
 Administracion Nacional de Telecomunicaciones,7.0
-Aeza Group LLC,13.0
-Aeza International Ltd,3.0
-Akamai Connected Cloud,697.0
-Alexhost Srl,41.0
-"Alibaba US Technology Co., Ltd.",1892.0
-Alsycon B.V.,223.0
-Alviva Holding Limited,19.0
-Amarutu Technology Ltd,87.0
-Ap Interactive Solutions Sl,8.0
-BACOM,2640.0
-BARR-XPLR-ASN,215.0
-BB Host LTDA,20.0
-BEAMSPEED1,24.0
-BELLSOUTH-NET-BLK,33.0
-BH-TELECOM-CORP,294.0
-BHN-33363,1559.0
-"BITNET DOMINICANA, S.R.L.",10.0
-BLUESTREAMFIBER,127.0
-BRASIL TECPAR | AMIGO | AVATO,4.0
-BRESNAN-33588,240.0
-BRMEMC,28.0
-BRSPD-PUBLIC,325.0
-BTC-ONLINE,28.0
-Bangladesh Research and Education Network BdREN,93.0
-"Beijing Tiantexin Tech. Co., Ltd.",9.0
-BitCommand LLC,2.0
-Black HOST Ltd,85.0
-Bouygues Telecom SA,2132.0
-British Telecommunications PLC,17.0
-CA-1546-ASN-1,129.0
-CABLE-NET-1,1146.0
-CABLELYNX,22.0
-CABLEONE,827.0
-CANET-ASN-4,533.0
-CARINET,357.0
-CARRY-TELECOM,141.0
-CDELIGHTBAND,102.0
-CDSC-AS1,3.0
-CELLCO-PART,1523.0
-CENIC-2152,8.0
-CENSYS-ARIN-01,9118.0
-CENSYS-ARIN-02,1692.0
-CENSYS-ARIN-03,461.0
-CENTRALUTAH,2.0
-CENTURYLINK-LEGACY-LIGHTCORE,10.0
-CENTURYLINK-US-LEGACY-QWEST,573.0
-CHARTER-20115,3811.0
-CHEAPY-HOST,1058.0
-CHINA UNICOM China169 Backbone,602.0
-CHINANET Guangdong province network,1246.0
-CHISHOLMBB,24.0
-CLEARWAVE-COMMUNICATIONS,28.0
-CNSERVERS,5.0
-COGECOWAVE,55.0
-COGENT-174,512.0
-COLUMBUS-TEL-KS,4.0
-COM1-ASN,14.0
-COMCAST-7922,17330.0
-COMSSET COMUNICACIONES SAS,13.0
-CONEXON-CONNECT,328.0
-CONNECT2FIRST-LLC,202.0
-CONWAYCORP,42.0
-CRRS,77.0
-CSSBB,99.0
-CT-HangZhou-IDC,2287.0
-CTG Server Limited,2815.0
-CUMBERLAND-CONNECT,71.0
-CWAVEFIBER,145.0
-CWC-ROC-11139,133.0
-China Education and Research Network Center,34.0
-"China Mobile Communications Group Co., Ltd.",43.0
-China Mobile communications corporation,2821.0
-China Telecom,93.0
-China Telecom Group,2342.0
-China Unicom Beijing Province Network,35047.0
-China Unicom Shanghai network,49.0
-Chinanet,437.0
-Claro NXT Telecomunicacoes Ltda,70.0
-Clouvider Limited,65.0
-"Cogetel Online, Cambodia, ISP",1.0
-ColocaTel Inc.,26.0
-ComNet,32.0
-Companhia de Telecomunicacoes de Macau SARL,46.0
-Compania Dominicana de Telefonos S. A.,198.0
-Connect-Surf-and-Smile-Limited,183.0
-Contabo GmbH,44396.0
-CyberWorld,107.0
-DCM-CABLE,6.0
-DEDIOUTLET-NETWORKS,237.0
-DELUXHOST,8.0
-DIGI Tavkozlesi es Szolgaltato Kft.,8.0
-DIGITALOCEAN-ASN,420804.0
-DISTRIBUTEL-AS11814,140.0
-Dadeh Gostar Parmis PJS Company,30.0
-Data Communication Business Group,2912.0
-Datacamp Limited,7023.0
-Detai Prosperous Technologies Limited,1355.0
-Driftnet Ltd,380.0
-EASTLINK-HSI,14.0
-EBOX,29.0
-EMPIRE-40545,14.0
-EMPRESA NACIONAL DE TELECOMUNICACIONES SOCIEDAD ANONIMA,37.0
-ENTEL CHILE S.A.,15.0
-ENVENTIS,28.0
-ESECUREDATA,60.0
-FARMERS-TELECOMMUNICATIONS-COOPERATIVE-INC,5.0
-FASTNET ALBANIA Sh.p.k,143.0
-FIBERHUB,21.0
-FIDN,84.0
-FOCUS-BROADBAND,14.0
-FOP Dmytro Nedilskyi,192.0
-FPT Telecom Company,18.0
-FRONTIER,56.0
-FRONTIER-FRTR,1820.0
-FUSE-NET,22.0
-FYBERCOM,28.0
-FastLayer,58.0
-FlexyNode,63.0
-Freakhosting,49.0
-"GMO Internet Group, Inc.",24.0
-GO p.l.c.,2.0
-GOOGLE,202.0
-GOOGLE-CLOUD-PLATFORM,11970.0
-GOOGLE-FIBER,538.0
-GOSEMO-LLC,15.0
-GRANDECOM-AS1,1.0
-GREENLIGHT-NETWORKS,44.0
-GSL Networks Pty LTD,3615.0
-GVA-Canalbox,70.0
-Galeon LLC,1415.0
-Global Connectivity Solutions Llp,1282.0
-Global Layer B.V.,1012.0
-Global-Data System IT Corporation,14.0
-H2nexus Ltd,7.0
-HARMONYTELCO,21.0
-HART-COMMUNICATIONS,15.0
-HBCI-1999TA,28.0
-HCTC-LINK1,9.0
-HIGHLANDS-CABLE,70.0
-HKT Limited,3047.0
-HOMESC,51.0
-HONEST,15.0
-HOTWIRE-COMMUNICATIONS,43.0
-HUAWEI CLOUDS,729.0
-HURRICANE,1714.0
-"Hangzhou Alibaba Advertising Co.,Ltd.",248.0
-Hebei Mobile Communication Company Limited,1022.0
-Hetzner Online GmbH,37.0
-Hostdatos Business Services Private Limited,7.0
-Hostglobal.plus Ltd,2903.0
-Huawei Cloud Service data center,119.0
-ICS-LLC,28.0
-ILIGHT-NET,7.0
-INDOSAT Internet Network Provider,43.0
-IP Volume inc,31925.0
-IQ-FIBER,73.0
-IS-AS-1,31.0
-Internet Magnate (Pty) Ltd,17.0
-Internet Thailand Company Limited,2.0
-Internet Utilities Europe and Asia Limited,622.0
-Iran Telecommunication Company PJS,16.0
-JSC ER-Telecom Holding,8.0
-Joint Stock Company TransTeleCom,14.0
-KAMATERA,19.0
-Kakharov Orinbassar Maratuly,7.0
-Korea Telecom,2628.0
-Kprohost LLC,67.0
-Krez 999 Eood,125.0
-L&L Investment Ltd.,86.0
-LATITUDE-SH,1706.0
-LCPRL,70.0
-LLC Digital Network,200.0
-LLC KomTehCentr,21.0
-LOGIC-3855,24.0
-LOGIXCOMM-AS,60.0
-Latitude.sh LTDA,1020.0
-Layer7 Networks GmbH,27.0
-LeaseWeb Netherlands B.V.,8.0
-Limited Network LTD,146.0
-Link+ Ltd,10.0
-LocalNet Network,12.0
-M & B Soluciones Peru S.A.C. FASTNET,2.0
-M247 Europe SRL,9.0
-MAXXSOUTH-BROADBAND,8.0
-MEDIACOM-ENTERPRISE-BUSINESS,14.0
-MEGABIT PROVEDOR DE INTERNET LTDA,51.0
-MEVSPACE sp. z o.o.,1161.0
-MICROSOFT-CORP-MSN-AS-BLOCK,4204.0
-MIDCO-NET,125.0
-MNET,57.0
-MORRISBB,21.0
-MTL-19,18.0
-MTN NIGERIA Communication limited,22.0
-MTS PJSC,8.0
-MTS-ASN,84.0
-MULBERRY,141.0
-MULTA-ASN1,306.0
-MULTIB-40788,14.0
-MUVNET TELECOM,27.0
-Miti 2000 EOOD,142.0
-MobileOne Ltd. MobileInternet Service Provider Singapore,13.0
-NASULEX,30.0
-NETPROTECT-62651,125.0
-NEXTLINK-TEXAS,221.0
-NS,21.0
-NSTELCO,14.0
-NTS-ONLINE,15.0
-NTT Communications Corporation,4.0
-NYBULA,669.0
-"NextGenWebs, S.L.",1817.0
-Ningxia West Cloud Data Technology Co.Ltd.,9.0
-OMNI-FIBER,10.0
-ONYPHE SAS,2467.0
-OPTIMA LLC,109.0
-ORACLE-BMC-31898,28.0
-OTEnet S\.A\.,7.0
-OVH SAS,470.0
-Orange,51.0
-PACLW,12.0
-PAVLOVMEDIA,72.0
-PE Tsibrankov Konstantin Igorevich,8.0
-PHENIXCITYCABLE,70.0
-PLATEAU,50.0
-PLDI,42.0
-PONYNET,57.0
-PP Dmutrashko Evgeny Vitalievich,7.0
-PRIMUS-AS6407,14.0
-PROJ-MUT-TEL,49.0
-PT Cloud Hosting Indonesia,2235.0
-PT Giga Media Internet,12.0
-PT Ikhlas Cipta Teknologi,40.0
-PacketHub S.A.,247.0
-Petersburg Internet Network ltd.,357.0
-Pfcloud UG,7335.0
-Play2go International Limited,21.0
-Private Layer INC,231.0
-Proton66 OOO,1123.0
-RACE,142.0
-RANDOLPHTELEPHONE,23.0
-RCN-AS,424.0
-RICAWEBSERVICES,6.0
-RIPPLEFIBER-ASN-01,14.0
-RISE-BROADBAND,95.0
-ROCK-HILL-TELEPHONE,43.0
-ROGERS-COMMUNICATIONS,2181.0
-ROS Telecom,5.0
-ROUTERHOSTING,14.0
-Railnet LLC,279.0
-Reliance Jio Infocomm Limited,149.0
-Rices Privately owned enterprise,118.0
-Rostelecom,3.0
-SASKTEL,188.0
-SHAW,1354.0
-SHENTEL,26.0
-SNET-FCC,345.0
-SPACEX-STARLINK,462.0
-SPEARHEAD LIFESTYLE INDIA PRIVATE LIMITED,24.0
-SS-Net,2481.0
-STARRY-NY,14.0
-STARWIRELESS-15153,29.0
-STELLAR-ASSOCIATION,64.0
-SUCCEED-NET,181.0
-SUDDENLINK-COMMUNICATIONS,396.0
-SUREWEST,123.0
-SURFAIRWIRELESS-IN-02,82.0
-SURRY-TELEPHONE-MEMB-CORP,21.0
-SWIFTCURRENT-CONNECT,14.0
-Scaleway S.a.s.,28.0
-Scloud Pte Ltd,205.0
-"Securitytrails, LLC",60.0
-Shereverov Marat Ahmedovich,87.0
-Singtel Fibre Broadband,54.0
-"Sistemas Informaticos, S.A.",314.0
-Sixty Four Networks Limited.,212.0
-Skynet Network Ltd,15.0
-Smartnet Limited,21.0
-Societe Francaise Du Radiotelephone - SFR SA,15.0
-SpectraIP B.V.,42.0
-Starhub Ltd,24.0
-Stiftung Erneuerbare Freiheit,7.0
-Stimul LLC,47.0
-T-MOBILE-AS21928,4494.0
-T-Systems International GmbH,6430.0
-TACH,2.0
-TBC,17.0
-TDC Holding A/S,183.0
-TDS-AS,257.0
-TELEBERMUDA,11.0
-TELEFONICA CHILE S.A.,29.0
-TELEPAK-NETWORKS-INC,85.0
-TELMAX-INC,29.0
-TELUS Communications,1379.0
-TEMPEST-HOSTING,16.0
-TGTEL,230.0
-"TIME dotCom Berhad No. 14, Jalan Majistret U126 Hicom Glenmarie Industrial Park 40150 Shah Al",8.0
-TM TECHNOLOGY SERVICES SDN. BHD.,18.0
-TOT Public Company Limited,91.0
-TPG Telecom Limited,21.0
-TRANSACT-BM-ASN,6.0
-TRINET1,10.0
-TSWIFI-AS,28.0
-TWC-10796-MIDWEST,1955.0
-TWC-11351-NORTHEAST,589.0
-TWC-11426-CAROLINAS,2222.0
-TWC-11427-TEXAS,1751.0
-TWC-12271-NYC,1896.0
-TWC-20001-PACWEST,3061.0
-TZULO,4.0
-Tamatiya EOOD,187.0
-Techoff Srv Limited,237.0
-Techtel LMDS Comunicaciones Interactivas S.A.,42.0
-Telchak Gold Ventures (private) Limited,30.0
-Telecom Argentina S.A.,15.0
-Telecommunication Company Vinteleport Ltd.,1737.0
-"Tencent Building, Kejizhongyi Avenue",93.0
-Tier 4 Cloud Services,7.0
-Tube-Hosting,1448.0
-UAB Host Baltic,518.0
-UCLOUD INFORMATION TECHNOLOGY HK LIMITED,5592.0
-UCSD,5.0
-UNICOM AnHui province network,8.0
-UNIFIEDLAYER-AS-1,9.0
-UNINET,371.0
-UUNET,8085.0
-Unmanaged Ltd,1121.0
-V tal,12.0
-VALLEYFIBER,70.0
-VERO-NETWORKS-AS6653,45.0
-VGPE-ASN1,214.0
-VIANET INC 5690,119.0
-VIDEOTRON,405.0
-VIET DIGITAL TECHNOLOGY LIABILITY COMPANY,322.0
-VIETNAM POSTS AND TELECOMMUNICATIONS GROUP,722.0
-VISUALNET TELECOM,12.0
-VPSMMO TECHNOLOGY COMPANY LIMITED,126.0
-Viet Storage Technology Joint Stock Company,129.0
-VinhNam Commercial informatics service corporation,15.0
-Vivacom Bulgaria EAD,1.0
-Vpsvault.host Ltd,1796.0
-WCG-AS,287.0
-WCI-NET,198.0
-WDI SOLUCOES EM TEC INFORMACAO LTDA,86.0
-WEBSTER-CALHOUN-ASN,31.0
-WHG Hosting Services Ltd,254.0
-WIGHT-AS,12.0
-WINDSTREAM,202.0
-WIRE3,284.0
-WOW-INTERNET,394.0
-Xhost Internet Solutions Lp,167.0
-ZEN-ECN,308.0
-ZHONGGUANCUN-CO,648.0
-Zencurity ApS,23.0
-"Zhengzhou Fastidc Technology Co.,Ltd.",12.0
-i3D.net B.V,1.0
-iCore Technology Sdn Bhd,69.0
-iTools JSC,93.0
+Aeza Group LLC,34.0
+Akamai Connected Cloud,82.0
+"Alibaba US Technology Co., Ltd.",2187.0
+Alsycon B.V.,298.0
+Amarutu Technology Ltd,70.0
+Bangladesh Research and Education Network BdREN,5.0
+"Beijing Tiantexin Tech. Co., Ltd.",33.0
+"Beijing Volcano Engine Technology Co., Ltd.",73.0
+Bouygues Telecom SA,1039.0
+Byteplus Pte. Ltd.,324.0
+CABLE-NET-1,1.0
+CARINET,1.0
+CDSC-AS1,12.0
+CENSYS-ARIN-01,2503.0
+CENSYS-ARIN-02,519.0
+CENSYS-ARIN-03,465.0
+CHARTER-20115,12.0
+CHEAPY-HOST,76.0
+CHINA UNICOM China169 Backbone,295.0
+CHINANET Guangdong province network,1550.0
+CHINANET Hubei province network,11.0
+CMC Telecom Infrastructure Company,18.0
+COGENT-174,368.0
+COMCAST-7922,13.0
+CONTABO-40021,25.0
+CT-HangZhou-IDC,165.0
+"China Mobile Communications Group Co., Ltd.",27.0
+China Telecom Group,20.0
+China Unicom Beijing Province Network,192.0
+Chinanet,582.0
+Clouvider Limited,59.0
+Contabo GmbH,110314.0
+DEDIOUTLET-NETWORKS,375.0
+DIGI Tavkozlesi es Szolgaltato Kft.,4.0
+DIGITALOCEAN-ASN,201505.0
+Data Communication Business Group,2.0
+Datacamp Limited,3530.0
+Detai Prosperous Technologies Limited,1744.0
+Driftnet Ltd,248.0
+FOP Dmytro Nedilskyi,150.0
+"GMO Internet Group, Inc.",4.0
+GOOGLE-CLOUD-PLATFORM,7951.0
+GSL Networks Pty LTD,1671.0
+Galeon LLC,647.0
+Global Connectivity Solutions Llp,541.0
+Global Layer B.V.,501.0
+HUAWEI CLOUDS,231.0
+"Hangzhou Alibaba Advertising Co.,Ltd.",101.0
+IONOS SE,41.0
+IP Volume inc,1048.0
+Internet Utilities Europe and Asia Limited,284.0
+Iran Telecommunication Company PJS,7.0
+JSC ER-Telecom Holding,69.0
+KAMATERA,110.0
+Korea Telecom,219.0
+Kprohost LLC,18.0
+Krez 999 Eood,41.0
+L&L Investment Ltd.,22.0
+LATITUDE-SH,834.0
+LG DACOM Corporation,51.0
+LLC Digital Network,85.0
+Latitude.sh LTDA,487.0
+Limited Network LTD,279.0
+MEVSPACE sp. z o.o.,1191.0
+MICROSOFT-CORP-MSN-AS-BLOCK,1463.0
+Medha Hosting,21.0
+Miti 2000 EOOD,37.0
+NETPROTECT-62651,1.0
+NYBULA,98.0
+Ningxia West Cloud Data Technology Co.Ltd.,35.0
+ONYPHE SAS,1306.0
+OPTIMA LLC,327.0
+OVH SAS,288.0
+One Albania Sh.a.,9.0
+PONYNET,17.0
+PT Cloud Hosting Indonesia,58.0
+Petersburg Internet Network ltd.,111.0
+Pfcloud UG,3571.0
+Private Layer INC,73.0
+Proton66 OOO,550.0
+RICAWEBSERVICES,66.0
+Railnet LLC,20.0
+Reliance Jio Infocomm Limited,70.0
+Rices Privately owned enterprise,231.0
+Rostelecom,1.0
+SPEARHEAD LIFESTYLE INDIA PRIVATE LIMITED,6.0
+SS-Net,921.0
+Scaleway S.a.s.,12.0
+"Securitytrails, LLC",19.0
+Shereverov Marat Ahmedovich,96.0
+"Sistemas Informaticos, S.A.",445.0
+Star Telecom,21.0
+Stimul LLC,49.0
+T-MOBILE-AS21928,13.0
+T-Systems International GmbH,1742.0
+TIER-NET,25.0
+TOT Public Company Limited,51.0
+TWC-10796-MIDWEST,20.0
+Tamatiya EOOD,85.0
+Techoff Srv Limited,119.0
+Telia Company AB,20.0
+"Tencent Building, Kejizhongyi Avenue",81.0
+Tube-Hosting,594.0
+UAB Host Baltic,311.0
+UCLOUD INFORMATION TECHNOLOGY HK LIMITED,3560.0
+UCSD,7.0
+UNICOM AnHui province network,13.0
+UNINET,25.0
+Unmanaged Ltd,344.0
+VIETNAM POSTS AND TELECOMMUNICATIONS GROUP,88.0
+Viet Storage Technology Joint Stock Company,16.0
+Vivacom Bulgaria EAD,17.0
+Vpsvault.host Ltd,223.0
+WANANCHI,93.0
+WHG Hosting Services Ltd,140.0
+Xhost Internet Solutions Lp,124.0
+ZEN-ECN,18.0
+ZHONGGUANCUN-CO,322.0
+Zencurity ApS,61.0
