@@ -10,9 +10,6 @@ Flask:
 Create a ".env" file for http authorization (needed to pull information from honeypot)
 
 
-    # Then, set expose that proxy to the internet with ngrok
-    ex cmd: ngrok tcp 1080
-
     # Then, make sure the proxies are configured in the script
     ex code:
     proxies = {
