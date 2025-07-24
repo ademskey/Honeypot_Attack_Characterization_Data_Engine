@@ -22,23 +22,21 @@ id_honeypot_Wordpot:Successful
 id_honeypot_Honeytrap:Success
 label_hidden_honeypots:Success
 drop_sparse_columns:Success.
-print_progress_a:Original Dataframe size: 83559 rows and 39 columns.
-print_progress_b:Final Dataframe size: 16755 rows and 10 columns.
-process_data:Processing time =  8.34 seconds
+print_progress_a:Original Dataframe size: 94958 rows and 39 columns.
+print_progress_b:Final Dataframe size: 34715 rows and 10 columns.
+process_data:Processing time =  13.07 seconds
 compile_hourly_data:Success
 save_time_vs_port_data:success
 compile_honeypot_hits:Success
 honeypot_summary_Ciscoasa:Success.
+honeypot_summary_Dicompot:Success.
 honeypot_summary_Honeyaml:Success.
-honeypot_summary_SentryPeer:Success.
 honeypot_summary_Abdhoney:Success.
-honeypot_summary_Conpot:Success.
 honeypot_summary_Cowrie:Success.
 honeypot_summary_Dionaea:Success.
 honeypot_summary_Elasticpot:Success.
 honeypot_summary_H0neytr4p:Success.
 honeypot_summary_Heralding:Success.
-honeypot_summary_Ipphoney:Success.
 honeypot_summary_Mailoney:Success.
 honeypot_summary_Redishoneypot:Success.
 honeypot_summary_Wordpot:Success.

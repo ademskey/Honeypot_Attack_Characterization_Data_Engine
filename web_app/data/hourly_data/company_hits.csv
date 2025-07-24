@@ -1,115 +1,97 @@
 Org,Hits,Total_ips
-4Media Ltd.,4,1
-AGOTOZ PTE. LTD.,1,1
-AMAZON-02,175,12
+4Media Ltd.,6,2
+AGOTOZ PTE. LTD.,14,2
+AMAZON-02,63,13
 AMAZON-AES,1,1
 AS-26496-GO-DADDY-COM-LLC,6,1
-AS-COLOCROSSING,105,2
-AS-GLOBALTELEHOST,2,1
-AS-VULTR,6,2
-AVAST Software s.r.o.,18,5
-Akamai Connected Cloud,7,5
-Alexhost Srl,2,1
-"Alibaba US Technology Co., Ltd.",44,6
-Alsycon B.V.,8,2
-Alviva Holding Limited,1,1
-BHN-33363,2,1
-BitCommand LLC,1,1
-Bouygues Telecom SA,42,1
-CARINET,1,1
-CENSYS-ARIN-01,207,49
-CENSYS-ARIN-02,35,19
-CHEAPY-HOST,18,2
-CHINA UNICOM China169 Backbone,12,5
-CHINANET Guangdong province network,15,5
-CNSERVERS,1,1
-COMCAST-7922,9,2
-CT-HangZhou-IDC,124,2
-CTG Server Limited,75,1
-China Education and Research Network Center,1,1
-China Mobile communications corporation,69,1
-China Telecom Group,37,1
-Chinanet,3,2
+AS-COLOCROSSING,1,1
+AS-GLOBALTELEHOST,2,2
+AS-VULTR,2,1
+ASE TELECOMUNICACOES LTDA ME,2,1
+AVAST Software s.r.o.,14,4
+Acesse Comunicacao Ltda,10335,1
+Administracion Nacional de Telecomunicaciones,1,1
+Aeza Group LLC,1,1
+Akamai Connected Cloud,15,3
+"Alibaba US Technology Co., Ltd.",40,5
+Alsycon B.V.,9,3
+"Beijing Tiantexin Tech. Co., Ltd.",3,2
+Bouygues Telecom SA,40,1
+British Telecommunications PLC,3,1
+CDSC-AS1,1,1
+CENSYS-ARIN-01,127,37
+CENSYS-ARIN-02,25,16
+CENSYS-ARIN-03,6,3
+CHEAPY-HOST,3,1
+CHINA UNICOM China169 Backbone,2,2
+CHINANET Guangdong province network,38,9
+COGENT-174,27,3
+CT-HangZhou-IDC,6,1
+"China Mobile Communications Group Co., Ltd.",2,1
+China Telecom Group,4,2
+Chinanet,4,3
 ColocaTel Inc.,2,1
-CyberWorld,31,1
-DIGITALOCEAN-ASN,8067,21
-Data Communication Business Group,72,1
-Datacamp Limited,140,29
-Detai Prosperous Technologies Limited,45,10
-Driftnet Ltd,3,2
-ESECUREDATA,4,1
-FOP Dmytro Nedilskyi,5,1
-FPT Telecom Company,1,1
-FRONTIER-FRTR,2,1
-GOOGLE-CLOUD-PLATFORM,279,54
-GSL Networks Pty LTD,66,4
+ComNet,4,1
+Contabo GmbH,5549,1
+DEDIOUTLET-NETWORKS,35,1
+DIGI Tavkozlesi es Szolgaltato Kft.,1,1
+DIGITALOCEAN-ASN,8154,16
+Datacamp Limited,138,29
+Detai Prosperous Technologies Limited,27,5
+Driftnet Ltd,8,7
+FOP Dmytro Nedilskyi,2,2
+"GMO Internet Group, Inc.",3,1
+GOOGLE-CLOUD-PLATFORM,349,79
+GSL Networks Pty LTD,68,4
 Galeon LLC,12,1
-Global Connectivity Solutions Llp,12,2
+Global Connectivity Solutions Llp,27,2
 Global Layer B.V.,20,1
-HKT Limited,71,1
-HOMESC,6,1
-HUAWEI CLOUDS,14,1
-HURRICANE,56,30
-"Hangzhou Alibaba Advertising Co.,Ltd.",2,1
-INDOSAT Internet Network Provider,2,1
-IP Volume inc,1164,12
-IS-AS-1,2,1
-Internet Utilities Europe and Asia Limited,11,1
-Joint Stock Company TransTeleCom,2,1
-Korea Telecom,129,13
-Kprohost LLC,2,2
+Global-Data System IT Corporation,2,1
+HUAWEI CLOUDS,12,1
+"Hangzhou Alibaba Advertising Co.,Ltd.",1,1
+IP Volume inc,291,11
+Internet Magnate (Pty) Ltd,2,1
+Internet Utilities Europe and Asia Limited,12,1
+Iran Telecommunication Company PJS,2,2
+JSC ER-Telecom Holding,1,1
+KAMATERA,2,2
+Korea Telecom,77,13
 Krez 999 Eood,2,2
 L&L Investment Ltd.,1,1
-LATITUDE-SH,31,2
-LLC Digital Network,6,2
-LLC KomTehCentr,1,1
+LATITUDE-SH,34,2
+LLC Digital Network,8,3
 Latitude.sh LTDA,19,1
-Layer7 Networks GmbH,2,1
-Link+ Ltd,1,1
-M247 Europe SRL,1,1
-MEVSPACE sp. z o.o.,22,8
-MICROSOFT-CORP-MSN-AS-BLOCK,180,22
-MTS PJSC,2,1
-Miti 2000 EOOD,3,2
-NETPROTECT-62651,2,1
-NYBULA,3,1
-"NextGenWebs, S.L.",115,1
-ONYPHE SAS,42,22
-OPTIMA LLC,7,1
-PHENIXCITYCABLE,3,1
-PT Cloud Hosting Indonesia,102,1
-PT Giga Media Internet,1,1
-PacketHub S.A.,9,1
-Petersburg Internet Network ltd.,12,2
-Pfcloud UG,143,9
+LeaseWeb Netherlands B.V.,1,1
+Limited Network LTD,7,2
+MEVSPACE sp. z o.o.,28,10
+MICROSOFT-CORP-MSN-AS-BLOCK,53,16
+Miti 2000 EOOD,1,1
+NYBULA,5,1
+Ningxia West Cloud Data Technology Co.Ltd.,3,1
+ONYPHE SAS,52,30
+PE Tsibrankov Konstantin Igorevich,1,1
+Pfcloud UG,184,5
 Private Layer INC,1,1
-Proton66 OOO,23,2
-Railnet LLC,4,1
+Proton66 OOO,23,3
 Reliance Jio Infocomm Limited,3,1
-SNET-FCC,4,1
-SS-Net,39,10
-Scloud Pte Ltd,3,1
-"Securitytrails, LLC",1,1
+Rices Privately owned enterprise,13,1
+SPEARHEAD LIFESTYLE INDIA PRIVATE LIMITED,3,1
+SS-Net,34,11
 Shereverov Marat Ahmedovich,1,1
-T-MOBILE-AS21928,2,1
-T-Systems International GmbH,133,1
-TBC,1,1
-TM TECHNOLOGY SERVICES SDN. BHD.,1,1
-TWC-10796-MIDWEST,18,1
-Tamatiya EOOD,2,1
-Telecommunication Company Vinteleport Ltd.,115,1
-Tube-Hosting,27,2
-UAB Host Baltic,9,2
-UCLOUD INFORMATION TECHNOLOGY HK LIMITED,88,18
-UNIFIEDLAYER-AS-1,1,1
-UUNET,8,2
-Unmanaged Ltd,12,3
-VIET DIGITAL TECHNOLOGY LIABILITY COMPANY,15,2
-VPSMMO TECHNOLOGY COMPANY LIMITED,5,1
-Viet Storage Technology Joint Stock Company,5,1
-Vpsvault.host Ltd,45,5
-WDI SOLUCOES EM TEC INFORMACAO LTDA,29,1
-WHG Hosting Services Ltd,9,1
-Xhost Internet Solutions Lp,4,1
-ZHONGGUANCUN-CO,13,1
-iTools JSC,4,1
+"Sistemas Informaticos, S.A.",25,4
+Stimul LLC,7,1
+T-Systems International GmbH,92,1
+Tamatiya EOOD,9,1
+Techoff Srv Limited,17,2
+"Tencent Building, Kejizhongyi Avenue",4,1
+Tube-Hosting,25,2
+UAB Host Baltic,8,3
+UCLOUD INFORMATION TECHNOLOGY HK LIMITED,302,21
+Unmanaged Ltd,2,2
+Viet Storage Technology Joint Stock Company,4,1
+Vivacom Bulgaria EAD,1,1
+Vpsvault.host Ltd,16,2
+WHG Hosting Services Ltd,4,1
+Xhost Internet Solutions Lp,12,1
+ZHONGGUANCUN-CO,14,1
+Zencurity ApS,6,1

@@ -689,11 +689,11 @@ class DataJanitor:
 
     # dest_port, src_ip, geoip.country_name, geoip.city_name, org
     def honeypot_summaries(self, df):
-        summary_info = ['@timestamp', 'src_ip', 'dest_port', 'geoip.country_name', 'geoip.city_name', 'geoip.as_org']
-        expected_headers = ["@timestamp", "ip", "port", "country", "city", "org"]
+        summary_info = ['@timestamp', 'ip', 'port', 'country', 'city', 'org']
+        needed_cols = ['@timestamp', 'src_ip', 'dest_port', 'geoip.country_name', 'geoip.city_name', 'geoip.as_org']
 
-        # Verify all needed columns exist
-        for col in summary_info:
+        # Check required columns
+        for col in needed_cols:
             if col not in df.columns:
                 self.logs['honeypot_summaries'] = (
                     f"Missing {col}, summary could not be retrieved for {df['@timestamp'].min()}"
@@ -708,39 +708,43 @@ class DataJanitor:
             honeypot_df = df[df['type'] == honeypot]
             temp_entry = {'@timestamp': honeypot_df['@timestamp'].min()}
 
-            # Get most common values or 'None'
-            temp_entry['ip'] = honeypot_df['src_ip'].dropna().value_counts().index[0] if honeypot_df['src_ip'].dropna().shape[0] else 'None'
-            temp_entry['port'] = honeypot_df['dest_port'].dropna().value_counts().index[0] if honeypot_df['dest_port'].dropna().shape[0] else 'None'
-            temp_entry['country'] = honeypot_df['geoip.country_name'].dropna().value_counts().index[0] if honeypot_df['geoip.country_name'].dropna().shape[0] else 'None'
-            temp_entry['city'] = honeypot_df['geoip.city_name'].dropna().value_counts().index[0] if honeypot_df['geoip.city_name'].dropna().shape[0] else 'None'
-            temp_entry['org'] = honeypot_df['geoip.as_org'].dropna().value_counts().index[0] if honeypot_df['geoip.as_org'].dropna().shape[0] else 'None'
+            # Most seen source IP address
+            temp_entry['ip'] = honeypot_df['src_ip'].dropna().value_counts().index[0] if not honeypot_df['src_ip'].dropna().empty else 'None'
+            # Most seen destination port
+            temp_entry['port'] = honeypot_df['dest_port'].dropna().value_counts().index[0] if not honeypot_df['dest_port'].dropna().empty else 'None'
+            # Most seen country
+            temp_entry['country'] = honeypot_df['geoip.country_name'].dropna().value_counts().index[0] if not honeypot_df['geoip.country_name'].dropna().empty else 'None'
+            # Most seen city
+            temp_entry['city'] = honeypot_df['geoip.city_name'].dropna().value_counts().index[0] if not honeypot_df['geoip.city_name'].dropna().empty else 'None'
+            # Most seen org
+            temp_entry['org'] = honeypot_df['geoip.as_org'].dropna().value_counts().index[0] if not honeypot_df['geoip.as_org'].dropna().empty else 'None'
 
-            # Count how many values are missing
-            none_count = sum(v == 'None' for v in temp_entry.values())
+            none_count = sum(val == 'None' for val in temp_entry.values())
 
+            # CSV path
             file_path = f"data/historical_data/honeypot_summaries/{honeypot}_summary.csv"
 
-            # ✅ Check existing file headers ONLY with pandas
-            needs_header_fix = False
+            # ✅ Check if CSV is empty by trying to read just 1 row
+            csv_is_empty = False
             try:
-                # Only read header row
-                existing_headers = pd.read_csv(file_path, nrows=0).columns.tolist()
-                if existing_headers != expected_headers:
-                    needs_header_fix = True
-            except Exception:
-                # File missing or empty
-                needs_header_fix = True
+                test_df = pd.read_csv(file_path, nrows=1)
+                if test_df.empty:
+                    csv_is_empty = True
+            except FileNotFoundError:
+                csv_is_empty = True
+            except pd.errors.EmptyDataError:
+                csv_is_empty = True
 
-            # ✅ If headers missing or incorrect, rewrite them first
-            if needs_header_fix:
-                pd.DataFrame(columns=expected_headers).to_csv(file_path, index=False)
+            # ✅ If empty, write headers first
+            if csv_is_empty:
+                pd.DataFrame(columns=summary_info).to_csv(file_path, index=False)
 
-            # ✅ Append new row only if it has meaningful data
+            # ✅ Append only if there’s meaningful data
             if none_count <= 4:
                 pd.DataFrame([temp_entry]).to_csv(
                     file_path,
                     mode='a',
-                    header=False,  # headers already ensured above
+                    header=False,  # headers already written if needed
                     index=False
                 )
                 self.logs[f'honeypot_summary_{honeypot}'] = "Success."
