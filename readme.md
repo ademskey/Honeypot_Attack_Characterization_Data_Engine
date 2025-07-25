@@ -5,8 +5,8 @@ T-Pot Version: 24.04.1
 Kibana Version: 8.18.3
 Elastic Version: 1.7.0
 
-Browser Tool (/web_app):
-Python: 3.10.12
+Browser App:
+Python: 3.10.12 and 3.13.1
 Flask: 3.1.0/Werkzeung 3.1.3
 Javascript: 12.22.9
 
