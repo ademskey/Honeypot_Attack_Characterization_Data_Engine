@@ -78,5 +78,6 @@ Opens port 5000 and reads the contents of the data folder into dataframes. Conve
 
   ### Frontend
   The layout of the browser tool is similar to the data folder structure, where the user can choose to view either historical data, data from the past hour, or choose a honeypot to monitor.  
-  web_app/static contains a js file for each html page (web_app/templates) and Chart.js helper functions in web_app/static/chart.js that simplify adding charts to the web page.
+  
+  web_app/static contains a .js file for each html page (web_app/templates) and Chart.js helper functions in web_app/static/chart.js that simplify adding charts to the web page.
 
