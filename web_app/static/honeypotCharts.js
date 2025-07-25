@@ -31,19 +31,18 @@ async function renderHoneypotCharts(honeypotData, honeypotName) {
     topxSourceIPs = createCountDictionary(honeypotData, "ip", chart1Limit);
     createBarChart("honeypot-chart1", topxSourceIPs, "Source IP Address", "Count", "");
 
-    // Honeypot Chart 2: Activity over Time
-    createTextforHTMLID(`${honeypotName} Activity Over Time`, "honeypot-chart2-title")
+    // Honeypot Chart 2: Top x Organizations
+    const chart2Limit = 3;
+    createTextforHTMLID(`Top ${chart2Limit} Organizations for ${honeypotName}`, "honeypot-chart2-title")
+    topxOrgs = createCountDictionary(honeypotData, "org", chart2Limit);
+    createBarChart("honeypot-chart2", topxOrgs, "Organization", "Count", "");
+
+    // Honeypot Chart 3: Activity over Time
+    createTextforHTMLID(`${honeypotName} Activity Over Time`, "honeypot-chart3-title")
     const timeIncrementSize = 100; // in seconds.
     numRowsPerIncrement = countRowsPerTimeIncrement(honeypotData, '@timestamp', timeIncrementSize);
-    createLineChart("honeypot-chart2", numRowsPerIncrement, "", "Time", `Number of Hits from ${honeypotName}`, "time", "linear");
-
-    // Honeypot Chart 3: Top x Organizations
-    const chart3Limit = 3;
-    createTextforHTMLID(`Top ${chart3Limit} Organizations for ${honeypotName}`, "honeypot-chart3-title")
-    topxOrgs = createCountDictionary(honeypotData, "org", chart3Limit);
-    createBarChart("honeypot-chart3", topxOrgs, "Organization", "Count", "");
-
-
+    //createLineChart("honeypot-chart3", numRowsPerIncrement, "", "Time", "Number of Entries", "time", "linear");
+    createLineChart("honeypot-chart3", numRowsPerIncrement, "", "Time", `Number of Hits from ${honeypotName}`, "time", "linear");
 
 
     createLineChart()
