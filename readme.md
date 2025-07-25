@@ -77,4 +77,6 @@ These files are divided into hourly data, historical data, and honeypot summary 
 Opens port 5000 and reads the contents of the data folder into dataframes. Converts to JSONL tables and serves to the Javascript front end (For better speed, future work should instead read the CSVs in the JS to reduce slowdown caused by Python). Every 3600 seconds (1 hour), the app calls query_and_process.py to get new hourly data and update historical data.
 
   ### Frontend
+  The layout of the browser tool is similar to the data folder structure, where the user can choose to view either historical data, data from the past hour, or choose a honeypot to monitor.  
+  web_app/static contains a js file for each html page (web_app/templates) and Chart.js helper functions in web_app/static/chart.js that simplify adding charts to the web page.
 
