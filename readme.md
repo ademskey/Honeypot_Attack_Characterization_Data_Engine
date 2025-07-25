@@ -1,7 +1,7 @@
 # Authors: Adam Caudle, Emily West, Caitlyn Boyd, Jack Crawford
 
 # Stack: (At the time of creation)
-T-Pot Version: 24.04.1 
+T-Pot Version: 24.04.1  
 Kibana Version: 8.18.3  
 Elastic Version: 1.7.0  
 
@@ -32,13 +32,13 @@ Have python3 installed
         # pip install -r requirements.txt
 
 
-    In Honeypot_Attack_Characterization_Data_Engine/web_app, run: 
+In Honeypot_Attack_Characterization_Data_Engine/web_app, run: 
 
 
         # python3 app.py
 
-        
-    Visit http://127.0.0.1:5000/ in your web broswer.
+
+Visit http://localhost:5000/ in your web broswer.
 
 
 # About the Web App:
