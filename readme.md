@@ -49,7 +49,7 @@ Run the Flask app:
 Visit http://localhost:5000/ in your web broswer.
 
 
-# About the Web App:
+# About the Browser Tool:
 
 ## Security  
 This is a locally hosted browser app, so it is safe from common web-based attacks. Security during Elastic querying is provided by access through a VPN, and credentials required. Once the data is in the Flask app, web_app/app.py protects honeypot data from HTTP verb tampering by rejecting unsafe HTTP methods.
