@@ -4,7 +4,11 @@
 T-Pot Version: 24.04.1 
 Kibana Version: 8.18.3
 Elastic Version: 1.7.0
-Flask: 
+
+Browser Tool (/web_app):
+Python: 3.10.12
+Flask: 3.1.0/Werkzeung 3.1.3
+Javascript: 12.22.9
 
 # Setting up:
 Create a ".env" file for http authorization (needed to pull information from honeypot)
@@ -20,8 +24,14 @@ Create a ".env" file for http authorization (needed to pull information from hon
     You should then be able to request data via the script.
 
 # Running data visualization (/web_app):
-    # Have python3 installed
-    # Connect to Cyberrange Poulsbo's VPN
-    # pip install the libraries found in requirements.txt: pip install -r requirements.txt
-    # in Honeypot_Attack_Characterization_Data_Engine/web_app, run: python3 app.py
-    # Visit http://127.0.0.1:5000/ in your web broswer.
+Have python3 installed
+Connect to Cyberrange Poulsbo's VPN
+pip install the libraries found in requirements.txt: 
+    # pip install -r requirements.txt
+In Honeypot_Attack_Characterization_Data_Engine/web_app, run: 
+    # python3 app.py
+Visit http://127.0.0.1:5000/ in your web broswer.
+
+
+# About the Web App:
+
