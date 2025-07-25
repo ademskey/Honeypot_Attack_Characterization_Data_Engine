@@ -51,8 +51,10 @@ Visit http://localhost:5000/ in your web broswer.
 
 # About the Web App:
 
+## Security  
+Once the data is in the Flask app, web_app/app.py protects honeypot data from HTTP verb tampering by rejecting unsafe HTTP methods.
 
-## Data Pipeline:  
+## Data Pipeline  
 T-Pot stores a log of data for a predetermined amount of time in Elastic. Several honeypots use Suricata and p0f for network analysis and threat detection, and these tools inadvertently show up as honeypot names in the "type" column.
 ### Collection and Cleaning
 query_and_process.py creates a "Data Plumber" that queries Elastic search for honeypot data and analyzes it in increments of 60 minutes.   
