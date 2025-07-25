@@ -56,6 +56,7 @@ Once the data is in the Flask app, web_app/app.py protects honeypot data from HT
 
 ## Data Pipeline  
 T-Pot stores a log of data for a predetermined amount of time in Elastic. Several honeypots use Suricata and p0f for network analysis and threat detection, and these tools inadvertently show up as honeypot names in the "type" column.
+### Backend
 ### Collection and Cleaning
 query_and_process.py creates a "Data Plumber" that queries Elastic search for honeypot data and analyzes it in increments of 60 minutes.   
 honeypot_data_cleaning_fixed.py uses the Data Plumber's jsonl output file and creates a "Data Janitor" that takes the new hour of data, then cleans the data by scanning for then dropping:  
@@ -71,4 +72,9 @@ These files are divided into hourly data, historical data, and honeypot summary 
 - **hourly_data**: Overwritten with each query. Contains number of hits per organization, and a CSV with full columns for that hour (customizable).
 - **historical_data**: Appended to with each query. To prevent it from becoming too large to manage and process, this contains summaries of data from the query.
 - Historical Data/**honeypot_summaries**: Historical data summaries specific to each honeypot.
+
+### Flask Browser App
+Opens port 5000 and reads the contents of the data folder into dataframes. Converts to JSONL tables and serves to the Javascript front end (For better speed, future work should instead read the CSVs in the JS to reduce slowdown caused by Python). Every 3600 seconds (1 hour), the app calls query_and_process.py to get new hourly data and update historical data.
+
+  ### Frontend
 
