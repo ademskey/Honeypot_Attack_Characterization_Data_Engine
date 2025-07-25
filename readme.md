@@ -42,4 +42,8 @@ Visit http://localhost:5000/ in your web broswer.
 
 
 # About the Web App:
+This is an all-in-one Javascript/HTML browser tool, using Python's Flask for the web server. 
+
+Data Pipeline:  
+
 
