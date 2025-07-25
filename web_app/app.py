@@ -3,7 +3,7 @@ import query_and_process
 
 app = Flask(__name__)
 
-UPDATE_TIME = 70 # in seconds
+UPDATE_TIME = 3600 # in seconds
 
 # Runs a background thread to run Adam + Caitlyn's pipeline every [update_time] seconds.
 # to provide continuously updated data.
