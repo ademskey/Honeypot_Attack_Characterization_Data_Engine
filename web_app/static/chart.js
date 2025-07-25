@@ -134,8 +134,8 @@ function createMultiLineChart(canvasID, dataByType, title, xtitle, ytitle, xtype
 }
 
 
-function createLineChart(canvasID, numRowsPerIncrement, title, xtitle, ytitle, xtype = "time", ytype = "linear") {
-    const allBuckets = Object.keys(numRowsPerIncrement).map(Number).sort((a, b) => a - b);
+function createLineChart(canvasID, data, title, xtitle, ytitle, xtype = "time", ytype = "linear") {
+    const allBuckets = Object.keys(data).map(Number).sort((a, b) => a - b);
 
     let labels;
 
@@ -157,7 +157,7 @@ function createLineChart(canvasID, numRowsPerIncrement, title, xtitle, ytitle, x
     }
 
     // Extract values in order of sortedBuckets
-    const values = allBuckets.map(bucket => numRowsPerIncrement[bucket] || 0);
+    const values = allBuckets.map(bucket => data[bucket] || 0);
 
     const ctx = document.getElementById(canvasID).getContext('2d');
     new Chart(ctx, {
@@ -197,6 +197,10 @@ function createLineChart(canvasID, numRowsPerIncrement, title, xtitle, ytitle, x
                     }
                 },
                 y: {
+                    title: {
+                        display: true,
+                        text: ytitle
+                    },
                     type: ytype, // ensures a numeric axis
                     beginAtZero: true,
                     ticks: {
@@ -467,4 +471,10 @@ function countRowsPerTimeIncrement(data, timestampKey, incrementSize) {
     });
 
     return bucketCounts; // { epoch_ms_bucket: count }
+}
+
+// Add text to an html id. Use to add a chart title in the box it lives in.
+function createTextforHTMLID(text, htmlID) {
+    const chart1Title = document.getElementById(htmlID);
+    chart1Title.textContent = text;
 }

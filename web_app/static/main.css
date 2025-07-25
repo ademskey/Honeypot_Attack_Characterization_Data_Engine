@@ -73,24 +73,9 @@ p {
 }
 
 .box {
-    background-color: #e3e1e1;
+    background-color: #f8f7f7;
     text-align: center;
     width: 450px;
-    padding: 5px;
-    border: 2px solid #031911;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    border-radius: 1px;
-    margin: 4px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-    /* pointer cursor for hover effect */
-}
-
-.long-box {
-    background-color: #e3e1e1;
-    text-align: center;
-    width: 450px;
-    height: 600px;
     padding: 5px;
     border: 2px solid #031911;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -102,7 +87,7 @@ p {
 }
 
 .big-box {
-    background-color: #e3e1e1;
+    background-color: #ffffff;
     text-align: center;
     width: 900px;
     padding: 5px;

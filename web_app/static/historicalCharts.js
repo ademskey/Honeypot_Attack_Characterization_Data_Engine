@@ -19,20 +19,24 @@ async function renderHistoricalCharts(historicalData) {
 
     // Historical Chart 1: Number of Hits per Honeypot -- Bar Chart
     const chart1Limit = 10;
+    createTextforHTMLID(`Top ${chart1Limit} Honeypots`, "historical-chart1-title");
     const hitsPerType = createXYPoints(honeypotHits, "honeypot", "hits", "bar");
-    createBarChart("HistChart1", hitsPerType, "Honeypot", "Attack Count", `Top ${chart1Limit} Honeypots`);
+    createBarChart("historical-chart1", hitsPerType, "Honeypot", "Attack Count", "");
 
     // Historical Chart 2: Top x Organizations by total number of hits-- Bar Chart 
-    const chart4Limit = 5;
-    const topXOrganizations = createXYPoints(companyHits, "Org", "hits", "bar", chart4Limit);
-    createBarChart("HistChart2", topXOrganizations, "Organization (geoip.as_org)", "Count", `Top ${chart4Limit} Organizations`);
+    const chart2Limit = 5;
+    createTextforHTMLID(`Top ${chart2Limit} Organizations`, "historical-chart2-title")
+    const topXOrganizations = createXYPoints(companyHits, "Org", "hits", "bar", chart2Limit);
+    createBarChart("historical-chart2", topXOrganizations, "Organization (geoip.as_org)", "Count", "");
 
     // Historical Chart 3: Top x Source IP Hits -- Bar Chart
     const chart3Limit = 10;
+    createTextforHTMLID(`Top ${chart3Limit} Source IPs`, "historical-chart3-title")
     const topXSrcIPs = createXYPoints(ipHits, "ip", "hits", "bar", chart3Limit);
-    createBarChart("HistChart3", topXSrcIPs, "Source IP", "Number of Hits", `Top ${chart3Limit} Source IPs`);
+    createBarChart("historical-chart3", topXSrcIPs, "Source IP", "Number of Hits", "");
 
     // Hourly Chart 4: type vs Dest Port
-    createScatterPlot("HistChart4", getPortsByType("scatter"), "Honeypot", "Destination Port", "Honeypot vs Destination Port", "category", "linear");
+    createTextforHTMLID("Honeypot vs Destination Port", "historical-chart4-title")
+    createScatterPlot("historical-chart4", getPortsByType("scatter"), "Honeypot", "Destination Port", "", "category", "linear");
 
 }
