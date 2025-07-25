@@ -1,11 +1,19 @@
 # Authors: Adam Caudle, Emily West, Caitlyn Boyd, Jack Crawford
+An locally-hosted browser tool for querying, processing, cleaning, and displaying T-Pot Honeypot data. It uses Python's Flask library for the web server and Javascript/HTML for the front end.  
+
+Our development is based on Western Washington University's Cyber Range T-Pot deployment.
+
+[T-Pot](https://github.com/telekom-security/tpotce) : An open-source platform for running 20+ honeypots from one central server, developed by Deutsche Telekom.
 
 # Stack: (At the time of creation)
+
+**ELK Stack**  
 T-Pot Version: 24.04.1  
 Kibana Version: 8.18.3  
 Elastic Version: 1.7.0  
+Logstash: 
 
-Browser App:  
+**Browser App**    
 Python: 3.10.12 and 3.13.1  
 Flask: 3.1.0/Werkzeung 3.1.3  
 Javascript: 12.22.9  
@@ -14,7 +22,7 @@ Javascript: 12.22.9
 Create a ".env" file for http authorization (needed to pull information from honeypot)
 
 
-    # Then, make sure the proxies are configured in the script
+    Then, make sure the proxies are configured in the script
     ex code:
     proxies = {
     "http": "socks5h://0.tcp.us-cal-1.ngrok.io:19083",
@@ -23,27 +31,42 @@ Create a ".env" file for http authorization (needed to pull information from hon
 
     You should then be able to request data via the script.
 
-# Running data visualization (/web_app):
+# Running the browser data visualization tool:
 Have python3 installed
     Connect to Cyberrange Poulsbo's VPN
     pip install the libraries found in requirements.txt: 
 
 
-        # pip install -r requirements.txt
+    pip install -r requirements.txt
 
 
-In Honeypot_Attack_Characterization_Data_Engine/web_app, run: 
+Run the Flask app:
 
 
-        # python3 app.py
+    python3 web_app/app.py
 
 
 Visit http://localhost:5000/ in your web broswer.
 
 
 # About the Web App:
-This is an all-in-one Javascript/HTML browser tool, using Python's Flask for the web server. 
 
-Data Pipeline:  
 
+## Data Pipeline:  
+T-Pot stores a log of data for a predetermined amount of time in Elastic. Several honeypots use Suricata and p0f for network analysis and threat detection, and these tools inadvertently show up as honeypot names in the "type" column.
+### Collection and Cleaning
+query_and_process.py creates a "Data Plumber" that queries Elastic search for honeypot data and analyzes it in increments of 60 minutes.   
+honeypot_data_cleaning_fixed.py uses the Data Plumber's jsonl output file and creates a "Data Janitor" that takes the new hour of data, then cleans the data by scanning for then dropping:  
+- Empty and duplicate rows
+- columns that contain only one value
+- Sparse columns (nan > 0.5)
+- Internal T-Pot traffic  
+- Data from network analysis and threat detection software (Suricata, p0f)
+
+### Organizing
+The end result of honeypot_data_cleaning_fixed.py is a collection of CSV files.
+These files are divided into hourly data, historical data, and honeypot summary data. This is found in web_app/data/.
+- **hourly_data**: Overwritten with each query. Contains number of hits per organization, and a CSV with full columns for that hour (customizable).
+- **historical_data**: Appended to with each query. To prevent it from becoming too large to manage and process, this contains summaries of data from the query.
+- Historical Data/**honeypot_summaries**: Historical data summaries specific to each honeypot.
 
