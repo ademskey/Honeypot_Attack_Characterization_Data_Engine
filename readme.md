@@ -19,17 +19,7 @@ Flask: 3.1.0/Werkzeung 3.1.3
 Javascript: 12.22.9  
 
 # Setting up:
-Create a ".env" file for http authorization (needed to pull information from honeypot)
-
-
-    Then, make sure the proxies are configured in the script
-    ex code:
-    proxies = {
-    "http": "socks5h://0.tcp.us-cal-1.ngrok.io:19083",
-    "https": "socks5h://0.tcp.us-cal-1.ngrok.io:19083"
-    }
-
-    You should then be able to request data via the script.
+Create a ".env" file for http authorization (needed to pull information from honeypot). You should then be able to request data via the script.  
 
 # Running the browser data visualization tool:
 Install python3, then connect to Cyberrange Poulsbo's VPN or connect to your T-Pot deployment.  
