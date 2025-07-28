@@ -56,7 +56,7 @@ honeypot_data_cleaning_fixed.py uses the Data Plumber's jsonl output file and cr
 - Internal T-Pot traffic  
 - Data from network analysis and threat detection software (Suricata, p0f)
 
-### Organizing
+### Data files
 The end result of honeypot_data_cleaning_fixed.py is a collection of CSV files.
 These files are divided into hourly data, historical data, and honeypot summary data. This is found in web_app/data/.
 - **hourly_data**: Overwritten with each query. Contains number of hits per organization, and a CSV with full columns for that hour (customizable).
