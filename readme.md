@@ -32,9 +32,9 @@ Create a ".env" file for http authorization (needed to pull information from hon
     You should then be able to request data via the script.
 
 # Running the browser data visualization tool:
-Have python3 installed
-    Connect to Cyberrange Poulsbo's VPN
-    pip install the libraries found in requirements.txt: 
+Have python3 installed  
+Connect to Cyberrange Poulsbo's VPN or connect to your T-Pot deployment.
+pip install the libraries found in requirements.txt: 
 
 
     pip install -r requirements.txt
