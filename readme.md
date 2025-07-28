@@ -33,6 +33,7 @@ Create a ".env" file for http authorization (needed to pull information from hon
 
 # Running the browser data visualization tool:
 Install python3, then connect to Cyberrange Poulsbo's VPN or connect to your T-Pot deployment.  
+
 pip install the libraries found in requirements.txt: 
 
 
