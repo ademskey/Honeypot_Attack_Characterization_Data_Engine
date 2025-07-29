@@ -50,24 +50,31 @@ def data_path():
     return "UNAUTHORIZED HTTP ACCESS TO HONEYPOT DATA DETECTED"
 
 
-# Returns dictionary of flat json files so that JS can use it, keeping table structure of the pandas df.
-@app.route('/data')
-def chart_data():
+# Used in get_chart_data to copy csv's in a folder (root directory is /data/) and return a Pandas df.
+def get_dictionary_of_dfs_from_folder(folder_name):
+    dfs = {}
     try:
-        historical_dfs = {
-            name: df.fillna("").to_dict(orient='records')
-            for name, df in get_tables_in_folder('historical_data').items()
-        }
+        dfs = {
+         name: df.fillna("").to_dict(orient='records')
+         for name, df in get_tables_in_folder(folder_name).items() }
 
-        hour_dfs = {
-            name: df.fillna("").to_dict(orient='records')
-            for name, df in get_tables_in_folder('hourly_data').items()
-        }
+        return dfs
+    except Exception as e:
+        print(f"Error preparing {folder_name} data: {e}")
+        return jsonify({"error": "Failed to load {folder_name} data"}), 500
 
-        summary_dfs = {
-            name: df.fillna("").to_dict(orient='records')
-            for name, df in get_tables_in_folder('historical_data/honeypot_summaries').items()
-        }
+
+# Returns dictionary of flat json files so that JS can use it, keeping table structure of the pandas df.
+# If new folders are created: add another get_dictionary_of_dfs_from_folder('new folder path from data/'),
+# then add new set of df's to return jsonify block.
+@app.route('/data')
+def get_chart_data():
+    try:
+        historical_dfs = get_dictionary_of_dfs_from_folder('historical_data')
+        
+        hour_dfs = get_dictionary_of_dfs_from_folder('hourly_data')
+
+        summary_dfs = get_dictionary_of_dfs_from_folder('historical_data/honeypot_summaries')
 
         return jsonify({
             "historical_data": historical_dfs,
