@@ -22,29 +22,34 @@ Flask: 3.1.0/Werkzeung 3.1.3
 Javascript: 12.22.9  
 
 # Setting up:
-Create a ".env" file for http authorization (needed to pull information from honeypot). You should then be able to request data via the script. The .env file should follow this format:
+Install (if needed) and run the Docker daemon. Create a ".env" file in web_app for HTTP authorization (needed to pull information from honeypot). You should then be able to request data via the script. The .env file should follow this format:
 
-HONEYPOT_USER=<username>  
-HONEYPOT_PASS=<password>
+    HONEYPOT_USER=<username>  
+    HONEYPOT_PASS=<password>
 
 # Running the browser data visualization tool:
-First, install python3
 
-  sudo apt-get install python3 (Linux)
-  brew install pythong 3 (Mac)
-  browse to python.org and choose correct install (Windows)
+The Dockerfile runs a multistage build. The .env file containing T-Pot username and password should not be copied into container, so mount it at runtime instead. The base image python:3.14.0rc1-alpine3.21 has no reported CVE's according to Dockerhub as of 07/29  
+In project root:
 
-Then connect to Cyberrange Poulsbo's VPN or connect to your T-Pot deployment. VPN and credentials can be obtained with permission by contacting the WWU Teapot Team
+    docker build -t <image-name>
 
-pip install the libraries found in requirements.txt: 
+Run with a volume containing data folder and mount user-provided .env file (delete hashes at beginning of lines and keep the newlines):
 
-    pip install -r requirements.txt
+    docker run -p 5000:5000 \
+    -v $(pwd)/web_app/.env:/app/web_app/.env \
+    <image-name>
 
+For an interactive shell:
 
-Run the Flask app:
+    docker run -p 5000:5000 -it \
+    -v $(pwd)/web_app/data:/app/data \
+    -v $(pwd)/web_app/.env:/app/web_app/.env \
+    <image-name> /bin/sh
+    
+Then run the app from the container's shell:
 
-    python3 web_app/app.py
-
+    app# python3 web_app/app.py
 
 Visit http://localhost:5000/ in your web broswer.
 
