@@ -17,7 +17,7 @@ Logstash:
 
 # Application stack
 **Browser App**    
-Python: 3.14 
+Python: 3.14  
 Flask: 3.1.0/Werkzeung 3.1.3  
 Javascript: 12.22.9  
 
