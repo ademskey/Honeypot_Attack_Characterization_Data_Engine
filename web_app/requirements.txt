@@ -1,4 +1,4 @@
-flask==3.1.1
+flask
 pandas==2.2.3
 requests==2.32.4
 urllib3==2.5.0
