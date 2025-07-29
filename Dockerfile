@@ -1,7 +1,7 @@
 # A multistage docker build 
 # Security: .env file containing tpot username and password should not be copied into container,
 # mount it at runtime instead. Using a python/alpine linux base image with no reported CVE's.
-# In project root: /Honeypot_Attack_Characterization_Data_Engine
+# In project root:
 #     docker build -t <image-name> .
 
 # Run with a volume containing data folder and mount user-provided .env file: (delete hashes at beginning of lines and keep the newlines)
