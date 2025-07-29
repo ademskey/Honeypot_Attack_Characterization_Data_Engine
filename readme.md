@@ -22,18 +22,17 @@ Flask: 3.1.0/Werkzeung 3.1.3
 Javascript: 12.22.9  
 
 # Setting up:
-Create a ".env" file for http authorization (needed to pull information from honeypot). You should then be able to request data via the script. The .env file should follow this format:
+Create a ".env" file in web_app for http authorization (needed to pull information from honeypot). You should then be able to request data via the script. The .env file should follow this format:
 
-HONEYPOT_USER=<username>  
-HONEYPOT_PASS=<password>
+    HONEYPOT_USER=<username>  
+    HONEYPOT_PASS=<password>
 
 # Running the browser data visualization tool:
 
-The Dockerfile runs a multistage docker build 
-Security: .env file containing tpot username and password should not be copied into container, so mount it at runtime instead. The base image python:3.14.0rc1-alpine3.21 has no reported CVE's according to Dockerhub as of 07/29  
+The Dockerfile runs a multistage docker build. The .env file containing T-Pot username and password should not be copied into container, so mount it at runtime instead. The base image python:3.14.0rc1-alpine3.21 has no reported CVE's according to Dockerhub as of 07/29  
 In project root:
 
-      docker build -t <image-name>
+    docker build -t <image-name>
 
 Run with a volume containing data folder and mount user-provided .env file: (delete hashes at beginning of lines and keep the newlines)
 
@@ -51,25 +50,6 @@ For an interactive shell:
 Then run the app from the container's shell:
 
     app# python3 web_app/app.py
-
-
-First, install python3
-
-  sudo apt-get install python3 (Linux)
-  brew install pythong 3 (Mac)
-  browse to python.org and choose correct install (Windows)
-
-Then connect to Cyberrange Poulsbo's VPN or connect to your T-Pot deployment. VPN and credentials can be obtained with permission by contacting the WWU Teapot Team
-
-pip install the libraries found in requirements.txt: 
-
-    pip install -r requirements.txt
-
-
-Run the Flask app:
-
-    python3 web_app/app.py
-
 
 Visit http://localhost:5000/ in your web broswer.
 
