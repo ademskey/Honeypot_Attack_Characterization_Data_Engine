@@ -1,5 +1,5 @@
-flask
-pandas
+flask==3.1.0
+pandas==2.2.3
 requests
 urllib3
 dotenv
