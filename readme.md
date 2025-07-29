@@ -19,6 +19,8 @@ Python: 3.14
 Flask: 3.1.0/Werkzeung 3.1.3  
 Javascript: 12.22.9  
 
+See vulnerabilities.md for a comprehensive list of packages and their vulnerabilities.  
+
 # Setting up:
 Install (if needed) and run the Docker daemon. Create a ".env" file in web_app for HTTP authorization (needed to pull information from honeypot). You should then be able to request data via the script. The .env file should follow this format:
 
