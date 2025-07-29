@@ -29,7 +29,7 @@ Create a ".env" file in web_app for http authorization (needed to pull informati
 
 # Running the browser data visualization tool:
 
-The Dockerfile runs a multistage docker build. The .env file containing T-Pot username and password should not be copied into container, so mount it at runtime instead. The base image python:3.14.0rc1-alpine3.21 has no reported CVE's according to Dockerhub as of 07/29  
+The Dockerfile runs a multistage build. The .env file containing T-Pot username and password should not be copied into container, so mount it at runtime instead. The base image python:3.14.0rc1-alpine3.21 has no reported CVE's according to Dockerhub as of 07/29  
 In project root:
 
     docker build -t <image-name>
