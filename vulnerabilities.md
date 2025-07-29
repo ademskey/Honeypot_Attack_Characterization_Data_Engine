@@ -1,9 +1,7 @@
 Versions for packages in the app found by running the container in interactive mode and checking pip show [package] or [package] --version  
 
 ***Base Image***:  [python:3.14.0rc1-alpine3.22](https://hub.docker.com/layers/library/python/3.14.0rc1-alpine3.22/images/sha256-926ae7993a3d6f5d0d4a733c6c2fec005aefb9dccf71fef3a9c3ed38254ffb2e)   
-An archived Alpine image  
-Python 3.14  
-Alpine Linux 3.22  
+An archived Alpine image. No vulnerabilities as of 07/29/2025.  
 
 ***Package Manager***: apk 2.14.6  
 
