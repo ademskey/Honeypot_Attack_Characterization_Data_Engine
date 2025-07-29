@@ -1,6 +1,6 @@
-flask==3.1.0
+flask==3.1.1
 pandas==2.2.3
-requests
-urllib3
-dotenv
-datetime
+requests==2.32.4
+urllib3==2.5.0
+dotenv==0.9.9
+datetime==5.5
