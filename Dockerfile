@@ -1,6 +1,6 @@
 # A multistage docker build 
 # Security: .env file containing tpot username and password should not be copied into container,
-# mount it at runtime instead.
+# mount it at runtime instead. Using a python/alpine linux base image with no reported CVE's.
 # In project root: /Honeypot_Attack_Characterization_Data_Engine
 #     docker build -t <image-name> .
 
@@ -14,20 +14,19 @@
 #     docker run -p 5000:5000 -it \
 #         -v $(pwd)/web_app/data:/app/data \
 #         -v $(pwd)/web_app/.env:/app/web_app/.env \
-#         <image-name> /bin/bash
+#         <image-name> /bin/sh
 
-#         app# flask run --host=0.0.0.0 --port=5000
-
+#         app# python3 web_app/app.py
 
 # Stage 1: installing dependencies (requirements.txt)
-FROM python:3.11-slim AS builder
+# using a base image with no reported CVEs
+FROM python:3.14.0rc1-alpine3.21 AS builder
 
 WORKDIR /app
 
-# Update and install apt updates, install build tools.
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential gcc && \
-    rm -rf /var/lib/apt/lists/*
+# Update and install package manager updates, install build tools.
+RUN apk add --no-cache build-base gcc
+RUN apk add --no-cache libstdc++
 
 # Copy and install requirements
 COPY web_app/requirements.txt .
@@ -39,7 +38,9 @@ RUN python -m venv /opt/venv && \
 
 
 # Stage 2: runtime app contaienr
-FROM python:3.11-slim
+FROM python:3.14.0rc1-alpine3.21
+
+RUN apk add --no-cache libstdc++
 
 # Add virtual environment to PATH to use python and pip globally
 ENV PATH="/opt/venv/bin:$PATH"
@@ -59,7 +60,6 @@ COPY --from=builder /opt/venv /opt/venv
 # Copying app code into container
 COPY . .
 
-EXPOSE 5000
-
 # run the server
-CMD ["flask", "run", "--host=0.0.0.0"]
+EXPOSE 5000
+CMD ["python3", "web_app/app.py"]

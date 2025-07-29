@@ -108,8 +108,7 @@ def get_tables_in_folder(folder):
     # Don't want to interrrupt background thread that updates the dataset.
 if __name__ == '__main__':
     # Run the background update thread ONLY in the final reloader process
-    if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
-        print("Background update thread started")
-        threading.Thread(target=update_data_loop, daemon=True).start()
-
-    app.run(debug=True)
+    print("Starting background update thread...")
+    threading.Thread(target=update_data_loop, daemon=True).start()
+    # host="0.0.0.0" allows the server to be accessible from external docker container ports
+    app.run(host="0.0.0.0", port=5000)
