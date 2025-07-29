@@ -28,6 +28,29 @@ HONEYPOT_USER=<username>
 HONEYPOT_PASS=<password>
 
 # Running the browser data visualization tool:
+
+The Dockerfile runs a multistage docker build 
+Security: .env file containing tpot username and password should not be copied into container, so mount it at runtime instead. The base image python:3.14.0rc1-alpine3.21 has no reported CVE's according to Dockerhub as of 07/29  
+In project root:
+
+      docker build -t <image-name>
+
+Run with a volume containing data folder and mount user-provided .env file: (delete hashes at beginning of lines and keep the newlines)
+
+    docker run -p 5000:5000 \
+    -v $(pwd)/web_app/.env:/app/web_app/.env \
+    <image-name>
+
+For an interactive shell:
+
+    docker run -p 5000:5000 -it \
+    -v $(pwd)/web_app/data:/app/data \
+    -v $(pwd)/web_app/.env:/app/web_app/.env \
+    <image-name> /bin/sh
+
+    app# python3 web_app/app.py
+
+
 First, install python3
 
   sudo apt-get install python3 (Linux)
