@@ -1,37 +1,47 @@
 # Authors: Adam Caudle, Emily West, Caitlyn Boyd, Jack Crawford
-A locally-hosted browser tool for querying, processing, cleaning, and displaying T-Pot Honeypot data. It uses Python's Flask library for the web server and Javascript/HTML for the front end.  
+This project is a locally-hosted browser tool for querying, processing, cleaning, and displaying T-Pot Honeypot data. The T-pot honeypot is stored through Western Washington University's (WWU) cyberange. The honeypot they have been hosting has been gathering data fom various honeypots which mimic different serves (I.e. medical printer, ai-chatbot, etc). Our project uses Python's Flask library for the web server and Javascript/HTML for the front end. It then connects to backend querying and processing scripts to provide succinct prossessed and cleaned data to the end user. 
 
-Our development is based on Western Washington University's Cyber Range T-Pot deployment.
+The idea of this project is to have a lightweight app that could be deployed on a computer for threat analytics at no cost to the user (provided they got WWU's permission and credentials to view the data). This project has a lot of room to expand into ML applications such as forcasting and analysis. Additionally there is potential to create a free-to-use app that is hosted on the internet for anyone to use and view for up-to-date threat analysis at zero cost.
 
+Our development is based on Western Washington University's Cyber Range T-Pot deployment and in collaboration with their cyber-range team.
+
+SBOM:
 [T-Pot](https://github.com/telekom-security/tpotce) : An open-source platform for running 20+ honeypots from one central server, developed by Deutsche Telekom.
 
-# Stack: (At the time of creation)
-
+# Honeypot Stack: (At the time of creation)
 **ELK Stack**  
 T-Pot Version: 24.04.1  
 Kibana Version: 8.18.3  
 Elastic Version: 1.7.0  
 Logstash: 
 
+# Application stack
 **Browser App**    
 Python: 3.10.12 and 3.13.1  
 Flask: 3.1.0/Werkzeung 3.1.3  
 Javascript: 12.22.9  
 
 # Setting up:
-Create a ".env" file for http authorization (needed to pull information from honeypot). You should then be able to request data via the script.  
+Create a ".env" file for http authorization (needed to pull information from honeypot). You should then be able to request data via the script. The .env file should follow this format:
+
+HONEYPOT_USER=<username>
+HONEYPOT_PASS=<password>
 
 # Running the browser data visualization tool:
-Install python3, then connect to Cyberrange Poulsbo's VPN or connect to your T-Pot deployment.  
+First, install python3
+
+  sudo apt-get install python3 (Linux)
+  brew install pythong 3 (Mac)
+  browse to python.org and choose correct install (Windows)
+
+Then connect to Cyberrange Poulsbo's VPN or connect to your T-Pot deployment. VPN and credentials can be obtained with permission by contacting the WWU Teapot Team
 
 pip install the libraries found in requirements.txt: 
-
 
     pip install -r requirements.txt
 
 
 Run the Flask app:
-
 
     python3 web_app/app.py
 
@@ -43,6 +53,8 @@ Visit http://localhost:5000/ in your web broswer.
 
 ## Security  
 This is a locally hosted browser app, so it is safe from common web-based attacks. Security during Elastic querying is provided by access through a VPN, and credentials required. Once the data is in the Flask app, web_app/app.py protects honeypot data from HTTP verb tampering by rejecting unsafe HTTP methods.
+
+Due to the lack of functions (no outward querying, use of APIs, forward facing authentication, file upload), most common web-exploits cannot be performed. This app has been through a team-led security review, but will require aditional reviews to be compliant depending on where the system is deployed. Please contact a member of the team if a security vulnerability is found.
 
 ## Data Pipeline  
 T-Pot stores a log of data for a predetermined amount of time in Elastic. Several honeypots use Suricata and p0f for network analysis and threat detection, and these tools inadvertently show up as honeypot names in the "type" column.
