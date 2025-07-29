@@ -24,7 +24,7 @@ Javascript: 12.22.9
 # Setting up:
 Create a ".env" file for http authorization (needed to pull information from honeypot). You should then be able to request data via the script. The .env file should follow this format:
 
-HONEYPOT_USER=<username>
+HONEYPOT_USER=<username>  
 HONEYPOT_PASS=<password>
 
 # Running the browser data visualization tool:
