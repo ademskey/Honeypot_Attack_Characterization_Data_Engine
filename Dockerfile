@@ -4,7 +4,7 @@
 # In project root: /Honeypot_Attack_Characterization_Data_Engine
 #     docker build -t <image-name> .
 
-# Run with a volume containing data folder and mount user-provided .env file:
+# Run with a volume containing data folder and mount user-provided .env file: (delete hashes at beginning of lines and keep the newlines)
 # docker run -p 5000:5000 \
 # -v $(pwd)/web_app/.env:/app/web_app/.env \
 # <image-name>
