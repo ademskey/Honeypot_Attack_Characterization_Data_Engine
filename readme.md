@@ -47,6 +47,8 @@ For an interactive shell:
     -v $(pwd)/web_app/data:/app/data \
     -v $(pwd)/web_app/.env:/app/web_app/.env \
     <image-name> /bin/sh
+    
+Then run the app from the container's shell:
 
     app# python3 web_app/app.py
 
