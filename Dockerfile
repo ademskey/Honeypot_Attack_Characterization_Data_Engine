@@ -1,11 +1,22 @@
 # A multistage docker build 
+# Security: .env file containing tpot username and password should not be copied into container,
+# mount it at runtime instead.
 # In project root: /Honeypot_Attack_Characterization_Data_Engine
 #     docker build -t <image-name> .
 
-# Run with a volume containing data folder
-#     docker run -p 5000:5000 -v $(pwd)/web_app/data:/app/data <image-name>
-# For an interactive shell: 
-#     docker run -it -v $(pwd)/web_app/data:/app/data <image-name> /bin/bash
+# Run with a volume containing data folder and mount user-provided .env file:
+#     docker run -p 5000:5000 \
+#         -v $(pwd)/web_app/data:/app/data \
+#         -v $(pwd)/web_app/.env:/app/web_app/.env \
+#         <image-name>
+#
+# For an interactive shell:
+#     docker run -p 5000:5000 -it \
+#         -v $(pwd)/web_app/data:/app/data \
+#         -v $(pwd)/web_app/.env:/app/web_app/.env \
+#         <image-name> /bin/bash
+
+#         app# flask run --host=0.0.0.0 --port=5000
 
 
 # Stage 1: installing dependencies (requirements.txt)
