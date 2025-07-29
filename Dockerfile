@@ -5,16 +5,15 @@
 #     docker build -t <image-name> .
 
 # Run with a volume containing data folder and mount user-provided .env file:
-#     docker run -p 5000:5000 \
-#         -v $(pwd)/web_app/data:/app/data \
-#         -v $(pwd)/web_app/.env:/app/web_app/.env \
-#         <image-name>
+# docker run -p 5000:5000 \
+# -v $(pwd)/web_app/.env:/app/web_app/.env \
+# <image-name>
 #
 # For an interactive shell:
-#     docker run -p 5000:5000 -it \
-#         -v $(pwd)/web_app/data:/app/data \
-#         -v $(pwd)/web_app/.env:/app/web_app/.env \
-#         <image-name> /bin/sh
+# docker run -p 5000:5000 -it \
+# -v $(pwd)/web_app/data:/app/data \
+# -v $(pwd)/web_app/.env:/app/web_app/.env \
+# <image-name> /bin/sh
 
 #         app# python3 web_app/app.py
 
