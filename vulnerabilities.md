@@ -52,7 +52,7 @@ dotenv 0.9.9
 datetime 5.5  
 1 vulnerability as of 07/30/2025  
 - CVE-2015-0273, base score 7.5: "Allow remote attackers to execute arbitrary code via crafted serialized input"
-    -   Mitigation: 
+    -   Mitigation: The Python scripts do not accept user input and are not directly accessible from the webpage, and the program is locally hosted.
 
 ## Front end
 Note that the long list of CVEs on HTML and Javascript found by cve.org are limited to the libraries and packages in the SBOM for this app.  
