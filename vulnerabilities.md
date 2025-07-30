@@ -43,3 +43,110 @@ Javascript on latest Brave browser: 3 vulnerabilities as of 07/29/2025
 
 Chart.js  
 (https://www.cve.org/CVERecord/SearchResults?query=chart.js)
+
+
+Semgrep Analysis:
+  Dockerfile
+   ❯❯❱ dockerfile.security.missing-user.missing-user
+          By not specifying a USER, a program in the container may run as 'root'. This is a security hazard.
+          If an attacker can control a process running as root, they may have control over the container.   
+          Ensure that the last USER in a Dockerfile is a USER other than 'root'.                            
+          Details: https://sg.run/Gbvn                                                                      
+                                                                                                            
+           ▶▶┆ Autofix ▶ USER non-root CMD ["flask", "run", "--host=0.0.0.0"]
+           65┆ CMD ["flask", "run", "--host=0.0.0.0"]
+                                               
+    web_app/query_and_process.py
+   ❯❯❱ python.requests.security.disabled-cert-validation.disabled-cert-validation
+          Certificate verification has been explicitly disabled. This permits insecure connections to insecure
+          servers. Re-enable certification validation.                                                        
+          Details: https://sg.run/AlYp                                                                        
+                                                                                                              
+           ▶▶┆ Autofix ▶ requests.get( f"{base_url}/api/status", auth=auth, verify=True )
+          112┆ response = requests.get(
+          113┆     f"{base_url}/api/status",
+          114┆     auth=auth,
+          115┆     verify=False
+          116┆ )
+            ⋮┆----------------------------------------
+           ▶▶┆ Autofix ▶ requests.post(self.elastic_url, headers=headers, auth=self.auth, json=query_body, verify=True)
+          229┆ response = requests.post(self.elastic_url, headers=headers, auth=self.auth,
+               json=query_body, verify=False)                                             
+                                          
+    web_app/query_script.py
+   ❯❯❱ python.requests.security.disabled-cert-validation.disabled-cert-validation
+          Certificate verification has been explicitly disabled. This permits insecure connections to insecure
+          servers. Re-enable certification validation.                                                        
+          Details: https://sg.run/AlYp                                                                        
+                                                                                                              
+           ▶▶┆ Autofix ▶ requests.get( f"{base_url}/api/status", auth=auth, verify=True )
+           17┆ response = requests.get(
+           18┆     f"{base_url}/api/status",
+           19┆     auth=auth,
+           20┆     verify=False
+           21┆ )
+            ⋮┆----------------------------------------
+           ▶▶┆ Autofix ▶ requests.post(url, headers=headers, auth=auth, json=query_body, verify=True)
+          121┆ response = requests.post(url, headers=headers, auth=auth, json=query_body, verify=False)
+                                                    
+    web_app/templates/historical.html
+    ❯❱ html.security.audit.missing-integrity.missing-integrity
+          This tag is missing an 'integrity' subresource integrity attribute. The 'integrity' attribute allows
+          for the browser to verify that externally hosted files (for example from a CDN) are delivered       
+          without unexpected manipulation. Without this attribute, if an attacker can modify the externally   
+          hosted resource, this could lead to XSS and other types of attacks. To prevent this, include the    
+          base64-encoded cryptographic hash of the resource (file) you’re telling the browser to fetch in the 
+          'integrity' attribute for all externally hosted files.                                              
+          Details: https://sg.run/krXA                                                                        
+                                                                                                              
+            7┆ <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            ⋮┆----------------------------------------
+            8┆ <script src="https://cdn.jsdelivr.net/npm/luxon"></script>
+            ⋮┆----------------------------------------
+            9┆ <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon"></script>
+                                                  
+    web_app/templates/honeypot.html
+    ❯❱ html.security.audit.missing-integrity.missing-integrity
+          This tag is missing an 'integrity' subresource integrity attribute. The 'integrity' attribute allows
+          for the browser to verify that externally hosted files (for example from a CDN) are delivered       
+          without unexpected manipulation. Without this attribute, if an attacker can modify the externally   
+          hosted resource, this could lead to XSS and other types of attacks. To prevent this, include the    
+          base64-encoded cryptographic hash of the resource (file) you’re telling the browser to fetch in the 
+          'integrity' attribute for all externally hosted files.                                              
+          Details: https://sg.run/krXA                                                                        
+                                                                                                              
+            9┆ <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                                                
+    web_app/templates/hourly.html
+    ❯❱ html.security.audit.missing-integrity.missing-integrity
+          This tag is missing an 'integrity' subresource integrity attribute. The 'integrity' attribute allows
+          for the browser to verify that externally hosted files (for example from a CDN) are delivered       
+          without unexpected manipulation. Without this attribute, if an attacker can modify the externally   
+          hosted resource, this could lead to XSS and other types of attacks. To prevent this, include the    
+          base64-encoded cryptographic hash of the resource (file) you’re telling the browser to fetch in the 
+          'integrity' attribute for all externally hosted files.                                              
+          Details: https://sg.run/krXA                                                                        
+                                                                                                              
+            7┆ <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            ⋮┆----------------------------------------
+            8┆ <script src="https://cdn.jsdelivr.net/npm/luxon"></script>
+            ⋮┆----------------------------------------
+            9┆ <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon"></script>
+
+                
+                
+┌──────────────┐
+│ Scan Summary │
+└──────────────┘
+✅ Scan completed successfully.
+ • Findings: 12 (12 blocking)
+ • Rules run: 466
+ • Targets scanned: 65
+ • Parsed lines: ~100.0%
+ • Scan skipped: 
+   ◦ Files larger than  files 1.0 MB: 2
+ • Scan was limited to files tracked by git
+ • For a detailed list of skipped files and lines, run semgrep with the --verbose flag
+Ran 466 rules on 65 files: 12 findings.
+💎 Missed out on 1390 pro rules since you aren't logged in!
+⚡ Supercharge Semgrep OSS when you create a free account at https://sg.run/rules.
