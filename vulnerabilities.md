@@ -25,6 +25,7 @@ dotenv 0.9.9
 datetime 5.5  
 
 ***Front end***  
+Note that the long list of CVEs on HTML and Javascript found by cve.org are limited to the libraries and packages in the SBOM for this app.  
 HTML5  
 [cve.org's list of HTML5 vulnerabilties: 122 as of 07/29/2025](https://www.cve.org/CVERecord/SearchResults?query=html5)  
 
@@ -39,6 +40,6 @@ Javascript on latest Brave browser: 3 vulnerabilities as of 07/29/2025
 - CVE-2018-10798, Base score 6.5: "caused by mishandling of JavaScript code that triggers the reload of a page continuously with an interval of 1 second".
     -   Mitigation: Update to Brave version beyond 0.14.0.  
 
-Note that the long list of CVEs on HTML and Javascript found by cve.org are limited to the libraries and packages in the SBOM for this app.  
+
 Chart.js  
 (https://www.cve.org/CVERecord/SearchResults?query=chart.js)
