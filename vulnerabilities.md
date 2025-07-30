@@ -51,7 +51,8 @@ dotenv 0.9.9
 
 datetime 5.5  
 1 vulnerability as of 07/30/2025  
-CVE-2015-0273, base score 7.5: "Allow remote attackers to execute arbitrary code via crafted serialized input"
+- CVE-2015-0273, base score 7.5: "Allow remote attackers to execute arbitrary code via crafted serialized input"
+    -   Mitigation: 
 
 ## Front end
 Note that the long list of CVEs on HTML and Javascript found by cve.org are limited to the libraries and packages in the SBOM for this app.  
@@ -73,7 +74,8 @@ Javascript on latest Brave browser: 3 vulnerabilities as of 07/30/2025
 -   CVE-2017-18256, Base score 6.5: "Allows remote attackers to cause a denial of service (resource consumption) via a long alert() argument in JavaScript code, because window dialogs are mishandled".
     -   Mitigation: Update Brave browser to 0.13.0 and up.
 
-Chart.js 4.5.0: 0 vulnerabilities as of 07/30/2025  
+Chart.js 4.5.0  
+0 vulnerabilities as of 07/30/2025  
 
 
 # Semgrep Analysis
