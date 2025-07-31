@@ -5,7 +5,11 @@ async function loadData() {
     let honeypot_summaries = {}
 
     try {
-        const response = await fetch('/data');
+        const response = await fetch('/data', {
+            headers: {
+                'X-Requested-By': 'frontend' // request comes from valid frontend.
+            }
+        });
         const data = await response.json();
 
         historical_data = data.historical_data;

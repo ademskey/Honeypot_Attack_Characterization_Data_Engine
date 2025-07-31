@@ -190,22 +190,22 @@ class DataPlumber:
             
             
             # check for early exit
-            '''
-                Start of Modified by CB 07/08/2025:
-                Adjusted to work on windows devices since windows hates life.
-            '''
-            if platform.system() == "Windows":
-                if msvcrt.kbhit() and msvcrt.getch() == b'\r':
-                    print("\nExiting early via Enter key.")
-                    break
-            else:
-                if select.select([sys.stdin], [], [], 0)[0]:
-                    print("\nExiting early via Enter key.")
-                    sys.stdin.readline()
-                    break
-            '''
-                End of modified CB 07/08/2025
-            '''
+            # '''
+            #     Start of Modified by CB 07/08/2025:
+            #     Adjusted to work on windows devices since windows hates life.
+            # '''
+            # if platform.system() == "Windows":
+            #     if msvcrt.kbhit() and msvcrt.getch() == b'\r':
+            #         print("\nExiting early via Enter key.")
+            #         break
+            # else platform.system():
+            #     if select.select([sys.stdin], [], [], 0)[0]:
+            #         print("\nExiting early via Enter key.")
+            #         sys.stdin.readline()
+            #         break
+            # '''
+            #     End of modified CB 07/08/2025
+            # '''
 
             # Build dynamic query
             query_body = {

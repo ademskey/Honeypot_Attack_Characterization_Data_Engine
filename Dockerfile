@@ -1,10 +1,10 @@
 # Stage 1: installing dependencies (requirements.txt)
 # using a base image with no reported CVEs
-FROM python:3.14.0rc1-alpine3.21 AS builder
+FROM python:3.14.0rc1-alpine3.22 AS builder
 
 WORKDIR /app
 
-# Update and install package manager updates, install build tools.
+# Install build tools and C++ runtime libraries.
 RUN apk add --no-cache build-base gcc
 RUN apk add --no-cache libstdc++
 
@@ -18,9 +18,12 @@ RUN python -m venv /opt/venv && \
 
 
 # Stage 2: runtime app contaienr
-FROM python:3.14.0rc1-alpine3.21
+FROM python:3.14.0rc1-alpine3.22
 
 RUN apk add --no-cache libstdc++
+
+# Create a group and add non root user
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
 # Add virtual environment to PATH to use python and pip globally
 ENV PATH="/opt/venv/bin:$PATH"
@@ -40,6 +43,14 @@ COPY --from=builder /opt/venv /opt/venv
 # Copying app code into container
 COPY . .
 
+# change ownership of the app to nonroot user.
+RUN chown -R appuser:appgroup /app
+
+# Switch to non-root user
+USER appuser
+
 # run the server
 EXPOSE 5000
-CMD ["python3", "web_app/app.py"]
+#USER non-root 
+#CMD ["python3", "web_app/app.py"]
+CMD ["flask", "run", "--host=0.0.0.0"]
