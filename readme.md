@@ -21,13 +21,13 @@ Javascript: 12.22.9
 
 See [vulnerabilities.md](https://github.com/ademskey/Honeypot_Attack_Characterization_Data_Engine/blob/main/vulnerabilities.md) for a complete SBOM.  
 
-# Setting up:
+# Setting up  
 Install (if needed) and run the Docker daemon. Create a ".env" file in web_app for HTTP authorization (needed to pull information from honeypot). You should then be able to request data via the script. The .env file should follow this format:
 
     HONEYPOT_USER=<username>  
     HONEYPOT_PASS=<password>
 
-# Running the browser data visualization tool:
+# Running the browser data visualization tool
 
 The Dockerfile runs a multistage build. The base image python:3.14.0rc1-alpine3.22 has no reported CVE's according to Dockerhub as of 07/30. The .env file containing T-Pot username and password should not be copied into container, so mount it at runtime instead. Start by building the image. In project root:
 
