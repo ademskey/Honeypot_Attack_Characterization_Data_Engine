@@ -31,7 +31,7 @@ Install (if needed) and run the Docker daemon. Create a ".env" file in web_app f
 
 The Dockerfile runs a multistage build. The base image python:3.14.0rc1-alpine3.22 has no reported CVE's according to Dockerhub as of 07/30. The .env file containing T-Pot username and password should not be copied into container, so mount it at runtime instead. Start by building the image. In project root:
 
-    docker build -t <image-name>
+    docker build -t <image-name> .  
 
 Run with a volume containing data folder and mount user-provided .env file (delete hashes at beginning of lines and keep the newlines):
 
