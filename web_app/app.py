@@ -3,7 +3,7 @@ import query_and_process
 
 app = Flask(__name__)
 
-UPDATE_TIME = 30 # in seconds
+UPDATE_TIME = 3600 # in seconds
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, 'data')
@@ -61,8 +61,8 @@ def data_path():
 def get_chart_data():
 
     # a small layer of security: verify that the request came from front end (should be improved!)
-    # if request.headers.get("X-Requested-By") != "frontend":
-    #     return render_template('data.html')
+    if request.headers.get("X-Requested-By") != "frontend":
+        return render_template('data.html')
     try:
         historical_dfs = get_dictionary_of_dfs_from_folder('historical_data')
         

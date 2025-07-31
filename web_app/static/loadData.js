@@ -27,6 +27,9 @@ async function loadData() {
         return null;
     }
 
+    console.log("before fixing timestamp: ")
+    console.log(hourly_data);
+
     // For tables with a timestamp column, convert @timestamp to a JS-friendly Date() format.
     for (const table of Object.values(historical_data)) {
         table.forEach(row => {
@@ -54,6 +57,9 @@ async function loadData() {
             }
         });
     }
+
+    console.log("after fixing timestamp: ")
+    console.log(hourly_data);
 
     return { historical_data, hourly_data, honeypot_summaries };
 }
