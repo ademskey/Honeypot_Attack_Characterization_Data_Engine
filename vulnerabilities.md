@@ -90,6 +90,9 @@ Chart.js 4.5.0
            65┆ CMD ["flask", "run", "--host=0.0.0.0"]
                                                
     web_app/query_and_process.py
+Resolved: 07/31/2025
+
+    
    ❯❯❱ python.requests.security.disabled-cert-validation.disabled-cert-validation
           Certificate verification has been explicitly disabled. This permits insecure connections to insecure
           servers. Re-enable certification validation.                                                        
