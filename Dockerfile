@@ -49,8 +49,7 @@ RUN chown -R appuser:appgroup /app
 # Switch to non-root user
 USER appuser
 
-# run the server
+# run the serverw
 EXPOSE 5000
-#USER non-root 
-#CMD ["python3", "web_app/app.py"]
-CMD ["flask", "run", "--host=0.0.0.0"]
+CMD ["python3", "web_app/app.py"]
+#CMD ["flask", "run", "--host=0.0.0.0"]

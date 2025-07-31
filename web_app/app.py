@@ -5,6 +5,9 @@ app = Flask(__name__)
 
 UPDATE_TIME = 30 # in seconds
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR = os.path.join(BASE_DIR, 'data')
+
 # Runs a background thread to run Adam + Caitlyn's pipeline every [update_time] seconds.
 # to provide continuously updated data.
 running_lock = threading.Lock()
@@ -58,15 +61,15 @@ def data_path():
 def get_chart_data():
 
     # a small layer of security: verify that the request came from front end (should be improved!)
-    if request.headers.get("X-Requested-By") != "frontend":
-        return render_template('data.html')
+    # if request.headers.get("X-Requested-By") != "frontend":
+    #     return render_template('data.html')
     try:
         historical_dfs = get_dictionary_of_dfs_from_folder('historical_data')
         
         hour_dfs = get_dictionary_of_dfs_from_folder('hourly_data')
 
         summary_dfs = get_dictionary_of_dfs_from_folder('historical_data/honeypot_summaries')
-
+        print(f"Returning {len(hour_dfs)} rows of hourly data.")
         return jsonify({
             "historical_data": historical_dfs,
             "hourly_data": hour_dfs,
@@ -91,7 +94,7 @@ def get_dictionary_of_dfs_from_folder(folder_name):
 
 # helper function for chart_data that returns dictionary of datasets in specified folder.
 def get_tables_in_folder(folder):
-    folder_path = os.path.join('data', folder)
+    folder_path = os.path.join(DATA_DIR, folder)
     if not os.path.isdir(folder_path):
         return {}
 
