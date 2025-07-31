@@ -49,6 +49,5 @@ async function renderHourlyCharts(hourlyData) {
     const chart4Limit = 5;
     createTextforHTMLID(`Top ${chart4Limit} Honeypots Activity Over Time`, "hourly-chart4-title")
     numRowsPerIncrement = rowCountsByTypeAndTime(fullHourlyData, "type", "@timestamp", timeIncrementSize, chart4Limit);
-    console.log(numRowsPerIncrement);
     createMultiLineChart("hourly-chart4", numRowsPerIncrement, "", "Time", "Number of Hits", "time", timeIncrementSize);
 }

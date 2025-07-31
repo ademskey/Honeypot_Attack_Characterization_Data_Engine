@@ -43,7 +43,4 @@ async function renderHoneypotCharts(honeypotData, honeypotName) {
     numRowsPerIncrement = countRowsPerTimeIncrement(honeypotData, '@timestamp', timeIncrementSize);
     //createLineChart("honeypot-chart3", numRowsPerIncrement, "", "Time", "Number of Entries", "time", "linear");
     createLineChart("honeypot-chart3", numRowsPerIncrement, "", "Time", `Number of Hits from ${honeypotName}`, "time", "linear");
-
-
-    createLineChart()
 }
