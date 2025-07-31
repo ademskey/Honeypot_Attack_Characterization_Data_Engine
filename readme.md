@@ -36,6 +36,7 @@ The Dockerfile runs a multistage build. The base image python:3.14.0rc1-alpine3.
 Run with a volume containing data folder and mount user-provided .env file (delete hashes at beginning of lines and keep the newlines):
 
     docker run -p 5000:5000 \
+    -v $(pwd)/web_app/data:/app/data \
     -v "$(pwd)/web_app/.env:/app/web_app/.env" \
     <image-name>
 
