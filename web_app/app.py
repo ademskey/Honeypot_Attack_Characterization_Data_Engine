@@ -69,7 +69,7 @@ def get_chart_data():
         hour_dfs = get_dictionary_of_dfs_from_folder('hourly_data')
 
         summary_dfs = get_dictionary_of_dfs_from_folder('historical_data/honeypot_summaries')
-        print(f"Returning {len(hour_dfs)} rows of hourly data.")
+
         return jsonify({
             "historical_data": historical_dfs,
             "hourly_data": hour_dfs,
