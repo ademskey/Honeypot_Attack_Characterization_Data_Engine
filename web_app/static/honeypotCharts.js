@@ -2,8 +2,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     const selectedHoneypot = localStorage.getItem("selectedHoneypot");
     if (!selectedHoneypot) return;
 
-    // Page Title
+    // Page Title and one sentence summary.
     document.getElementById("honeypot-title").textContent = selectedHoneypot;
+    document.getElementById("honeypot-summary").textContent = getHoneypotSentenceSummary(String(selectedHoneypot));
+
 
     // Get ports for this honeypot and display in html
     const ports = getPortsByType(null, selectedHoneypot);
@@ -18,12 +20,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
     const honeypotSummary = data.honeypot_summaries[`${selectedHoneypot}_summary`];
+    const timeVsHoneypotHits = data.historical_data['time_vs_honeypot_hits'];
+
+    const timeVsSelectedHoneypotHits = time
+
     if (honeypotSummary) {
-        renderHoneypotCharts(honeypotSummary, selectedHoneypot);
+        renderHoneypotCharts(honeypotSummary, timeVsSelectedHoneypotHits, selectedHoneypot);
     }
 });
 
-async function renderHoneypotCharts(honeypotData, honeypotName) {
+async function renderHoneypotCharts(honeypotData, timeVsHoneypotHits, honeypotName) {
 
     // Honeypot Chart 1: Top x Source IPs
     const chart1Limit = 3;
