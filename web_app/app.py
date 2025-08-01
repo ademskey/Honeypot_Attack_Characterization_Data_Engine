@@ -115,14 +115,14 @@ def get_tables_in_folder(folder):
                 print(f"Failed to load {file}: {e}")
     return tables
 
-def run_app():
-    # Run the background update thread ONLY in the final reloader process
+# Only start update loop if not in the reloader subprocess (running for first time)
+    # Don't want to interrrupt background thread that updates the dataset.
+def run_app():    
     print("Starting background update thread...")
     threading.Thread(target=update_data_loop, daemon=True).start()
     # host="0.0.0.0" allows the server to be accessible from external docker container ports
     app.run(host="0.0.0.0", port=5000)
 
-# Only start update loop if not in the reloader subprocess (running for first time)
-    # Don't want to interrrupt background thread that updates the dataset.
+
 if __name__ == '__main__':
     run_app()

@@ -61,6 +61,8 @@ def timeit(func):
 class DataPlumber:
     def __init__(self):
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+        self.BASE_DIR = os.path.dirname(os.path.abspath(__file__))
         
         self.logs = {}
         self.user = None
@@ -76,7 +78,7 @@ class DataPlumber:
         
         self.init_credentials()
         self.janitor = hdc.DataJanitor()
-        self.pull_log_path = "logs/last_pull.txt"
+        self.pull_log_path = os.path.join(self.BASE_DIR, "logs/last_pull.txt")
     
     '''
         Method: init_credentials

@@ -12,15 +12,18 @@ from packages import *
 class DataFiler:
     
     def __init__(self):
-        self.total_company_hits_csv = "data/historical_data/company_hits.csv"
-        self.destport_hits_csv = "data/historical_data/destport_hits.csv"
-        self.honeypot_hits_csv = "data/historical_data/honeypot_hits.csv"
-        self.ip_hits_csv = "data/historical_data/ip_hits.csv"
-        self.time_vs_port_csv = "data/historical_data/time_vs_port.csv"
-        self.hourly_company_hits_csv = "data/hourly_data/company_hits.csv"
-        self.full_hourly_data_csv = "data/hourly_data/full_hourly_data.csv"
-        self.time_vs_ip_csv = "data/historical_data/time_vs_ip.csv"
-        self.time_vs_honeypot_hits = "data/historical_data/time_vs_honeypot_hits.csv"
+
+        self.BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+        self.total_company_hits_csv = os.path.join(self.BASE_DIR, "data/historical_data/company_hits.csv")
+        self.destport_hits_csv = os.path.join(self.BASE_DIR, "data/historical_data/destport_hits.csv")
+        self.honeypot_hits_csv = os.path.join(self.BASE_DIR, "data/historical_data/honeypot_hits.csv")
+        self.ip_hits_csv = os.path.join(self.BASE_DIR, "data/historical_data/ip_hits.csv")
+        self.time_vs_port_csv = os.path.join(self.BASE_DIR, "data/historical_data/time_vs_port.csv")
+        self.hourly_company_hits_csv = os.path.join(self.BASE_DIR, "data/hourly_data/company_hits.csv")
+        self.full_hourly_data_csv = os.path.join(self.BASE_DIR, "data/hourly_data/full_hourly_data.csv")
+        self.time_vs_ip_csv = os.path.join(self.BASE_DIR, "data/historical_data/time_vs_ip.csv")
+        self.time_vs_honeypot_hits = os.path.join(self.BASE_DIR, "data/historical_data/time_vs_honeypot_hits.csv")
 
         self.logs = {}
 
@@ -65,7 +68,7 @@ class DataFiler:
                 self.logs['compile_hourly_data'] = f'Error, missing {col}, hourly data could not compile'
                 return
 
-        df[columns_to_keep].to_csv('data/hourly_data/full_hourly_data.csv', index=False)
+        df[columns_to_keep].to_csv(os.path.join(self.BASE_DIR, 'data/hourly_data/full_hourly_data.csv'), index=False)
 
         if 'geoip.as_org' in df.columns:
             hits_df = df.groupby('geoip.as_org').agg(
@@ -216,7 +219,7 @@ class DataFiler:
                               'Conpot', 'Cowrie', 'Dionaea', 'Elasticpot', 'H0neytr4p', 'Heralding', 
                               'Ipphoney', 'Mailoney', 'Miniprint', 'Redishoneypot', 'Wordpot', 'Honeytrap']).to_csv(self.time_vs_honeypot_hits, index=False)
         for honeypot in self.honeypot_info.keys():
-            pd.DataFrame(columns=["@timestamp", "ip", "port", "country", "city", "org"]).to_csv(f"data/historical_data/honeypot_summaries/{honeypot}_summary.csv", index=False)
+            pd.DataFrame(columns=["@timestamp", "ip", "port", "country", "city", "org"]).to_csv(os.path.join(self.BASE_DIR, f"data/historical_data/honeypot_summaries/{honeypot}_summary.csv"), index=False)
         
         self.logs['reset_csvs'] = "Success."
 
@@ -265,7 +268,7 @@ class DataFiler:
             none_count = sum(val == 'None' for val in temp_entry.values())
 
             # CSV path
-            file_path = f"data/historical_data/honeypot_summaries/{honeypot}_summary.csv"
+            file_path = os.path.join(self.BASE_DIR, f"data/historical_data/honeypot_summaries/{honeypot}_summary.csv")
 
             # ✅ Check if CSV is empty by trying to read just 1 row
             csv_is_empty = False
@@ -388,7 +391,7 @@ class DataFiler:
         plt.legend([], [], frameon=False)
         
         plt.tight_layout()
-        plt.savefig("static/data/ports_vs_time.png")
+        plt.savefig(os.path.join(self.BASE_DIR, "static/data/ports_vs_time.png"))
         plt.close()
         self.logs['analyze_ports_over_time'] = "Success."
 
@@ -424,6 +427,7 @@ class DataFiler:
         df_long["@timestamp"] = pd.to_datetime(df_long["@timestamp"], errors="coerce")
         df_long = df_long.dropna(subset=["@timestamp", "ip"])
         df_long = df_long[df_long["ip"] != "nan"]
+        df_long = df_long[df_long["ip"] != ""]
 
         # Step 5: Map unique IPs to integer Y values for plotting
         unique_ips = sorted(df_long["ip"].unique(), key=lambda ip: ipaddress.IPv4Address(ip))
@@ -467,7 +471,7 @@ class DataFiler:
 
         plt.legend([], [], frameon=False)  # no legend
         plt.tight_layout()
-        plt.savefig("static/data/ip_vs_time.png")
+        plt.savefig(os.path.join(self.BASE_DIR, "static/data/ip_vs_time.png"))
         plt.close()
 
         self.logs['analyze_ip_over_time'] = "Success."
@@ -483,7 +487,7 @@ class DataFiler:
             - CB 07/31/2025: copied from honeypot data cleaning
     '''
     def write_logs(self):
-        with open("logs/data_filer_logs.txt", "w") as f:
+        with open(os.path.join(self.BASE_DIR, "logs/data_filer_logs.txt"), "w") as f:
             f.write("\nNew_Log:")
             f.writelines(f"{k}:{v}\n" for k, v in self.logs.items())
 
@@ -500,7 +504,7 @@ class DataFiler:
         honey_hits_df = pd.read_csv(self.time_vs_honeypot_hits)
         honey_hits_df = honey_hits_df.sort_values('@timestamp').reset_index(drop=True)
 
-        honey_hits_df['@timestamp'] = pd.to_datetime(honey_hits_df['@timestamp'], utc=True)
+        honey_hits_df['@timestamp'] = pd.to_datetime(honey_hits_df['@timestamp'], utc=True, format='mixed')
 
         new_rows = []
 

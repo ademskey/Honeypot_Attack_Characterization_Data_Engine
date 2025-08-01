@@ -59,6 +59,8 @@ class DataJanitor:
         warnings.simplefilter("ignore", PerformanceWarning)
         warnings.simplefilter(action='ignore', category=FutureWarning)
         self.logs = {}
+
+        self.BASE_DIR = os.path.dirname(os.path.abspath(__file__))
         
         self.filer = filer.DataFiler()
         self.honeypot_info = {"Ciscoasa" : [5000, 8443],
@@ -516,7 +518,7 @@ class DataJanitor:
         Description: Writes to data_cleaning_logs.txt file
     '''
     def write_logs(self):
-        with open("logs/data_cleaning_logs.txt", "w") as f:
+        with open(os.path.join(self.BASE_DIR, "logs/data_cleaning_logs.txt"), "w") as f:
             f.write("\nNew_Log:")
             f.writelines(f"{k}:{v}\n" for k, v in self.logs.items())
     
