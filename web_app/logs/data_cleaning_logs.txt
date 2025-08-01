@@ -23,6 +23,6 @@ id_honeypot_Wordpot:Successful
 id_honeypot_Honeytrap:Success
 label_hidden_honeypots:Success
 drop_sparse_columns:Success.
-print_progress_a:Original Dataframe size: 53605 rows and 38 columns.
-print_progress_b:Final Dataframe size: 19167 rows and 10 columns.
-process_data:Processing time =  4.84 seconds
+print_progress_a:Original Dataframe size: 54097 rows and 39 columns.
+print_progress_b:Final Dataframe size: 19121 rows and 10 columns.
+process_data:Processing time =  9.38 seconds

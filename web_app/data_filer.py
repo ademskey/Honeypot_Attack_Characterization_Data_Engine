@@ -6,6 +6,8 @@ from packages import *
     two historical trend plots and outputs them as pngs.
 
     Last Modified: 07/31/2025
+        - CB 08/01/2025: added function clean_csvs to ensure missing hours of data
+                         are filled in with 0 values.
 '''
 class DataFiler:
     
@@ -300,10 +302,11 @@ class DataFiler:
             - df: cleaned pandas dataframe
         Output: NONE
         
-        Last Modified: 07/31/2025
+        Last Modified: 08/01/2025
             - CB 07/10/2025: converted to a method
             - CB 07/20/2025: added honeypot summaries
             - CB 07/31/2025: moved to DataFiler class, added ip and port analysis
+            - CB 08/01/2025: added call to clean_csvs
     '''
     def save_data(self, df):
         self.compile_hourly_data(df)
@@ -313,6 +316,7 @@ class DataFiler:
         self.honeypot_summaries(df)
         self.analyze_ip_over_time()
         self.analyze_ports_over_time()
+        self.clean_csvs()
         self.logs['save_data'] = 'Success.'
         self.write_logs()
     
@@ -482,4 +486,50 @@ class DataFiler:
         with open("logs/data_filer_logs.txt", "w") as f:
             f.write("\nNew_Log:")
             f.writelines(f"{k}:{v}\n" for k, v in self.logs.items())
+
+    '''
+        Method: clean_csvs
+        Description: Ensures the time-based csvs fill in missing hours from pull data with 0s
+
+        Input: None
+        Output: None
+
+        Last Modified: 08/01/2025
+    '''
+    def clean_csvs(self):
+        honey_hits_df = pd.read_csv(self.time_vs_honeypot_hits)
+        honey_hits_df = honey_hits_df.sort_values('@timestamp').reset_index(drop=True)
+
+        honey_hits_df['@timestamp'] = pd.to_datetime(honey_hits_df['@timestamp'], utc=True)
+
+        new_rows = []
+
+        value_columns = [col for col in honey_hits_df.columns if col != '@timestamp']
+
+        for i in range(len(honey_hits_df) - 1):
+            curr_row = honey_hits_df.loc[i]
+            next_row = honey_hits_df.loc[i + 1]
+
+            curr_time = curr_row['@timestamp']
+            next_time = next_row['@timestamp']
+
+            # Check for >1 hour gap
+            diff = next_time - curr_time
+            if diff > datetime.timedelta(hours=1):
+
+                num_missing = int(diff.total_seconds() // 3600) - 1
+
+                for j in range(1, num_missing + 1):
+                    new_time = curr_time + datetime.timedelta(hours=j)
+
+                    new_row = {'@timestamp' : new_time}
+                    new_row.update({col: 0 for col in value_columns})
+                    new_rows.append(new_row)
+                    
+        if new_rows:
+            honey_hits_df = pd.concat([honey_hits_df, pd.DataFrame(new_rows)], ignore_index=True)
+            honey_hits_df['@timestamp'] = pd.to_datetime(honey_hits_df['@timestamp'], utc=True)
+            honey_hits_df.to_csv(self.time_vs_honeypot_hits, index=False)
+        self.logs['clean_csvs'] = f'{len(new_rows)} new rows added to time_vs_honeypot_hits.csv'
+
     

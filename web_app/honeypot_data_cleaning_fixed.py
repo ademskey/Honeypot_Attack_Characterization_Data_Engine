@@ -544,7 +544,7 @@ class DataJanitor:
         self.logs['process_data'] = f"Processing time = {elapsed_time: .2f} seconds"
         self.write_logs()
         self.filer.save_data(df)
-
+        
         print(f"Processing time: {elapsed_time:.2f} seconds\n")
         return df
     
