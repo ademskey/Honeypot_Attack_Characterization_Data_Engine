@@ -7,7 +7,7 @@ Our development is based on Western Washington University's Cyber Range T-Pot de
 
 [T-Pot](https://github.com/telekom-security/tpotce) : An open-source platform for running 20+ honeypots from one central server, developed by Deutsche Telekom.  
 
-# Honeypot ELK Stack: (At the time of creation)
+# Honeypot ELK Stack (At the time of creation)
 T-Pot Version: 24.04.1  
 Kibana Version: 8.18.3  
 Elastic Version: 1.7.0  
