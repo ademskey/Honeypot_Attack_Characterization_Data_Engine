@@ -5,8 +5,7 @@ The idea of this project is to have a lightweight app that could be deployed on 
 
 Our development is based on Western Washington University's Cyber Range T-Pot deployment and in collaboration with their cyber-range team.
 
-SBOM:
-[T-Pot](https://github.com/telekom-security/tpotce) : An open-source platform for running 20+ honeypots from one central server, developed by Deutsche Telekom.
+[T-Pot](https://github.com/telekom-security/tpotce) : An open-source platform for running 20+ honeypots from one central server, developed by Deutsche Telekom.  
 
 # Honeypot ELK Stack: (At the time of creation)
 T-Pot Version: 24.04.1  
