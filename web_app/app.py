@@ -3,7 +3,7 @@ import query_and_process
 
 app = Flask(__name__)
 
-UPDATE_TIME = 3600 # in seconds
+UPDATE_TIME = 30 # in seconds
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, 'data')
@@ -14,14 +14,14 @@ running_lock = threading.Lock()
 def update_data_loop():
     while True:
         if running_lock.acquire(blocking=False):
-            try:
+           # try:
                 print("Starting a new data update cycle...", flush=True)
                 query_and_process.main()
                 print("Data update cycle completed.", flush=True)
-            except Exception as e:
-                print(f"Data update failed: {e}", flush=True)
-            finally:
-                running_lock.release()
+          #  except Exception as e:
+               # print(f"Data update failed: {e}", flush=True)
+           # finally:
+             #   running_lock.release()
         else:
             print("[WARN] Previous data update still running. Skipping this cycle.", flush=True)
 
