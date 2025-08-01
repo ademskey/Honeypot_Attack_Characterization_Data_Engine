@@ -1,5 +1,5 @@
 # Authors: Adam Caudle, Emily West, Caitlyn Boyd, Jack Crawford
-This project is a locally-hosted browser tool for querying, processing, cleaning, and displaying T-Pot Honeypot data. The T-pot honeypot is stored through Western Washington University's (WWU) cyberange. The honeypot they have been hosting has been gathering data fom various honeypots which mimic different serves (I.e. medical printer, ai-chatbot, etc). Our project uses Python's Flask library for the web server and Javascript/HTML for the front end. It then connects to backend querying and processing scripts to provide succinct processed and cleaned data to the end user. 
+This project is a locally-hosted browser tool for querying, processing, cleaning, and displaying T-Pot Honeypot data. The T-Pot honeypot is stored through Western Washington University's (WWU) cyberange. Their server has been gathering data fom various honeypots that mimic different services (i.e. medical printer, ai-chatbot, etc). Our project uses Python's Flask library for the web server and Javascript/HTML for the front end. It then connects to backend querying and processing scripts to provide succinct processed and cleaned data to the end user. 
 
 The idea of this project is to have a lightweight app that could be deployed on a computer for threat analytics at no cost to the user (provided they got WWU's permission and credentials to view the data). This project has a lot of room to expand into ML applications such as forecasting and analysis. Additionally there is potential to create a free-to-use app that is hosted on the internet for anyone to use and view for up-to-date threat analysis at zero cost.
 
@@ -21,24 +21,28 @@ Javascript: 12.22.9
 See [vulnerabilities.md](https://github.com/ademskey/Honeypot_Attack_Characterization_Data_Engine/blob/main/vulnerabilities.md) for a complete SBOM.  
 
 # Setting up  
-Install (if needed) and run the Docker daemon. Create a ".env" file in web_app for HTTP authorization (needed to pull information from honeypot). You should then be able to request data via the script. The .env file should follow this format:
+Install Docker. For HTTP authorization, create a ".env" file in the web_app folder (needed to pull information from honeypot). The .env file should follow this format:
 
     HONEYPOT_USER=<username>  
     HONEYPOT_PASS=<password>
 
 # Running the browser data visualization tool
 
-The Dockerfile runs a multistage build. The base image python:3.14.0rc1-alpine3.22 has no reported CVE's according to Dockerhub as of 07/31. The .env file containing T-Pot username and password should not be copied into container, so mount it at runtime instead. Start by building the image. In project root:
+The Dockerfile runs a multistage build. The base image python:3.14.0rc1-alpine3.22 has no reported CVE's according to Dockerhub as of 07/31. The .env file containing T-Pot username and password should not be copied into container, so mount it at runtime instead (see provided docker run commands).  
+Start Docker, then build the image defined by the Dockerfile. In project root:  
 
     docker build -t <image-name> .  
 
-Run with a volume containing data folder and mount user-provided .env file:
+Run the container and launch the app with a volume containing data folder and mount user-provided .env file:
 
     docker run -p 5000:5000 \
     -v "$(pwd)/web_app/.env:/app/web_app/.env" \
     <image-name>
+    
+Then visit http://localhost:5000/ in your web browser.
 
-For an interactive shell:
+
+Alternatively, for an interactive shell:
 
     docker run -p 5000:5000 -it \
     -v $(pwd)/web_app/.env:/app/web_app/.env \
@@ -48,13 +52,13 @@ Then run the app from the container's shell:
 
     app# python3 web_app/app.py
 
-Visit http://localhost:5000/ in your web broswer.
+Then visit http://localhost:5000/ in your web browser.
 
 
 # About the Browser Tool
 
 ## Security  
-This is a locally hosted browser app, so it is safe from common web-based attacks. Security during Elastic querying is provided by access through a VPN and required credentials. Once the data is in the Flask app, web_app/app.py protects honeypot data from HTTP verb tampering by rejecting unsafe HTTP methods.
+This is a locally hosted browser app, so it is safe from common web-based attacks. Security during Elastic querying is provided by access through a VPN and required credentials. Once the data is in the Flask app, web_app/app.py protects honeypot data from HTTP verb tampering by rejecting unsafe HTTP methods. The Dockerfile creates a non-root user in the Alpine Linux shell, so sudo commands cannot be run.
 
 Due to the lack of functions (no outward querying, use of APIs, forward facing authentication, file upload), most common web-exploits cannot be performed. This app has been through a team-led security review, but will require aditional reviews to be compliant depending on where the system is deployed. Please contact a member of the team if a security vulnerability is found.
 
