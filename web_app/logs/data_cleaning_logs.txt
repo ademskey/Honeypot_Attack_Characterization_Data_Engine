@@ -1,0 +1,28 @@
+
+New_Log:drop_local_traffic:Success
+remove_suricata_duplicates:Success
+remove_cowrie_duplicates:Success
+remove_P0f_duplicates:Success.
+id_honeypot_Ciscoasa:Successful
+id_honeypot_Dicompot:Successful
+id_honeypot_Honeyaml:Successful
+id_honeypot_Medpot:Successful
+id_honeypot_SentryPeer:Successful
+id_honeypot_Abdhoney:Successful
+id_honeypot_Conpot:Successful
+id_honeypot_Cowrie:Successful
+id_honeypot_Dionaea:Successful
+id_honeypot_Elasticpot:Successful
+id_honeypot_H0neytr4p:Successful
+id_honeypot_Heralding:Successful
+id_honeypot_Ipphoney:Successful
+id_honeypot_Mailoney:Successful
+id_honeypot_Miniprint:Successful
+id_honeypot_Redishoneypot:Successful
+id_honeypot_Wordpot:Successful
+id_honeypot_Honeytrap:Success
+label_hidden_honeypots:Success
+drop_sparse_columns:Success.
+print_progress_a:Original Dataframe size: 53605 rows and 38 columns.
+print_progress_b:Final Dataframe size: 19167 rows and 10 columns.
+process_data:Processing time =  4.84 seconds

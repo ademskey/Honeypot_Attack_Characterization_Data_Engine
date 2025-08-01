@@ -11,6 +11,8 @@
             deleted user interface.
         - CB 07/14/2025: optimized by removing writes to json and just collect data to a
             dataframe directly. Only update progress bar every 20 seconds.
+        - CB 07/31/2025: Fixed logs to write to a dictionary, added a check to ensure data cannot be pulled within
+                         an hour of the last pull, added writes to a logs file.
             
 '''
 from packages import *
@@ -50,16 +52,17 @@ def timeit(func):
     Class: DataPlumber
     Description: pipes the data through the entire data processing pipeline.
     
-    Last Modified: 07/11/2025
+    Last Modified: 07/31/2025
         - CB 07/10/2025: hid sensitive data in the class data members.
         - CB 07/11/2025: added logging, hard coded amount of time to pull,
             and deleted the user interface function.
+        - CB 07/31/2025: changed logs to be a dictionary.
 '''
 class DataPlumber:
     def __init__(self):
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
         
-        self.logs = []
+        self.logs = {}
         self.user = None
         self.password = None
         self.auth = None
@@ -73,6 +76,7 @@ class DataPlumber:
         
         self.init_credentials()
         self.janitor = hdc.DataJanitor()
+        self.pull_log_path = "logs/last_pull.txt"
     
     '''
         Method: init_credentials
@@ -82,7 +86,8 @@ class DataPlumber:
         Input: NONE
         Output: NONE
         
-        Last Modified: 07/10/2025
+        Last Modified: 07/31/2025
+            - CB 07/31/2025: added new logs
     '''
     def init_credentials(self):
         # Pull login from .env file
@@ -92,7 +97,8 @@ class DataPlumber:
         self.auth = HTTPBasicAuth(self.user, self.password)
 
         # Dynamically get version
-        self.kibana_version = self.get_kibana_version(self.kibana_url, self.auth)     
+        self.kibana_version = self.get_kibana_version(self.kibana_url, self.auth)
+        self.logs['init_credentials'] = 'Success.'     
 
     '''
         Function: get_kibana_version
@@ -104,8 +110,9 @@ class DataPlumber:
         Output:
             - version of kibana
             
-        Last Modified: 07/10/2025
+        Last Modified: 07/31/2025
             - CB 07/10/2025: converted to a class method
+            - CB 07/31/2025: added new logs
     '''
     def get_kibana_version(self, base_url, auth):
         try:
@@ -122,7 +129,10 @@ class DataPlumber:
                 raise ValueError("Version not found in response.")
         except Exception as e:
             print(f"Error fetching Kibana version: {e}")
+            self.logs['get_kibana_version'] = 'Error fetching kibana version.'
             sys.exit(1)
+        
+        self.logs['get_kibana_version'] = 'Success, kibana version: ' + str(version)
 
 
 
@@ -140,7 +150,7 @@ class DataPlumber:
             - number of hits.
             
         Programmer: Adam Caudle, Caitlyn Boyd
-        Last Modified: 07/11/2025
+        Last Modified: 07/31/2025
             - CB 07/08/2025: Integrated data pipeline, added support for Windows
             - CB 07/10/2025: converted to a class method, hid all sensitive data
                 and functions in the data members of the class.
@@ -148,10 +158,12 @@ class DataPlumber:
                 and hard coded the number of hours to pull as 1 hour.
             - CB 07/14/2025: removed writes to a json file and instead pass everything
                 directly through a dataframe to improve efficiency.
+            - EW 07/31/2025: commented out the exiting early functionality.
+            - CB 07/31/2025: added a chceck to ensure the data cannot be pulled more than once an hour
+                             added new logs
 
     '''
     def collect_honeypot_data(self):
-       # self.janitor.reset_csvs()
         new_log = ""
         total_hits = 0
         
@@ -159,6 +171,15 @@ class DataPlumber:
         time_to_fetch = 1
         hours_to_fetch = time_to_fetch * 60 
         curr_time = datetime.datetime.now(datetime.timezone.utc)
+
+        if self.has_pulled_in_last_hour():
+            self.logs['collect_honeypot_data'] = 'Attempted to pull too soon. Try again later.'
+            print('Attempted to pull too soon, try again later.')
+            self.write_logs()
+            return -1
+        else:
+            with open(self.pull_log_path, 'w') as file:
+                file.write(str(curr_time))
 
         # Required headers
         headers = {
@@ -185,8 +206,7 @@ class DataPlumber:
             gte = slice_start.strftime("%Y-%m-%dT%H:%M:%SZ")
             lte = slice_end.strftime("%Y-%m-%dT%H:%M:%SZ")
             
-            new_log = f"Requesting from {gte} to {lte}"
-            #self.logs.append(new_log)
+            self.logs['collect_honeypot_data_request'] = f"Requesting from {gte} to {lte}"
             
             
             # check for early exit
@@ -228,12 +248,11 @@ class DataPlumber:
 
             response = requests.post(self.elastic_url, headers=headers, auth=self.auth, json=query_body, verify=False)
             
-            new_log = "Status Code: " + str(response.status_code)
-            #self.logs.append(new_log)
+            self.logs['collect_honeypot_data_Status_Code'] = "Status Code: " + str(response.status_code)
             
             if response.status_code != 200:
                 new_log = "Error fetching data: " + str(response.status_code) + " " + response.text
-                #self.logs.append(new_log)
+                self.logs['collect_honeypot_data_Status_Code'] = new_log
             
             '''
                 CB 07/14/2025: Changed to support writing directly to a dataframe to remove json writes.
@@ -253,13 +272,11 @@ class DataPlumber:
                 if documents:
                     new_df = pd.DataFrame(documents)
                     df = pd.concat([df, new_df], ignore_index=True)
-
-                #self.logs.append("Appended to internal DataFrame")
-                
                 
             except Exception as e:
                 print("Failed to parse JSON:", e)
                 print(response.text)
+                self.logs['collect_honeypot_data_json'] = 'Failed to parse json.'
             
                 
             '''
@@ -287,15 +304,49 @@ class DataPlumber:
                 bar = "[" + "#" * progress + "-" * (bar_width - progress) + f"] {percent}%"
                 print("\r" + bar, end="", flush=True)
         
-        '''
-        with open("logs.txt", "w") as outfile:
-            for entry in janitor_logs:
-                outfile.write(entry + "\n")
-        '''
-        '''
-            End of Modified CB 07/08/2025
-        '''
+        self.logs['collect_honeypot_data'] = 'Success.'
+        
         return total_hits
+    
+    '''
+        Method: has_pulled_in_last_hour
+        Description: Decides if the application has pulled data in the last hour.
+
+        Input: None
+        Ouput:
+            - True: the application has pulled in the last hour.
+            - False: the application has not pulled in the last hour.
+        
+        Last Modified: 07/31/2025
+    '''
+    def has_pulled_in_last_hour(self):
+        curr_time = datetime.datetime.now(datetime.timezone.utc) 
+        time_str = curr_time.strftime("%Y-%m-%d %H:%M:%S %Z")
+
+        
+        with open(self.pull_log_path, 'r') as file:
+            last_pull = file.read().strip()
+        
+        if last_pull == "":
+            return False
+
+        last_pull_time = datetime.datetime.strptime(last_pull, "%Y-%m-%d %H:%M:%S.%f%z")
+        last_pull_time = last_pull_time.replace(tzinfo=datetime.timezone.utc)
+
+        if curr_time - last_pull_time < datetime.timedelta(hours=1):
+            return True
+        else:
+            return False
+    
+    
+    '''
+        Function: write_logs
+        Description: Writes to data_cleaning_logs.txt file
+    '''
+    def write_logs(self):
+        with open("logs/data_plumber_logs.txt", "w") as f:
+            f.write("\nNew_Log:")
+            f.writelines(f"{k}:{v}\n" for k, v in self.logs.items())
 
 '''
     Runs the main program
@@ -305,8 +356,6 @@ class DataPlumber:
 @timeit
 def main():
     plumber = DataPlumber()
-    #jan = hdc.DataJanitor()
-    #jan.reset_csvs()
     plumber.collect_honeypot_data()
     print()
     return 0
