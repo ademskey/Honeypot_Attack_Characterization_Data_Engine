@@ -54,12 +54,17 @@ def honeypot_page():
 def data_path():
     return "UNAUTHORIZED HTTP ACCESS TO HONEYPOT DATA DETECTED"
 
+
+# Reject unsafe browser requests:
+@app.route('/data.html')
+def data_page():
+    return render_template('data.html')
+
 # Returns dictionary of flat json files so that JS can use it, keeping table structure of the pandas df.
 # If new folders are created: add another get_dictionary_of_dfs_from_folder('new folder path from data/'),
 # then add new set of df's to return jsonify block.
 @app.route('/data')
 def get_chart_data():
-
     # a small layer of security: verify that the request came from front end (should be improved!)
     if request.headers.get("X-Requested-By") != "frontend":
         return render_template('data.html')

@@ -296,8 +296,8 @@ function createBarChart(canvasID, data, xtitle, ytitle, title) {
 }
 
 // For Scatter Plot and Bar chart -- data must be an array.
-function createXYPoints(data, xKey, yKey, chartType, limit = null) {
-    //Ensure data is an array
+function createXYPoints(data, xKey, yKey, chartType, xType, limit = null) {
+    // Ensure data is an array
     if (!Array.isArray(data)) {
         if (typeof data === 'object' && data !== null) {
             data = Object.values(data);
@@ -312,7 +312,7 @@ function createXYPoints(data, xKey, yKey, chartType, limit = null) {
     // Filter valid rows
     const filtered = data.filter(row => row[xKey] !== undefined && row[yKey] !== undefined);
 
-    if (chartType === 'scatter') {
+    if (chartType === 'scatter' || chartType == 'line') {
         output = filtered.map(row => ({
             x: row[xKey],
             y: row[yKey]
@@ -337,6 +337,26 @@ function createXYPoints(data, xKey, yKey, chartType, limit = null) {
         });
     }
 
+    if (xType == "time") {
+        if (chartType === 'scatter') {
+            output = output.map(point => ({
+                x: new Date(point.x).getTime(),
+                y: point.y
+            }));
+        } else if (chartType === 'line') {
+            const asObject = {};
+            output.forEach(point => {
+                let dateValue = point.x;
+                if (typeof dateValue === "string" || typeof dateValue === "object") {
+                    dateValue = new Date(dateValue).getTime();
+                }
+                if (!isNaN(dateValue)) {
+                    asObject[dateValue] = point.y;
+                }
+            });
+            output = asObject;
+        }
+    }
     return output;
 }
 
@@ -421,6 +441,10 @@ function countRowsPerTimeIncrement(data, timestampKey, incrementSize) {
     });
 
     return bucketCounts; // { epoch_ms_bucket: count }
+}
+
+function convertTimestamptoEpochMS(timestamp) {
+    return new Date(timestamp).getTime();
 }
 
 // Add text to an html id. Use to add a chart title in the box it lives in.

@@ -39,9 +39,10 @@ async function renderHourlyCharts(hourlyData) {
     createBarChart("hourly-chart2", topXCities, "Source Country, City", "Num Hits", "");
 
     // Hourly Chart 3: Top x Organizations by total number of hits-- Bar Chart 
-    const chart3Limit = 10;
+    const chart3Limit = 5;
     createTextforHTMLID(`Top ${chart3Limit} Organizations`, "hourly-chart3-title");
-    const topXOrganizations = createXYPoints(companyHits, "Org", "Hits", "bar", chart3Limit);
+    const topXOrganizations = createXYPoints(companyHits, "Org", "Hits", "bar", "", chart3Limit);
+    console.log(topXOrganizations);
     createBarChart("hourly-chart3", topXOrganizations, "Organization (geoip.as_org)", "Count", "");
 
     // Hourly Chart 4: Activity Over Time -- line graph

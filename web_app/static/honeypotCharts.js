@@ -1,4 +1,22 @@
+function toggleDropdown() {
+    document.getElementById("honeypotDropdown").classList.toggle("show");
+}
+
+function selectHoneypot(name) {
+    localStorage.setItem("selectedHoneypot", name);
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
+
+    window.addEventListener("click", (e) => {
+        if (!e.target.matches(".dropbtn")) {
+            const dropdowns = document.getElementsByClassName("dropdown-content");
+            for (let i = 0; i < dropdowns.length; i++) {
+                dropdowns[i].classList.remove("show");
+            }
+        }
+    });
+
     const selectedHoneypot = localStorage.getItem("selectedHoneypot");
     if (!selectedHoneypot) return;
 
@@ -22,15 +40,20 @@ document.addEventListener("DOMContentLoaded", async () => {
     const honeypotSummary = data.honeypot_summaries[`${selectedHoneypot}_summary`];
     const timeVsHoneypotHits = data.historical_data['time_vs_honeypot_hits'];
 
-    const timeVsSelectedHoneypotHits = time
+    const timeVsSelectedHoneypotHits = timeVsHoneypotHits.map(entry => ({
+        '@timestamp': entry["@timestamp"],
+        hits: entry[selectedHoneypot] || 0
+    }));
 
     if (honeypotSummary) {
         renderHoneypotCharts(honeypotSummary, timeVsSelectedHoneypotHits, selectedHoneypot);
     }
 });
 
-async function renderHoneypotCharts(honeypotData, timeVsHoneypotHits, honeypotName) {
+async function renderHoneypotCharts(honeypotData, timeVsSelectedHoneypotHits, honeypotName) {
 
+    console.log("time vs selected Honeypot hits:");
+    console.log(timeVsSelectedHoneypotHits);
     // Honeypot Chart 1: Top x Source IPs
     const chart1Limit = 3;
     createTextforHTMLID(`Top ${chart1Limit} Source IPs for ${honeypotName}`, "honeypot-chart1-title")
@@ -45,8 +68,9 @@ async function renderHoneypotCharts(honeypotData, timeVsHoneypotHits, honeypotNa
 
     // Honeypot Chart 3: Activity over Time
     createTextforHTMLID(`${honeypotName} Activity Over Time`, "honeypot-chart3-title")
-    const timeIncrementSize = 100; // in seconds.
-    numRowsPerIncrement = countRowsPerTimeIncrement(honeypotData, '@timestamp', timeIncrementSize);
-    //createLineChart("honeypot-chart3", numRowsPerIncrement, "", "Time", "Number of Entries", "time", "linear");
-    createLineChart("honeypot-chart3", numRowsPerIncrement, "", "Time", `Number of Hits from ${honeypotName}`, "time", "linear");
+    console.log("Sample input data:", timeVsSelectedHoneypotHits.slice(0, 5));
+    selectedHoneypotActivityOverTime = createXYPoints(timeVsSelectedHoneypotHits, "@timestamp", "hits", "line", "time");
+    console.log("create xy points for chart 3");
+    console.log(selectedHoneypotActivityOverTime);
+    createLineChart("honeypot-chart3", selectedHoneypotActivityOverTime, "", "Time", "Hits", "time", "linear");
 }

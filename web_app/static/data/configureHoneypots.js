@@ -3,7 +3,7 @@
 function getHoneypotSentenceSummary(selectedHoneypot) {
     const honeypotSentences = {
         "Ciscoasa": "Low Interaction. Simulates a vulnerable Cisco Adaptive Security Appliance (ASA) firewall to attract and analyze attacks targeting Cisco network infrastructure.",
-        "Dicompot": "Low Interaction. Digital Imaging and Communications in Medicine(DICOM) Honeypot",
+        "Dicompot": "Low Interaction. Digital Imaging and Communications in Medicine (DICOM) Honeypot",
         "Honeyaml": "Low Interaction. Simulates a vulnerable API server.",
         "Medpot": "Low Interaction. Simulates HL7 FHIR (Fast Healthcare Interoperability Resources).",
         "SentryPeer": "Low Interaction. A fraud detection honeypot for logging attackers over VoIP",
