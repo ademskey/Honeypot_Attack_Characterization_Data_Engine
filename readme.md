@@ -28,7 +28,7 @@ Install Docker. For HTTP authorization, create a ".env" file in the web_app fold
 
 # Running the browser data visualization tool
 
-The Dockerfile runs a multistage build. The base image python:3.14.0rc1-alpine3.22 has no reported CVE's according to Dockerhub as of 07/31. The .env file containing T-Pot username and password should not be copied into container, so mount it at runtime instead (see provided docker run commands).  
+The Dockerfile runs a multistage build. The .env file containing T-Pot username and password should not be copied into container, so mount it at runtime instead (see provided docker run commands).  
 Start Docker, then build the image defined by the Dockerfile. In project root:  
 
     docker build -t <image-name> .  
@@ -58,9 +58,11 @@ Then visit http://localhost:5000/ in your web browser.
 # About the Browser Tool
 
 ## Security  
-This is a locally hosted browser app, so it is safe from common web-based attacks. Security during Elastic querying is provided by access through a VPN and required credentials. Once the data is in the Flask app, web_app/app.py protects honeypot data from HTTP verb tampering by rejecting unsafe HTTP methods. The Dockerfile creates a non-root user in the Alpine Linux shell, so sudo commands cannot be run.
+This is a locally hosted browser app, so it is safe from common web-based attacks. Security during Elastic querying is provided by access through a VPN and required credentials. Once the data is in the Flask app, web_app/app.py protects honeypot data from HTTP verb tampering by rejecting unsafe HTTP methods.   
 
-Due to the lack of functions (no outward querying, use of APIs, forward facing authentication, file upload), most common web-exploits cannot be performed. This app has been through a team-led security review, but will require aditional reviews to be compliant depending on where the system is deployed. Please contact a member of the team if a security vulnerability is found.
+Due to the lack of functions (no outward querying, use of APIs, forward facing authentication, file upload), most common web-exploits cannot be performed. This app has been through a team-led security review, but will require aditional reviews to be compliant depending on where the system is deployed. Please contact a member of the team if a security vulnerability is found.  
+
+The base image for the Docker container python:3.14.0rc1-alpine3.22 has no reported CVE's according to Dockerhub as of 07/31. Additionally, elevated privileges are not available in the runtime container because the container runs as a non-root user (appuser), and Alpine Linux does not support sudo by default.  
 
 ## Data Pipeline  
 T-Pot stores a log of data for a predetermined amount of time in Elastic. Several honeypots use Suricata and p0f for network analysis and threat detection, and these tools inadvertently show up as honeypot names in the "type" column.
