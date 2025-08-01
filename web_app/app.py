@@ -14,14 +14,14 @@ running_lock = threading.Lock()
 def update_data_loop():
     while True:
         if running_lock.acquire(blocking=False):
-           # try:
+           try:
                 print("Starting a new data update cycle...", flush=True)
                 query_and_process.main()
                 print("Data update cycle completed.", flush=True)
-          #  except Exception as e:
-               # print(f"Data update failed: {e}", flush=True)
-           # finally:
-             #   running_lock.release()
+           except Exception as e:
+               print(f"Data update failed: {e}", flush=True)
+           finally:
+               running_lock.release()
         else:
             print("[WARN] Previous data update still running. Skipping this cycle.", flush=True)
 
@@ -55,7 +55,6 @@ def data_path():
     return "UNAUTHORIZED HTTP ACCESS TO HONEYPOT DATA DETECTED"
 
 
-# Reject unsafe browser requests:
 @app.route('/data.html')
 def data_page():
     return render_template('data.html')
