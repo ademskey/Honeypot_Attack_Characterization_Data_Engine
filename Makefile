@@ -1,4 +1,4 @@
-# Makefile: Builds and runs a non-interactive Flask container. To start the app: 
+# Makefile: Builds and runs a non-interactive Flask container. To start the app: make all. When you're done, make stop.
 
 IMAGE_NAME := flask-honeypot-app
 CONTAINER_NAME := flask-honeypot-container
