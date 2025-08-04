@@ -11,7 +11,7 @@ Our development is based on Western Washington University's Cyber Range T-Pot de
 T-Pot Version: 24.04.1  
 Kibana Version: 8.18.3  
 Elastic Version: 1.7.0  
-Logstash: 
+Logstash: 24.04.1
 
 # Browser Application stack  
 Python: 3.14  
