@@ -1,9 +1,9 @@
 # Authors: Adam Caudle, Emily West, Caitlyn Boyd, Jack Crawford
-This project is a locally-hosted browser tool for querying, processing, cleaning, and displaying T-Pot Honeypot data. The T-Pot honeypot is stored through Western Washington University's (WWU) cyberange. Their server has been gathering data fom various honeypots that mimic different services (i.e. medical printer, ai-chatbot, etc). Our project uses Python's Flask library for the web server and Javascript/HTML for the front end. It then connects to backend querying and processing scripts to provide succinct processed and cleaned data to the end user. 
+This project is a locally-hosted browser tool for querying, processing, cleaning, and displaying T-Pot Honeypot data. The T-Pot honeypot system is stored through Western Washington University's (WWU) cyberange. Their server has been gathering data fom various honeypots that mimic different services (i.e. medical printer, AI-chatbot, etc). Our project uses Python's Flask library for the web server and Javascript/HTML for the front end. It then connects to backend querying and processing scripts to provide succinct processed and cleaned data to the end user. 
 
 The idea of this project is to have a lightweight app that could be deployed on a computer for threat analytics at no cost to the user (provided they got WWU's permission and credentials to view the data). This project has a lot of room to expand into ML applications such as forecasting and analysis. Additionally there is potential to create a free-to-use app that is hosted on the internet for anyone to use and view for up-to-date threat analysis at zero cost.
 
-Our development is based on Western Washington University's Cyber Range T-Pot deployment and in collaboration with their cyber-range team.
+Our development is based on Western Washington University's Cyber Range T-Pot deployment and in collaboration with their cyber-range team.  
 
 [T-Pot](https://github.com/telekom-security/tpotce) : An open-source platform for running 20+ honeypots from one central server, developed by Deutsche Telekom.  
 
@@ -11,7 +11,7 @@ Our development is based on Western Washington University's Cyber Range T-Pot de
 T-Pot Version: 24.04.1  
 Kibana Version: 8.18.3  
 Elastic Version: 1.7.0  
-Logstash: 
+Logstash: 24.04.1
 
 # Browser Application stack  
 Python: 3.14  
@@ -21,28 +21,36 @@ Javascript: 12.22.9
 See [vulnerabilities.md](https://github.com/ademskey/Honeypot_Attack_Characterization_Data_Engine/blob/main/vulnerabilities.md) for a complete SBOM.  
 
 # Setting up  
-Install Docker. For HTTP authorization, create a ".env" file in the web_app folder (needed to pull information from honeypot). The .env file should follow this format:
+Install and start the Docker engine. Connect to the Cyberrange VPN to access the T-Pot server. For HTTP authorization, create a ".env" file in the web_app folder (needed to pull information from honeypot). The .env file should follow this format:
 
     HONEYPOT_USER=<username>  
     HONEYPOT_PASS=<password>
 
 # Running the browser data visualization tool
 
-The Dockerfile runs a multistage build. The .env file containing T-Pot username and password should not be copied into container, so mount it at runtime instead (see provided docker run commands).  
-Start Docker, then build the image defined by the Dockerfile. In project root:  
+The Dockerfile runs a multistage build. The .env file containing T-Pot username and password should not be copied into container, so mount it at runtime instead (see Dockerfile and docker run commands).
 
-    docker build -t <image-name> .  
+The easiest way to run is with the Makefile. In the project's root directory:
 
-Run the container and launch the app with a volume containing data folder and mount user-provided .env file:
+    make all
 
-    docker run -p 5000:5000 \
-    -v "$(pwd)/web_app/.env:/app/web_app/.env" \
-    <image-name>
+To stop the container:
+
+    make stop
+
+To remove the image and volume (env file with credentials) associated with the container:
+
+    make clean
+
+
+Then follow the link provided in the terminal's output (http://localhost:5000).
+<br/><br/>
+
+Alternatively, for an interactive Alpine container shell, first build the image:
+
+    docker build -t <image-name> .
     
-Then visit http://localhost:5000/ in your web browser.
-
-
-Alternatively, for an interactive shell:
+Then run the interactive container:
 
     docker run -p 5000:5000 -it \
     -v $(pwd)/web_app/.env:/app/web_app/.env \
@@ -52,7 +60,7 @@ Then run the app from the container's shell:
 
     app# python3 web_app/app.py
 
-Then visit http://localhost:5000/ in your web browser.
+Visit http://localhost:5000/ in your web browser.
 
 
 # About the Browser Tool
@@ -62,7 +70,7 @@ This is a locally hosted browser app, so it is safe from common web-based attack
 
 Due to the lack of functions (no outward querying, use of APIs, forward facing authentication, file upload), most common web-exploits cannot be performed. This app has been through a team-led security review, but will require aditional reviews to be compliant depending on where the system is deployed. Please contact a member of the team if a security vulnerability is found.  
 
-The base image for the Docker container python:3.14.0rc1-alpine3.22 has no reported CVE's according to Dockerhub as of 07/31. Additionally, elevated privileges are not available in the runtime container because the container runs as a non-root user (appuser), and Alpine Linux does not support sudo by default.  
+The base image for the Docker container [python:3.14.0rc1-alpine3.22](https://hub.docker.com/layers/library/python/3.14.0rc1-alpine3.22/images/sha256-926ae7993a3d6f5d0d4a733c6c2fec005aefb9dccf71fef3a9c3ed38254ffb2e) has no reported CVE's according to Dockerhub as of 08/04. Additionally, elevated privileges are not available in the runtime container because the container runs as a non-root user (appuser), and Alpine Linux does not support sudo by default.  
 
 ## Data Pipeline  
 T-Pot stores a log of data for a predetermined amount of time in Elastic. Several honeypots use Suricata and p0f for network analysis and threat detection, and these tools inadvertently show up as honeypot names in the "type" column.
