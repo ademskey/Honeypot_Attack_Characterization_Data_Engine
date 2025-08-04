@@ -52,4 +52,3 @@ USER appuser
 # run the serverw
 EXPOSE 5000
 CMD ["python3", "web_app/app.py"]
-#CMD ["flask", "run", "--host=0.0.0.0"]

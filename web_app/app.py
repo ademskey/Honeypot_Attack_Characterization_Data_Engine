@@ -3,29 +3,54 @@ import query_and_process
 
 app = Flask(__name__)
 
-UPDATE_TIME = 30 # in seconds
-
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, 'data')
+UPDATE_TIME = 30 # in seconds
+
+# when fetched from front end
+@app.route('/update_time')
+def get_update_time():
+    if request.headers.get("X-Requested-By") == "frontend":
+        return jsonify({"update_time": UPDATE_TIME})
+
+# for use in Python backend.
+def get_update_time_value():
+    return UPDATE_TIME
+
+@app.route('/update_status')
+def update_status():
+    print("is query and process.main() running: ", Tracker.isQuerying)
+    if request.headers.get("X-Requested-By") != "frontend":
+        return jsonify({"error": "Unauthorized"}), 403
+
+    return jsonify({"is_querying": Tracker.isQuerying})
+
+class UpdateTracker:
+    def __init__(self):
+        self.isQuerying = False
+        self.lock = threading.Lock()
+
+Tracker = UpdateTracker()
 
 # Runs a background thread to run Adam + Caitlyn's pipeline every [update_time] seconds.
-# to provide continuously updated data.
-running_lock = threading.Lock()
+Tracker = UpdateTracker()
 def update_data_loop():
     while True:
-        if running_lock.acquire(blocking=False):
-           try:
+        if Tracker.lock.acquire(blocking=False):
+            try:
+                Tracker.isQuerying = True
                 print("Starting a new data update cycle...", flush=True)
                 query_and_process.main()
                 print("Data update cycle completed.", flush=True)
-           except Exception as e:
-               print(f"Data update failed: {e}", flush=True)
-           finally:
-               running_lock.release()
+            except Exception as e:
+                print(f"Data update failed: {e}", flush=True)
+            finally:
+                Tracker.isQuerying = False
+                Tracker.lock.release()
         else:
             print("[WARN] Previous data update still running. Skipping this cycle.", flush=True)
 
-        time.sleep(UPDATE_TIME)
+        time.sleep(get_update_time_value())
         
 # Browser page appearances:
 @app.route('/')
@@ -116,12 +141,16 @@ def get_tables_in_folder(folder):
 
 # Only start update loop if not in the reloader subprocess (running for first time)
     # Don't want to interrrupt background thread that updates the dataset.
-def run_app():    
+def main():
     print("Starting background update thread...")
-    threading.Thread(target=update_data_loop, daemon=True).start()
+    update_thread = threading.Thread(target=update_data_loop)
+    update_thread.start()
+    try:
     # host="0.0.0.0" allows the server to be accessible from external docker container ports
-    app.run(host="0.0.0.0", port=5000)
+        app.run(host="0.0.0.0", port=5000)
+    except:
+        print("Couldn't start app")
 
 
 if __name__ == '__main__':
-    run_app()
+    main()
