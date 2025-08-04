@@ -21,28 +21,32 @@ Javascript: 12.22.9
 See [vulnerabilities.md](https://github.com/ademskey/Honeypot_Attack_Characterization_Data_Engine/blob/main/vulnerabilities.md) for a complete SBOM.  
 
 # Setting up  
-Install Docker. For HTTP authorization, create a ".env" file in the web_app folder (needed to pull information from honeypot). The .env file should follow this format:
+Install and start the Docker engine. For HTTP authorization, create a ".env" file in the web_app folder (needed to pull information from honeypot). The .env file should follow this format:
 
     HONEYPOT_USER=<username>  
     HONEYPOT_PASS=<password>
 
 # Running the browser data visualization tool
 
-The Dockerfile runs a multistage build. The .env file containing T-Pot username and password should not be copied into container, so mount it at runtime instead (see provided docker run commands).  
-Start Docker, then build the image defined by the Dockerfile. In project root:  
+The Dockerfile runs a multistage build. The .env file containing T-Pot username and password should not be copied into container, so mount it at runtime instead (see Dockerfile and run commands).
 
-    docker build -t <image-name> .  
+The easiest way to run is with the Makefile. In the project's root directory:
 
-Run the container and launch the app with a volume containing data folder and mount user-provided .env file:
+    make all
 
-    docker run -p 5000:5000 \
-    -v "$(pwd)/web_app/.env:/app/web_app/.env" \
-    <image-name>
+To stop the container:
+
+    make stop
+
+To remove the image and volume (env file with credentials) associated with the container:
+
+    make clean
+
+
+Then follow the link provided in the terminal's output (http://localhost:5000).
     
-Then visit http://localhost:5000/ in your web browser.
 
-
-Alternatively, for an interactive shell:
+Alternatively, for an interactive Alpine container shell:
 
     docker run -p 5000:5000 -it \
     -v $(pwd)/web_app/.env:/app/web_app/.env \
