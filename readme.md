@@ -21,7 +21,7 @@ Javascript: 12.22.9
 See [vulnerabilities.md](https://github.com/ademskey/Honeypot_Attack_Characterization_Data_Engine/blob/main/vulnerabilities.md) for a complete SBOM.  
 
 # Setting up  
-Install and start the Docker engine. For HTTP authorization, create a ".env" file in the web_app folder (needed to pull information from honeypot). The .env file should follow this format:
+Install and start the Docker engine. Connect to the Cyberrange VPN to access the T-Pot server. For HTTP authorization, create a ".env" file in the web_app folder (needed to pull information from honeypot). The .env file should follow this format:
 
     HONEYPOT_USER=<username>  
     HONEYPOT_PASS=<password>
@@ -44,11 +44,9 @@ To remove the image and volume (env file with credentials) associated with the c
 
 
 Then follow the link provided in the terminal's output (http://localhost:5000).
-    
+<br/><br/>
 
-Alternatively, for an interactive Alpine container shell:
-
-First build the image:
+Alternatively, for an interactive Alpine container shell, first build the image:
 
     docker build -t <image-name> .
     
