@@ -48,6 +48,12 @@ Then follow the link provided in the terminal's output (http://localhost:5000).
 
 Alternatively, for an interactive Alpine container shell:
 
+First build the image:
+
+    docker build -t <image-name> .
+    
+Then run the interactive container:
+
     docker run -p 5000:5000 -it \
     -v $(pwd)/web_app/.env:/app/web_app/.env \
     <image-name> /bin/sh
@@ -56,7 +62,7 @@ Then run the app from the container's shell:
 
     app# python3 web_app/app.py
 
-Then visit http://localhost:5000/ in your web browser.
+Visit http://localhost:5000/ in your web browser.
 
 
 # About the Browser Tool
