@@ -3,7 +3,7 @@ This project is a locally-hosted browser tool for querying, processing, cleaning
 
 The idea of this project is to have a lightweight app that could be deployed on a computer for threat analytics at no cost to the user (provided they got WWU's permission and credentials to view the data). This project has a lot of room to expand into ML applications such as forecasting and analysis. Additionally there is potential to create a free-to-use app that is hosted on the internet for anyone to use and view for up-to-date threat analysis at zero cost.
 
-Our development is based on Western Washington University's Cyber Range T-Pot deployment and in collaboration with their cyber-range team.  
+Our development is based on Western Washington University's Cyber Range T-Pot deployment. The deployment used the standard.yml docker compose file (contains list of honeypots used and their assigned ports). and in collaboration with their cyber-range team.
 
 [T-Pot](https://github.com/telekom-security/tpotce) : An open-source platform for running 20+ honeypots from one central server, developed by Deutsche Telekom.  
 
