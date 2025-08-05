@@ -99,3 +99,6 @@ Opens port 5000 and reads the contents of the data folder into dataframes. Conve
   
 **web_app/static**   
 Contains a .js file for each html page (web_app/templates). The file chart.js provides helper functions that simplify adding charts to the web page. loadData.js is the communication between app.py and the front end. This is where tables are loaded into the front end.
+
+# Future Work
+Focus on a specific honeypot to analyzes. Work with customers to develop a honeypot that emulates specific municipal services and devices (agriculture, water treatment, other municipal services). Work on saving and storing historical data to implement machine learning for learning and predicting temporal trends.  
