@@ -5,7 +5,9 @@ app = Flask(__name__)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, 'data')
-UPDATE_TIME = 30 # in seconds
+UPDATE_TIME = 3600 # in seconds
+IS_QUERYING = True
+PATH_TO_LAST_UPDATE_TIME = os.path.join(BASE_DIR, 'logs/last_pull.txt')
 
 # when fetched from front end
 @app.route('/update_time')
@@ -13,40 +15,38 @@ def get_update_time():
     if request.headers.get("X-Requested-By") == "frontend":
         return jsonify({"update_time": UPDATE_TIME})
 
-# for use in Python backend.
+# when used in Python backend.
 def get_update_time_value():
     return UPDATE_TIME
 
+# Return a boolean flag is query_and_process is running or not.
 @app.route('/update_status')
 def update_status():
-    print("is query and process.main() running: ", Tracker.isQuerying)
     if request.headers.get("X-Requested-By") != "frontend":
         return jsonify({"error": "Unauthorized"}), 403
+    
+    # get timestamp of when the data was last updated
+    with open(PATH_TO_LAST_UPDATE_TIME, 'r') as file:
+        last_update_time = file.readline()
 
-    return jsonify({"is_querying": Tracker.isQuerying})
-
-class UpdateTracker:
-    def __init__(self):
-        self.isQuerying = False
-        self.lock = threading.Lock()
-
-Tracker = UpdateTracker()
+    return jsonify({"is_querying": IS_QUERYING, "last_update_time": last_update_time if last_update_time else None})
 
 # Runs a background thread to run Adam + Caitlyn's pipeline every [update_time] seconds.
-Tracker = UpdateTracker()
+running_lock = threading.Lock()
 def update_data_loop():
+    global IS_QUERYING
     while True:
-        if Tracker.lock.acquire(blocking=False):
+        if running_lock.acquire(blocking=False):
             try:
-                Tracker.isQuerying = True
+                IS_QUERYING = True
                 print("Starting a new data update cycle...", flush=True)
                 query_and_process.main()
                 print("Data update cycle completed.", flush=True)
             except Exception as e:
                 print(f"Data update failed: {e}", flush=True)
             finally:
-                Tracker.isQuerying = False
-                Tracker.lock.release()
+                IS_QUERYING = False
+                running_lock.release()
         else:
             print("[WARN] Previous data update still running. Skipping this cycle.", flush=True)
 

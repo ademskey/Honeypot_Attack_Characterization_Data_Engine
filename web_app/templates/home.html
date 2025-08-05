@@ -16,7 +16,7 @@
 
         <div class="dropdown" style="margin:0 20px;">
             <button onclick="toggleDropdown()" class="dropbtn">Choose a Honeypot</button>
-            <div id="honeypotDropdown" class=" dropdown-content">
+            <div id="honeypot-dropdown" class=" dropdown-content">
                 <a href="honeypot.html" onclick="selectHoneypot('Ciscoasa')">Ciscoasa</a>
                 <a href="honeypot.html" onclick="selectHoneypot('Dicompot')">Dicompot</a>
                 <a href="honeypot.html" onclick="selectHoneypot('Honeyaml')">Honeyaml</a>
@@ -34,19 +34,15 @@
                 <a href="honeypot.html" onclick="selectHoneypot('Miniprint')">Miniprint</a>
                 <a href="honeypot.html" onclick="selectHoneypot('Redishoneypot')">Redishoneypot</a>
                 <a href="honeypot.html" onclick="selectHoneypot('Wordpot')">Wordpot</a>
-                <a href="honeypot.html" onclick="selecyHoneypot('Honeytrap')">Honeytrap</a>
+                <a href="honeypot.html" onclick="selectHoneypot('Honeytrap')">Honeytrap</a>
             </div>
         </div>
     </div>
 
-
-    <div class="progress-container">
-        <div class="progress-bar" id="progress-bar"></div>
-        <div class="progress-text" id="progress-text"></div>
-    </div>
+    <p style="text-align: center;">Data updates every hour</p>
+    <p style="text-align: center;" id="progress-text"></p>
 
 
-    <script src="{{ url_for('static', filename='home.js') }}"></script>
     <script src="{{ url_for('static', filename='chart.js') }}"></script>
     <script>
         window.addEventListener('scroll', function () {
@@ -58,6 +54,7 @@
             }
         });
     </script>
+    <script src="{{ url_for('static', filename='home.js') }}"></script>
 </body>
 
 <footer>

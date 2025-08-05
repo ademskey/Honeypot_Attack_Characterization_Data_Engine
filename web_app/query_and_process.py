@@ -59,6 +59,7 @@ def timeit(func):
         - CB 07/31/2025: changed logs to be a dictionary.
 '''
 class DataPlumber:
+
     def __init__(self):
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -346,7 +347,7 @@ class DataPlumber:
         Description: Writes to data_cleaning_logs.txt file
     '''
     def write_logs(self):
-        with open("logs/data_plumber_logs.txt", "w") as f:
+        with open(os.path.join(self.BASE_DIR, "logs/data_plumber_logs.txt"), "w") as f:
             f.write("\nNew_Log:")
             f.writelines(f"{k}:{v}\n" for k, v in self.logs.items())
 

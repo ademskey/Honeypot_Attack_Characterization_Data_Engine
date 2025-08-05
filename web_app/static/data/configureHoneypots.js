@@ -51,7 +51,7 @@ function getPortsByType(mode = null, selectHoneypot = null) {
         ["Miniprint", [9100]],
         ["Redishoneypot", [6379]],
         ["Wordpot", [80]],
-        ["Honeytrap", ["Ports not covered by other honeypots."]]
+        ["Honeytrap", ["Those not covered by other honeypots."]]
     ];
 
     let filteredData = portsByHoneypot;

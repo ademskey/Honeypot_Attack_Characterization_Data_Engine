@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const ports = getPortsByType(null, selectedHoneypot);
     const portsElement = document.getElementById("honeypot-ports");
     portsElement.textContent = ports.length > 0
-        ? `Ports: ${ports.join(", ")}`
+        ? `Port(s): ${ports.join(", ")}`
         : "No ports found for this honeypot.";
 
     // Retrieve data from csvs and get selected honeypot tables only

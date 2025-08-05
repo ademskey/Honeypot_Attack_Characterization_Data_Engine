@@ -1,91 +1,96 @@
 Org,Hits,Total_ips
+4 Vendeta Ltd,4,1
 A1 Bulgaria EAD,1,1
 AGOTOZ PTE. LTD.,23,4
-ALGAR TELECOM SA,1,1
-AMAZON-02,202,14
-AMAZON-AES,12,1
+ALGAR TELECOM SA,2,1
+AMAZON-02,114,8
 AS-GLOBALTELEHOST,4,2
-AVAST Software s.r.o.,49,4
-Akamai Connected Cloud,89,3
+ATOMIC-NETWORKS-1,6,1
+AVAST Software s.r.o.,61,6
+Akamai Connected Cloud,90,4
 Akamai International B.V.,2,1
-"Alibaba US Technology Co., Ltd.",26,5
-Alsycon B.V.,80,4
+"Alibaba US Technology Co., Ltd.",23,4
+Alsycon B.V.,44,4
 Black HOST Ltd,9,1
-CARINET,5,3
-CENSYS-ARIN-01,144,51
-CENSYS-ARIN-02,35,15
-CENSYS-ARIN-03,8,5
-CHEAPY-HOST,731,5
-CHINA UNICOM China169 Backbone,6,3
-CHINANET Guangdong province network,86,10
-CT-HangZhou-IDC,8,1
+CARINET,18,4
+CDSC-AS1,1,1
+CENSYS-ARIN-01,135,49
+CENSYS-ARIN-02,29,15
+CENSYS-ARIN-03,4,3
+CHEAPY-HOST,12,4
+CHINA UNICOM China169 Backbone,15,7
+CHINANET Guangdong province network,130,10
+CT-HangZhou-IDC,6,1
+China Education and Research Network Center,1,1
+China Mobile Communicaitons Corporation,9,1
 "China Mobile Communications Group Co., Ltd.",6,1
 China Mobile communications corporation,3,1
 China Unicom Shanghai network,2,1
 Chinanet,11,6
-Cloud Computing Corporation,4,1
 "Cloud Hosting Solutions, Limited.",1,1
-ColocaTel Inc.,4,1
-DIGITALOCEAN-ASN,6907,16
+DIGITALOCEAN-ASN,7743,15
 DISKOMINFO Kab. Magelang,2,1
-Datacamp Limited,63,5
-Detai Prosperous Technologies Limited,55,9
-Dianet Ltd.,2,1
-Driftnet Ltd,10,7
+Datacamp Limited,51,4
+Detai Prosperous Technologies Limited,92,13
+Driftnet Ltd,9,7
 EDGAR RODRIGUES ROMAO FILHO ME,2,1
-FOP Dmytro Nedilskyi,177,4
+FOP Dmytro Nedilskyi,163,4
 FOP Hornostay Mykhaylo Ivanovych,1,1
+Fastweb,1,1
 Flyservers S.A.,6,1
-GOOGLE-CLOUD-PLATFORM,202,65
+GOOGLE-CLOUD-PLATFORM,209,62
+Galeon LLC,6,1
 Global Connectivity Solutions Llp,31,3
 Global Layer B.V.,22,1
-Global-Data System IT Corporation,5,1
-"Hangzhou Alibaba Advertising Co.,Ltd.",6,1
-Heymman Servers Corporation,2,1
-IP Volume inc,82,9
-JSC Selectel,32,1
+Global-Data System IT Corporation,6,2
+"Hangzhou Alibaba Advertising Co.,Ltd.",6,2
+IP Volume inc,91,10
+Iran Telecommunication Company PJS,3,1
+JSC Selectel,30,1
 JSC Transtelecom,1,1
-KAMATERA,4,3
-Korea Telecom,29,3
-Krez 999 Eood,2,2
-L&L Investment Ltd.,2,1
-Latitude.sh LTDA,3,1
-Limited Network LTD,68,3
-MEVSPACE sp. z o.o.,55,22
-MICROSOFT-CORP-MSN-AS-BLOCK,64,18
-MTS PJSC,3,1
-NYBULA,5,2
+KAMATERA,1,1
+Korea Telecom,36,3
+Kprohost LLC,1,1
+Krez 999 Eood,3,1
+L&L Investment Ltd.,1,1
+Limited Network LTD,54,2
+MEVSPACE sp. z o.o.,59,19
+MICROSOFT-CORP-MSN-AS-BLOCK,72,22
+MTS PJSC,2,1
+NETWORK-SOLUTIONS-HOSTING,51,1
+NODESTOP-LLC,3,1
+NYBULA,7,3
 Noyan Abr Arvan Co. ( Private Joint Stock),1,1
-ONYPHE SAS,68,35
-OVH SAS,20,8
-PERFORMIVE,41,20
+ONYPHE SAS,47,25
+OVH SAS,17,8
+PERFORMIVE,40,20
 PONYNET,1,1
-PT Inti Data Telematika,66,1
-Petersburg Internet Network ltd.,3,1
-Pfcloud UG,135,4
+PT Inti Data Telematika,65,1
+PT Telekomunikasi Indonesia,2,1
+Pfcloud UG,152,6
 Private Layer INC,4,2
-Proton66 OOO,82,1
-Railnet LLC,244,20
-SPEARHEAD LIFESTYLE INDIA PRIVATE LIMITED,3,1
-SS-Net,22,7
+Proton66 OOO,74,2
+Railnet LLC,187,19
+SS-Net,39,7
 "Securitytrails, LLC",1,1
 Seed Technologies LTD.,12,1
-Shereverov Marat Ahmedovich,1,1
-"Sistemas Informaticos, S.A.",1,1
-T-Systems International GmbH,152,1
-TOT Public Company Limited,4,3
-Tamatiya EOOD,4,2
-Techoff Srv Limited,17164,14
-Telchak Gold Ventures (private) Limited,1,1
-Tube-Hosting,20,1
-Turk Telekom,2,2
-Turunc Smart Bilgisayar Teknoloji Ve Dis Ticaret Limited Sirketi,3,1
-UAB Host Baltic,3,2
-UCLOUD INFORMATION TECHNOLOGY HK LIMITED,179,25
-Unmanaged Ltd,19,2
-VIETNAM POSTS AND TELECOMMUNICATIONS GROUP,1,1
-Xhost Internet Solutions Lp,3,1
-ZEN-DPS,41,7
-ZILLION-NETWORK,64,12
-aurologic GmbH,96,1
-iTools JSC,2,1
+"Sistemas Informaticos, S.A.",5,3
+T-Systems International GmbH,155,1
+TOT Public Company Limited,2,2
+Tamatiya EOOD,4,1
+Techoff Srv Limited,17556,14
+Telchak Gold Ventures (private) Limited,2,1
+Tube-Hosting,25,1
+Turk Telekom,1,1
+UAB Host Baltic,11,3
+UCLOUD INFORMATION TECHNOLOGY HK LIMITED,162,23
+UNICOM AnHui province network,2,1
+Unmanaged Ltd,22,3
+VIETNAM POSTS AND TELECOMMUNICATIONS GROUP,44,2
+VT-255-50219,1,1
+Verein zur Foerderung eines Deutschen Forschungsnetzes e.V.,15,1
+Xhost Internet Solutions Lp,6,1
+ZEN-DPS,37,5
+ZILLION-NETWORK,84,15
+aurologic GmbH,87,1
+iTools JSC,4,1
