@@ -33,6 +33,8 @@ The Dockerfile runs a multistage build. The .env file containing T-Pot username 
 The easiest way to run is with the Makefile. In the project's root directory:
 
     make all
+    
+Then follow the link provided in the terminal's output (http://localhost:5000).
 
 To stop the container:
 
@@ -41,10 +43,6 @@ To stop the container:
 To remove the image and volume (env file with credentials) associated with the container:
 
     make clean
-
-
-Then follow the link provided in the terminal's output (http://localhost:5000).
-<br/><br/>
 
 Alternatively, for an interactive Alpine container shell, first build the image:
 
