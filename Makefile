@@ -23,6 +23,7 @@ run:
 stop:
 	-docker stop $(CONTAINER_NAME)
 
+# Remove unused images and volumes.
 clean:
 	-docker image prune -f
 	-docker volume prune -f
