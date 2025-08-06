@@ -22,6 +22,7 @@ See [vulnerabilities.md](https://github.com/ademskey/Honeypot_Attack_Characteriz
 <br></br>
 Depiction of the honeypot data's flow through each part of the app:  
 ![data pipeline diagram](https://github.com/ademskey/Honeypot_Attack_Characterization_Data_Engine/blob/main/data-pipeline-diagram.png)
+[data pipeline diagram](https://github.com/ademskey/Honeypot_Attack_Characterization_Data_Engine/blob/main/data-pipeline-diagram.png)  
 
 # Setting up  
 Install and start the Docker engine. Connect to the Cyberrange VPN to access the T-Pot server. For HTTP authorization, create a ".env" file in the web_app folder (needed to pull information from honeypot). The .env file should follow this format:
