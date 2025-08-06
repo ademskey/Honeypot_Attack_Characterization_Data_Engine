@@ -26,6 +26,8 @@ Install and start the Docker engine. Connect to the Cyberrange VPN to access the
     HONEYPOT_USER=<username>  
     HONEYPOT_PASS=<password>
 
+web_app/static/data/configureHoneypots.js contains a list of each active honeypot and the port(s) of the T-Pot server it monitors as well as a sentence summary for the browser pages. This is currently configured to the standard.yml docker compose deployment.
+
 # Running the browser data visualization tool
 
 The Dockerfile runs a multistage build. The .env file containing T-Pot username and password should not be copied into container, so mount it at runtime instead (see Dockerfile and docker run commands).
