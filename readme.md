@@ -1,4 +1,6 @@
 # Authors: Adam Caudle, Emily West, Caitlyn Boyd, Jack Crawford
+
+https://github.com/ademskey/Honeypot_Attack_Characterization_Data_Engine  
 This project is a locally-hosted browser tool for querying, processing, cleaning, and displaying T-Pot Honeypot data. The T-Pot honeypot system is stored through Western Washington University's (WWU) cyberange. Their server has been gathering data fom various honeypots that mimic different services (i.e. medical printer, AI-chatbot, etc). Our project uses Python's Flask library for the web server and Javascript/HTML for the front end. It then connects to backend querying and processing scripts to provide succinct processed and cleaned data to the end user. 
 
 The idea of this project is to have a lightweight app that could be deployed on a computer for threat analytics at no cost to the user (provided they got WWU's permission and credentials to view the data). This project has a lot of room to expand into ML applications such as forecasting and analysis. Additionally there is potential to create a free-to-use app that is hosted on the internet for anyone to use and view for up-to-date threat analysis at zero cost.
